@@ -23,9 +23,10 @@ export function Gallery({ product }: { product: Product }) {
         <SmartImage
           key={images[active]}
           src={images[active] ?? ""}
+          fallbackSrc={product.cutout}
           alt={l(product.name)}
           priority
-          className="aspect-[4/5] w-full rounded-[1.3rem] sm:rounded-[1.7rem]"
+          className="aspect-[4/5] w-full rounded-[1.3rem] bg-transparent sm:rounded-[1.7rem]"
         />
         <div className="pointer-events-none absolute inset-4 rounded-[1.3rem] ring-1 ring-inset ring-white/25 sm:rounded-[1.7rem]" />
         <div className="absolute start-6 top-6 flex items-center gap-1.5 rounded-full bg-bone/90 px-3 py-1.5 text-[8px] font-extrabold uppercase tracking-[0.16em] text-ink backdrop-blur">
@@ -49,7 +50,7 @@ export function Gallery({ product }: { product: Product }) {
             aria-label={`${l(product.name)} ${index + 1}`}
             aria-pressed={active === index}
           >
-            <SmartImage src={image} alt="" className="aspect-square w-full rounded-lg" />
+            <SmartImage src={image} fallbackSrc={product.cutout} alt="" className="aspect-square w-full rounded-lg" />
           </button>
         ))}
         <div className="hidden items-center justify-center rounded-xl border border-dashed border-ink/15 p-2 text-center text-[8.5px] font-semibold uppercase leading-tight tracking-[0.1em] text-mist sm:flex">
