@@ -1,0 +1,11 @@
+PRAGMA foreign_keys = ON;
+CREATE TABLE categories (id TEXT PRIMARY KEY, name_en TEXT NOT NULL, name_ar TEXT NOT NULL);
+INSERT INTO categories VALUES ('fresh','Fresh','منعش'),('floral','Floral','زهري'),('woody','Woody','خشبي'),('oriental','Oriental','شرقي');
+CREATE TABLE products (id TEXT PRIMARY KEY, slug TEXT NOT NULL UNIQUE, category_id TEXT NOT NULL REFERENCES categories(id), data TEXT NOT NULL, archived INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE admins (id TEXT PRIMARY KEY, username TEXT NOT NULL UNIQUE, salt TEXT NOT NULL, password_hash TEXT NOT NULL);
+CREATE TABLE sessions (token_hash TEXT PRIMARY KEY, admin_id TEXT NOT NULL REFERENCES admins(id) ON DELETE CASCADE, expires_at INTEGER NOT NULL);
+CREATE TABLE login_attempts (key TEXT PRIMARY KEY, count INTEGER NOT NULL, expires_at INTEGER NOT NULL);
+CREATE TABLE orders (id TEXT PRIMARY KEY, customer_name TEXT NOT NULL, phone TEXT NOT NULL, city TEXT NOT NULL, address TEXT NOT NULL, note TEXT NOT NULL, subtotal INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'new', created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE order_items (id TEXT PRIMARY KEY, order_id TEXT NOT NULL REFERENCES orders(id), product_id TEXT NOT NULL REFERENCES products(id), name TEXT NOT NULL, size INTEGER NOT NULL, unit_price INTEGER NOT NULL, quantity INTEGER NOT NULL);
+CREATE INDEX order_items_order ON order_items(order_id);
+CREATE INDEX orders_created ON orders(created_at DESC);

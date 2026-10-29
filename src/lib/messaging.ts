@@ -65,11 +65,10 @@ export interface OrderCustomer {
 export function cartMessage(
   lines: CartLine[],
   lang: Lang,
-  settings: SiteSettings,
+  _settings: SiteSettings,
   customer?: OrderCustomer
 ): string {
   const subtotal = lines.reduce((sum, line) => sum + line.price * line.qty, 0);
-  const freeShipping = subtotal >= settings.freeShippingThreshold;
 
   if (lang === "ar") {
     const header = customer
@@ -86,7 +85,7 @@ export function cartMessage(
       "—",
       `عدد القطع: ${chatNumber(lines.reduce((sum, line) => sum + line.qty, 0), lang)}`,
       `الإجمالي: ${chatPrice(subtotal, lang)}`,
-      `التوصيل: ${freeShipping ? "مجاني" : "يُحدد حسب المحافظة"}`,
+      `التوصيل: يُحدد حسب المحافظة`,
       `الدفع: عند الاستلام`,
     ];
     const details = customer
@@ -117,7 +116,7 @@ export function cartMessage(
     "—",
     `Items: ${lines.reduce((sum, line) => sum + line.qty, 0)}`,
     `Subtotal: ${chatPrice(subtotal, lang)}`,
-    `Shipping: ${freeShipping ? "Complimentary" : "Calculated per governorate"}`,
+    `Shipping: Calculated per governorate`,
     "Payment: cash on delivery",
   ];
   const details = customer

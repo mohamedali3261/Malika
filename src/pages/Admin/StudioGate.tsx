@@ -1,71 +1,22 @@
+import { Orders } from "@/pages/Admin/Orders";
+import { Security } from "@/pages/Admin/Security";
 import { PublisherProvider } from "@/context/PublisherContext";
 import { AdminPage } from "@/pages/Admin/AdminPage";
 import { PublishDock } from "@/pages/Admin/PublishDock";
 import { StudioLock } from "@/pages/Admin/StudioLock";
-import { isUnlocked, lock, touchSession } from "@/lib/auth";
-import { useToast } from "@/context/ToastContext";
-import { useLang } from "@/i18n/LanguageContext";
-import { navigate } from "@/lib/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-/**
- * Wraps the studio. Keeps the session alive while the admin works, drops it on
- * idle/expiry, and strips the page from search engines.
- */
 export function StudioGate() {
-  const { t } = useLang();
-  const { push } = useToast();
-  const [unlocked, setUnlocked] = useState(() => isUnlocked());
-
-  // never index the studio
+  const [unlocked, setUnlocked] = useState(false);
+  const [role, setRole] = useState<'owner'|'orders'>('orders');
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const meta = document.createElement("meta");
-    meta.name = "robots";
-    meta.content = "noindex, nofollow";
-    document.head.appendChild(meta);
-    const previousTitle = document.title;
-    document.title = "Studio · MALIKA";
-    return () => {
-      meta.remove();
-      document.title = previousTitle;
-    };
+    fetch('/api/admin/session').then(async r => { if (!r.ok) throw Error(); const data=await r.json(); setRole(data.role); setUnlocked(true); }).catch(() => setUnlocked(false)).finally(() => setLoading(false));
+    const meta = document.createElement('meta'); meta.name='robots'; meta.content='noindex, nofollow'; document.head.appendChild(meta);
+    return () => meta.remove();
   }, []);
-
-  // refresh the idle timer on real activity, and re-check expiry periodically
-  useEffect(() => {
-    if (!unlocked) return;
-    const events: (keyof WindowEventMap)[] = ["pointerdown", "keydown", "scroll"];
-    const onActivity = () => touchSession();
-    events.forEach((event) => window.addEventListener(event, onActivity, { passive: true }));
-
-    const timer = window.setInterval(() => {
-      if (!isUnlocked()) {
-        setUnlocked(false);
-        push(t("lock.signedOut"), "info");
-      }
-    }, 30_000);
-
-    return () => {
-      events.forEach((event) => window.removeEventListener(event, onActivity));
-      window.clearInterval(timer);
-    };
-  }, [unlocked, push, t]);
-
-  const signOut = useCallback(() => {
-    lock();
-    setUnlocked(false);
-    push(t("lock.signedOut"), "info");
-    navigate("/");
-  }, [push, t]);
-
-  if (!unlocked) {
-    return <StudioLock onUnlocked={() => setUnlocked(true)} />;
-  }
-
-  return (
-    <PublisherProvider>
-      <AdminPage />
-      <PublishDock onLock={signOut} />
-    </PublisherProvider>
-  );
+  if (loading) return <p className="p-10">Loading…</p>;
+  if (!unlocked) return <StudioLock onUnlocked={() => { setLoading(true); fetch('/api/admin/session').then(async r => {if (!r.ok) throw Error(); const data=await r.json(); setRole(data.role); setUnlocked(true);}).catch(()=>setUnlocked(false)).finally(()=>setLoading(false)); }} />;
+  if (role === 'orders') return <div className="mx-auto max-w-4xl p-6"><button className="mb-6 underline" onClick={()=>{fetch('/api/admin/logout',{method:'POST'}).finally(()=>setUnlocked(false));}}>Log out / تسجيل الخروج</button><Orders /><div className="mt-8"><Security /></div></div>;
+  return <PublisherProvider><AdminPage /><PublishDock onLock={() => { fetch('/api/admin/logout',{method:'POST'}).finally(() => setUnlocked(false)); }} /></PublisherProvider>;
 }

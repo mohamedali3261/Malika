@@ -1,3 +1,4 @@
+import { TrackOrder } from "@/pages/TrackOrder";
 import { GitHubOAuthHandler } from "@/components/GitHubOAuthHandler";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { CartDrawer } from "@/components/layout/CartDrawer";
@@ -37,6 +38,7 @@ function AppShell() {
     if (path === "/shop") return <ShopPage />;
     if (path === "/about") return <AboutPage />;
     if (path === "/contact") return <ContactPage />;
+    if (path.startsWith("/track/")) return <TrackOrder />;
     if (path === "/studio" || path === "/admin") return <StudioGate />;
     if (path.startsWith("/product/")) return <ProductPage />;
     return <NotFoundPage />;

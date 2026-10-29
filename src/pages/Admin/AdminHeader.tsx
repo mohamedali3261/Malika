@@ -2,7 +2,7 @@ import { Check, Github, Lock, Pencil, Sparkle } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/utils/cn";
 
-export type AdminTab = "products" | "content" | "settings" | "github" | "guide";
+export type AdminTab = "products" | "orders" | "inventory" | "delivery" | "images" | "security" | "content" | "settings" | "github" | "guide";
 
 export function AdminHeader({
   tab,
@@ -15,10 +15,15 @@ export function AdminHeader({
   stats: { products: number; featured: number; saved: number };
   dirty: boolean;
 }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
 
   const tabs: { key: AdminTab; label: string }[] = [
     { key: "products", label: t("admin.tab.products") },
+    { key: "orders", label: lang === "ar" ? "الطلبات" : "Orders" },
+    { key: "inventory", label: lang === "ar" ? "المخزون" : "Inventory" },
+    { key: "delivery", label: lang === "ar" ? "الشحن والخصومات" : "Delivery & discounts" },
+    { key: "images", label: lang === "ar" ? "الصور" : "Images" },
+    { key: "security", label: lang === "ar" ? "الأمان" : "Security" },
     { key: "content", label: t("admin.tab.content") },
     { key: "settings", label: t("admin.tab.settings") },
     { key: "github", label: t("admin.tab.github") },

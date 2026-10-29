@@ -1,3 +1,10 @@
+import { Images } from "@/pages/Admin/Images";
+import { Accounts } from "@/pages/Admin/Accounts";
+import { Delivery } from "@/pages/Admin/Delivery";
+import { Inventory } from "@/pages/Admin/Inventory";
+import { AuditLog } from "@/pages/Admin/AuditLog";
+import { Security } from "@/pages/Admin/Security";
+import { Orders } from "@/pages/Admin/Orders";
 import { GithubPanel } from "@/pages/Admin/GithubPanel";
 import { AdminHeader, type AdminTab } from "@/pages/Admin/AdminHeader";
 import { ProductForm } from "@/pages/Admin/ProductForm";
@@ -35,27 +42,27 @@ export function AdminPage() {
     setFormOpen(true);
   };
 
-  const handleSave = (product: Product) => {
+  const handleSave = async (product: Product) => {
     const conflict = products.some((item) => item.slug === product.slug && item.id !== product.id);
     if (conflict) {
       push(lang === "ar" ? "هذا الرابط (slug) مستخدم بالفعل. اختر رابطاً آخر." : "That slug is already in use. Choose another one.", "error");
       return;
     }
-    saveProduct(product);
+    try { await saveProduct(product); } catch { push(lang === "ar" ? "تعذر حفظ المنتج" : "Could not save product", "error"); return; }
     setFormOpen(false);
     push(`${l(product.name)} · ${t("admin.saved")}`);
   };
 
-  const handleDelete = (product: Product) => {
+  const handleDelete = async (product: Product) => {
     if (window.confirm(`${t("admin.deleteConfirm")}\n${product.name[lang]}`)) {
-      deleteProduct(product.id);
+      try { await deleteProduct(product.id); } catch { push(lang === "ar" ? "تعذرت أرشفة المنتج" : "Could not archive product", "error"); return; }
       push(t("admin.deleted"), "error");
     }
   };
 
   const handleReset = () => {
     if (window.confirm(t("admin.resetConfirm"))) {
-      resetCatalogue();
+      try { resetCatalogue(); } catch { push("Bulk reset is unavailable", "error"); return; }
       push(t("admin.resetDone"), "info");
     }
   };
@@ -67,7 +74,7 @@ export function AdminPage() {
 
   const importFile = (file: File) => {
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = async () => {
       try {
         const parsed = JSON.parse(String(reader.result));
         const next: unknown = Array.isArray(parsed) ? parsed : parsed?.products;
@@ -84,10 +91,11 @@ export function AdminPage() {
         ) {
           throw new Error("invalid");
         }
-        replaceCatalogue(next as Product[]);
+        if (!window.confirm(lang === "ar" ? `استيراد ${next.length} منتج؟ سيتم تحديث المنتجات الموجودة بنفس المعرّف ولن تُحذف المنتجات الأخرى.` : `Import ${next.length} products? Matching IDs will be updated; other products will not be deleted.`)) return;
+        await replaceCatalogue(next as Product[]);
         push(lang === "ar" ? "تم استيراد الكتالوج." : "Catalogue imported.");
       } catch {
-        push(lang === "ar" ? "ملف JSON غير صالح." : "Invalid JSON file.", "error");
+        push(lang === "ar" ? "تعذر الاستيراد. تحقق من البيانات وتعارض الروابط (الحد 100 منتج)." : "Import failed. Check data and slug conflicts (maximum 100 products).", "error");
       }
     };
     reader.readAsText(file);
@@ -154,6 +162,11 @@ export function AdminPage() {
             </>
           )}
 
+          {tab === "orders" && <Orders />}
+          {tab === "inventory" && <Inventory />}
+          {tab === "delivery" && <Delivery />}
+          {tab === "images" && <Images />}
+          {tab === "security" && <><Security /><Accounts /><AuditLog /></>}
           {tab === "content" && (
             <>
               <div className="mb-4">

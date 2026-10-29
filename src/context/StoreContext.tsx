@@ -1,20 +1,19 @@
-import { baseProducts } from "@/data/products";
-import { mergeCatalogue, publishedAt, publishedContent, publishedSettings } from "@/data/published";
+import { publishedAt, publishedContent, publishedSettings } from "@/data/published";
 import { defaultSettings } from "@/data/site";
 import { usePersistentState } from "@/hooks/usePersistentState";
 import type { Product, SiteSettings } from "@/types";
 import type { DeepPartial, SiteContent } from "@/types/content";
 import { createDefaultContent, mergeContent } from "@/data/defaultContent";
-import { createContext, useCallback, useContext, useEffect, useMemo, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 interface StoreValue {
   products: Product[];
   settings: SiteSettings;
   wishlist: string[];
-  saveProduct: (product: Product) => void;
-  deleteProduct: (id: string) => void;
+  saveProduct: (product: Product) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
   resetCatalogue: () => void;
-  replaceCatalogue: (products: Product[]) => void;
+  replaceCatalogue: (products: Product[]) => Promise<void>;
   updateSettings: (settings: SiteSettings) => void;
   content: SiteContent;
   updateContent: (content: SiteContent) => void;
@@ -32,10 +31,10 @@ const StoreContext = createContext<StoreValue | null>(null);
 const catalogueVersion = publishedAt ? `.${publishedAt.replace(/[^0-9]/g, "").slice(0, 14)}` : "";
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = usePersistentState<Product[]>(
-    `malika.catalogue.v2${catalogueVersion}`,
-    mergeCatalogue(baseProducts)
-  );
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    fetch('/api/products').then(async r => { if (!r.ok) throw new Error('Catalogue unavailable'); setProducts(await r.json()); }).catch(() => console.error('Catalogue unavailable'));
+  }, []);
   const [settings, setSettings] = usePersistentState<SiteSettings>(
     `malika.settings.v2${catalogueVersion}`,
     publishedSettings ? { ...defaultSettings, ...publishedSettings } : defaultSettings
@@ -81,41 +80,25 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     null
   );
 
-  const saveProduct = useCallback(
-    (product: Product) => {
-      setProducts((prev) => {
-        const exists = prev.some((item) => item.id === product.id);
-        return exists
-          ? prev.map((item) => (item.id === product.id ? product : item))
-          : [product, ...prev];
-      });
-      setDirty(true);
-    },
-    [setProducts, setDirty]
-  );
-
-  const deleteProduct = useCallback(
-    (id: string) => {
-      setProducts((prev) => prev.filter((item) => item.id !== id));
-      setWishlist((prev) => prev.filter((item) => item !== id));
-      setDirty(true);
-    },
-    [setProducts, setWishlist, setDirty]
-  );
-
-  const resetCatalogue = useCallback(() => {
-    setProducts(baseProducts);
-    setWishlist([]);
-    setDirty(true);
-  }, [setProducts, setWishlist, setDirty]);
-
-  const replaceCatalogue = useCallback(
-    (next: Product[]) => {
-      setProducts(next);
-      setDirty(true);
-    },
-    [setProducts, setDirty]
-  );
+  const saveProduct = useCallback(async (product: Product) => {
+    const response = await fetch(`/api/admin/products/${encodeURIComponent(product.id)}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(product) });
+    if (!response.ok) throw new Error('Could not save product');
+    setProducts(prev => [product, ...prev.filter(item => item.id !== product.id)]);
+  }, []);
+  const deleteProduct = useCallback(async (id: string) => {
+    const response = await fetch(`/api/admin/products/${encodeURIComponent(id)}`, {method:'DELETE'});
+    if (!response.ok) throw new Error('Could not archive product');
+    setProducts(prev => prev.filter(item => item.id !== id));
+    setWishlist(prev => prev.filter(item => item !== id));
+  }, [setWishlist]);
+  // Bulk import/reset are deliberately not implemented as partial updates.
+  const resetCatalogue = useCallback(() => { throw new Error('Bulk reset is not available with D1'); }, []);
+  const replaceCatalogue = useCallback(async (next: Product[]) => {
+    const response=await fetch('/api/admin/products/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({products:next})});
+    if (!response.ok) { const result=await response.json(); throw new Error(result.error || 'Import failed'); }
+    const refreshed=await fetch('/api/products'); if (!refreshed.ok) throw new Error('Import saved but refresh failed');
+    setProducts(await refreshed.json());
+  }, []);
 
   const updateSettings = useCallback(
     (next: SiteSettings) => {
