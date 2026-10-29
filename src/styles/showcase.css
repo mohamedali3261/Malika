@@ -1,0 +1,39 @@
+/* Image-card ("Showcase") — only transform / opacity animate. */
+
+.sc-progress {
+  transform-origin: left;
+  animation: sc-progress var(--sc-duration, 5.5s) linear forwards;
+}
+html[dir="rtl"] .sc-progress {
+  transform-origin: right;
+}
+
+@keyframes sc-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Only the visible bottle floats, so a single animation runs at a time. */
+.sc-float {
+  animation: sc-float 7s ease-in-out infinite;
+}
+
+@keyframes sc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-float {
+    animation: none;
+  }
+}

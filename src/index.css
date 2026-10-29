@@ -1,0 +1,699 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* Applies on touch devices, where :hover never fires. */
+@custom-variant touch (@media (hover: none));
+
+@theme {
+  --color-bone: #f3efe7;
+  --color-bone-2: #e9e2d5;
+  --color-ink: #141019;
+  --color-plum: #231630;
+  --color-plum-2: #34203f;
+  --color-lilac: #c9b5f7;
+  --color-lilac-soft: #e7defb;
+  --color-acid: #ddf25c;
+  --color-acid-deep: #c6e13d;
+  --color-mist: #6d6675;
+  --color-line: #dcd4c7;
+
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", "Times New Roman", serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Manrope", sans-serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    font-feature-settings: "ss01" on, "cv11" on;
+  }
+
+  html[lang="ar"] body {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+
+  html[lang="ar"] .font-display {
+    font-family: var(--font-arabic);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-acid);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-plum);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bone-2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b9b1a4;
+    border-radius: 99px;
+    border: 3px solid var(--color-bone-2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-plum);
+  }
+}
+
+/* ---------- Editorial helpers ---------- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+.aura {
+  filter: blur(58px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px rgba(20, 16, 25, 0.35);
+  color: transparent;
+}
+
+/* Opaque by default so page content can never bleed through the header on
+   browsers (or GPU configs) without backdrop-filter. The translucent,
+   blurred version is opted into only where it is actually supported. */
+.glass {
+  background: color-mix(in srgb, var(--color-bone) 97%, transparent);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass {
+    background: color-mix(in srgb, var(--color-bone) 95%, transparent);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
+}
+
+.glass-dark {
+  background: color-mix(in srgb, var(--color-ink) 92%, transparent);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass-dark {
+    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+}
+
+.dir-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* In the components layer on purpose: unlayered rules beat every Tailwind
+   utility, so `ps-10` / `pe-12` on an input (room for an icon or a button)
+   were silently ignored and the icon sat on top of the text. */
+@layer components {
+  .field {
+    width: 100%;
+    border-radius: 0.9rem;
+    border: 1px solid var(--color-line);
+    background: #fbf9f4;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-ink);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease,
+      background-color 0.25s ease;
+  }
+  .field::placeholder {
+    color: #a49c92;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-plum);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(201, 181, 247, 0.28);
+  }
+  .field-dark {
+    background: rgba(243, 239, 231, 0.06);
+    border-color: rgba(243, 239, 231, 0.16);
+    color: var(--color-bone);
+  }
+  .field-dark:focus {
+    background: rgba(243, 239, 231, 0.1);
+    border-color: var(--color-acid);
+    box-shadow: 0 0 0 4px rgba(221, 242, 92, 0.15);
+  }
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px) scale(0.985);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-scale {
+  transform: translateY(18px) scale(0.97);
+}
+.reveal-scale.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+/* ---------- Motion ---------- */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tw-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--tw-rotate, 0deg));
+  }
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(18px, -26px, 0) scale(1.06);
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Opacity only — on purpose.
+   Any transform on a page wrapper (even an identity matrix left behind by
+   animation-fill-mode) creates a containing block, which breaks
+   position:fixed for GSAP ScrollTrigger pinned sections. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(240%) skewX(-18deg);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes drawer-in-rtl {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-9px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes check-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-12deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.16) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes soft-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.anim-float {
+  animation: floaty 7s ease-in-out infinite;
+}
+.anim-drift {
+  animation: drift 14s ease-in-out infinite;
+}
+.anim-spin-slow {
+  animation: spin-slow 26s linear infinite;
+}
+.anim-page {
+  animation: page-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-pop {
+  animation: pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-check {
+  animation: check-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-rise {
+  animation: soft-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.animated-gradient {
+  background-size: 220% 220%;
+  animation: gradient-pan 9s ease infinite;
+}
+
+/* Cards: pause expensive effects while off-screen */
+.card-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
+}
+
+/* Tactile press for icon buttons */
+.press {
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+.press:active {
+  transform: scale(0.92);
+}
+.anim-fade {
+  animation: fade-in 0.35s ease both;
+}
+.anim-toast {
+  animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.drawer-panel {
+  animation: drawer-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+html[dir="rtl"] .drawer-panel {
+  animation-name: drawer-in-rtl;
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 34s linear infinite;
+}
+.marquee-slow {
+  animation-duration: 52s;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+html[dir="rtl"] .marquee {
+  animation-direction: reverse;
+}
+.marquee-fast {
+  animation-duration: 22s;
+}
+
+/* Shine sweep on cards */
+.sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.sheen > .sheen-bar {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  width: 32%;
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: translateX(-160%) skewX(-18deg);
+  pointer-events: none;
+  z-index: 2;
+}
+.sheen:hover > .sheen-bar {
+  animation: sheen 0.95s ease;
+}
+
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: inline-start;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Custom range slider */
+.range-acid {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(to right, var(--color-plum) var(--range, 50%), #ddd4c6 var(--range, 50%));
+}
+.range-acid::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-acid);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(20, 16, 25, 0.3);
+}
+.range-acid::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--color-ink);
+  border: 3px solid var(--color-acid);
+  cursor: pointer;
+}
+
+/* Unlayered so it wins over Tailwind's generated .font-display utility.
+   Instrument Serif has no Arabic glyphs — headings switch to IBM Plex Sans Arabic. */
+html[lang="ar"] .font-display {
+  font-family: var(--font-arabic) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+
+/* ------------------------------------------------------------------
+   Mobile reading experience
+   Tiny editorial labels are beautiful on desktop but hard to read on a
+   phone. On screens < 768px we lift every small size to a readable
+   minimum, relax tracking and guarantee comfortable tap targets.
+------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  body {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* iOS zooms any field below 16px — keep all inputs at 16px */
+  .field,
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 48px;
+  }
+  textarea.field {
+    min-height: 120px;
+    padding-top: 0.75rem;
+  }
+
+  /* micro labels (8–10px) → 12px */
+  [class*="text-[8px]"],
+  [class*="text-[8.5px]"],
+  [class*="text-[9px]"],
+  [class*="text-[9.5px]"],
+  [class*="text-[10px]"] {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* captions (10.5–11.5px) → 13px */
+  [class*="text-[10.5px]"],
+  [class*="text-[11px]"],
+  [class*="text-[11.5px]"] {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  /* body copy (12–13.5px) → 14.5px */
+  [class*="text-[12px]"],
+  [class*="text-[12.5px]"],
+  [class*="text-[13px]"],
+  [class*="text-[13.5px]"] {
+    font-size: 14.5px !important;
+    line-height: 1.65 !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* product names / prices */
+  [class*="text-[14px]"],
+  [class*="text-[15px]"] {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* display headings breathe a little more */
+  .font-display {
+    line-height: 1.06 !important;
+  }
+
+  /* comfortable tap targets */
+  button,
+  a[role="button"] {
+    touch-action: manipulation;
+  }
+  .field + button,
+  button.h-7,
+  button.h-8,
+  button.h-9 {
+    min-height: 40px;
+  }
+  button.h-7 {
+    min-width: 38px;
+  }
+  .qty-btn {
+    height: 38px;
+    width: 38px;
+  }
+
+  /* never allow a stray wide element to create a side-scroll on phones */
+  #root {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  /* horizontal rhythm */
+  .no-scrollbar {
+    scroll-padding-inline: 1rem;
+  }
+
+  /* fixed bars must clear the iPhone home indicator */
+  .safe-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 380px) {
+  [class*="text-[14px]"],
+  [class*="text-[15px]"] {
+    font-size: 15px !important;
+  }
+  .font-display {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Performance
+ * ------------------------------------------------------------------ */
+
+/* Sections below the 3D experience are not rendered until they approach the
+   viewport. `auto` in the intrinsic size remembers the real height afterwards. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+/* Phones: drop the effects that cost the most GPU time for the least visible
+   benefit — blend-mode grain, 100px blurs and infinite decorative loops. */
+@media (max-width: 767px) {
+  .grain::after {
+    display: none;
+  }
+  [class*="blur-["],
+  .blur-3xl,
+  .blur-2xl {
+    filter: blur(40px) !important;
+  }
+  .anim-drift,
+  .anim-spin-slow,
+  .animate-ping {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Type & spacing scale — controlled from Studio → Site content →
+ * "Sizes & spacing". ThemeProvider writes the three variables below.
+ *   --hs  headings       --bs  lead paragraphs       --ss  section spacing
+ * The base sizes here are the recommended ones; 100% = as designed.
+ * ------------------------------------------------------------------ */
+:root {
+  --hs: 1;
+  --bs: 1;
+  --ss: 1;
+}
+
+.hd-hero    { font-size: calc(clamp(2.5rem, 7vw, 5.2rem) * var(--hs)); }
+.hd-page    { font-size: calc(clamp(2.1rem, 5vw, 3.6rem) * var(--hs)); }
+.hd-section { font-size: calc(clamp(1.7rem, 3.6vw, 2.6rem) * var(--hs)); }
+.hd-sub     { font-size: calc(clamp(1.45rem, 2.7vw, 2.1rem) * var(--hs)); }
+
+.lead-copy {
+  font-size: calc(clamp(0.875rem, 1.05vw, 0.95rem) * var(--bs));
+  line-height: 1.7;
+}
+
+/* Section rhythm */
+.sec-y    { padding-block: calc(3rem * var(--ss)); }
+.sec-y-sm { padding-block: calc(2.5rem * var(--ss)); }
+.sec-pb   { padding-bottom: calc(3rem * var(--ss)); }
+.hero-pad { padding-top: calc(2rem * var(--ss)); padding-bottom: calc(2.75rem * var(--ss)); }
+.page-pad { padding-top: calc(2rem * var(--ss)); padding-bottom: calc(2rem * var(--ss)); }
+@media (min-width: 1024px) {
+  .sec-y    { padding-block: calc(4.5rem * var(--ss)); }
+  .sec-y-sm { padding-block: calc(3.5rem * var(--ss)); }
+  .sec-pb   { padding-bottom: calc(4.5rem * var(--ss)); }
+  .hero-pad { padding-top: calc(3.25rem * var(--ss)); padding-bottom: calc(4rem * var(--ss)); }
+  .page-pad { padding-top: calc(3rem * var(--ss)); padding-bottom: calc(2.5rem * var(--ss)); }
+}
