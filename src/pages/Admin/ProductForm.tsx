@@ -354,6 +354,13 @@ export function ProductForm({
             </Field>
 
             <Field label={`${t("admin.image")} *`} full hint={lang === "ar" ? "يمكنك استخدام روابط Pexels أو أي رابط مباشر." : "Use Pexels or any direct image URL."}>
+              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={async event => {
+                const file = event.target.files?.[0]; if (!file) return;
+                const data = new FormData(); data.append('file', file);
+                try { const response = await fetch('/api/admin/images', {method:'POST',body:data}); if (!response.ok) throw new Error(); const result = await response.json(); update('images', [draft.images, result.url].filter(Boolean).join('\n')); }
+                catch { setError(lang === 'ar' ? 'تعذر رفع الصورة' : 'Image upload failed'); }
+                event.target.value = '';
+              }} />
               <textarea value={draft.images} onChange={(event) => update("images", event.target.value)} rows={3} className="field resize-none text-[11px]" dir="ltr" placeholder="https://…" />
             </Field>
 

@@ -26,8 +26,6 @@ export function CartDrawer() {
     return () => window.removeEventListener("keydown", onKey);
   }, [close]);
 
-  const remaining = Math.max(settings.freeShippingThreshold - subtotal, 0);
-  const progress = Math.min(100, (subtotal / Math.max(settings.freeShippingThreshold, 1)) * 100);
   const quickMessage = cartMessage(lines, lang, settings);
 
   return (
@@ -82,20 +80,7 @@ export function CartDrawer() {
         ) : (
           <>
             <div className="border-b border-ink/8 bg-bone-2/50 px-5 py-3">
-              {remaining > 0 ? (
-                <p className="text-[11px] font-medium text-ink/70">
-                  <span className="font-bold text-ink">{formatPrice(remaining, lang)}</span>{" "}
-                  {t("cart.shippingProgress")}
-                </p>
-              ) : (
-                <p className="text-[11px] font-bold text-ink">✓ {t("cart.freeUnlocked")}</p>
-              )}
-              <div className="mt-2 h-1 overflow-hidden rounded-full bg-ink/10">
-                <div
-                  className="h-full rounded-full bg-linear-to-r from-plum to-acid transition-all duration-700"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+              <p className="text-[11px] font-medium text-ink/70">{lang === 'ar' ? 'يتم حساب الشحن حسب المحافظة عند إتمام الطلب.' : 'Shipping is calculated by governorate at checkout.'}</p>
             </div>
 
             <div className="min-h-0 flex-1 overflow-y-auto px-5">
@@ -140,7 +125,7 @@ export function CartDrawer() {
               </div>
               <div className="mt-1 flex items-center justify-between text-[11px] text-mist">
                 <span>{t("cart.shipping")}</span>
-                <span>{subtotal >= settings.freeShippingThreshold ? t("cart.free") : t("cart.calc")}</span>
+                <span>{t("cart.calc")}</span>
               </div>
               <Button
                 variant="acid"

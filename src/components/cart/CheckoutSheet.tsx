@@ -54,7 +54,7 @@ interface CheckoutSheetProps {
 }
 
 export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
-  const { lines, subtotal, count, clear, close: closeCart } = useCart();
+  const { lines, count, clear, close: closeCart } = useCart();
   const { settings } = useStore();
   const { lang, t, l } = useLang();
   const { push } = useToast();
@@ -63,11 +63,23 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
   const [step, setStep] = useState<"details" | "sent">("details");
   const [customer, setCustomer] = useState<OrderCustomer>({ name: "", phone: "", city: "", address: "", note: "" });
   const [errors, setErrors] = useState<{ name?: boolean; phone?: boolean; city?: boolean; address?: boolean }>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [coupon, setCoupon] = useState('');
+  const [quote, setQuote] = useState<{signature:string;subtotal:number;shipping:number;discount:number;total:number;prices:{productId:string;ml:number;price:number}[]} | null>(null);
+  const [tracking, setTracking] = useState('');
+  const [confirmedSubtotal, setConfirmedSubtotal] = useState<number | null>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const displayedSubtotal = lines.reduce((sum, line) => sum + line.price * line.qty, 0);
+  const quoteInput = { city: customer.city, ...(coupon.trim() ? {coupon: coupon.trim().toUpperCase()} : {}), items: lines.map(({productId,ml,qty}) => ({productId,ml,qty})) };
+  const quoteSignature = JSON.stringify(quoteInput);
+  const activeQuote = quote?.signature === quoteSignature ? quote : null;
 
   useEffect(() => {
     if (!open) return;
     setStep("details");
+    setConfirmedSubtotal(null);
+    setQuote(null);
+    setTracking('');
     setErrors({});
   }, [open]);
 
@@ -101,25 +113,37 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
     push(t("cart.successTitle"));
   };
 
-  const sendWhatsapp = () => {
-    if (!validate()) {
-      nameRef.current?.focus();
-      return;
-    }
-    openChannel(whatsappUrl(settings.whatsapp, cartMessage(lines, lang, settings, customer)));
-    finish();
+  const submitOrder = async (channel: "whatsapp" | "messenger") => {
+    if (submitting || !validate()) { nameRef.current?.focus(); return; }
+    setSubmitting(true);
+    try {
+      if (!activeQuote) {
+        const response=await fetch('/api/quote',{method:'POST',headers:{'Content-Type':'application/json'},body:quoteSignature});
+        if (!response.ok) { push(lang === 'ar' ? 'الشحن غير متاح للمحافظة أو الكوبون غير صالح. تواصل مع المتجر.' : 'Shipping is unavailable for this city or the coupon is invalid. Contact the store.', 'error'); return; }
+        const result=await response.json();setQuote({...result,signature:quoteSignature});return;
+      }
+      const body = JSON.stringify({ customer, ...(coupon.trim() ? {coupon:coupon.trim().toUpperCase()} : {}), expectedShipping:activeQuote.shipping, expectedDiscount:activeQuote.discount, items: lines.map(({productId, ml, qty}) => ({productId, ml, qty, expectedPrice: activeQuote.prices.find(x=>x.productId===productId&&x.ml===ml)!.price})) });
+      const digest = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body))), x => x.toString(16).padStart(2, '0')).join('');
+      let pending: {digest:string;key:string} | null = null;
+      try { pending = JSON.parse(sessionStorage.getItem('malika.pendingOrder') || 'null'); } catch { /* create a new key */ }
+      if (!pending || pending.digest !== digest) { pending = {digest, key: crypto.randomUUID()}; sessionStorage.setItem('malika.pendingOrder', JSON.stringify(pending)); }
+      const response = await fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': pending.key }, body });
+      const result = await response.json();
+      if (response.status === 409 && result.error === 'Prices changed') { setQuote(null); push(lang === 'ar' ? 'تغير السعر؛ احسب الإجمالي مجددًا.' : 'Prices changed; recalculate your total.', 'error'); return; }
+      if (response.status === 409) { setQuote(null); push(lang === 'ar' ? 'تغير السعر أو المخزون. راجع السلة وأعد المحاولة.' : 'Price or stock changed. Refresh your cart and try again.', 'error'); return; }
+      if (!response.ok) throw new Error('Order failed');
+      // The optional message uses the server's recalculated subtotal, not stale cart prices.
+      const message = `${lang === 'ar' ? 'رقم الطلب' : 'Order'}: ${result.id}\n${lang === 'ar' ? 'الإجمالي قبل الشحن' : 'Subtotal before shipping'}: ${result.subtotal}`;
+      if (channel === 'whatsapp') openChannel(whatsappUrl(settings.whatsapp, message));
+      else { await copyText(message); openChannel(messengerUrl(settings.messenger)); }
+      setConfirmedSubtotal(result.total);
+      setTracking(result.trackingToken);
+      finish();
+    } catch { push(lang === 'ar' ? 'تعذر حفظ الطلب، حاول مجدداً.' : 'Could not save order. Please try again.', 'error'); }
+    finally { setSubmitting(false); }
   };
-
-  const sendMessenger = async () => {
-    if (!validate()) {
-      nameRef.current?.focus();
-      return;
-    }
-    const ok = await copyText(cartMessage(lines, lang, settings, customer));
-    openChannel(messengerUrl(settings.messenger));
-    push(ok ? t("cart.messengerHint") : t("cart.copy"), ok ? "info" : "error");
-    finish();
-  };
+  const sendWhatsapp = () => void submitOrder('whatsapp');
+  const sendMessenger = () => void submitOrder('messenger');
 
   const copyOrder = async () => {
     const ok = await copyText(cartMessage(lines, lang, settings, customer));
@@ -169,7 +193,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
                   ))}
                 </span>
                 <span className="text-[11px] font-semibold text-ink/70">
-                  {count} {t("cart.items")} · {formatPrice(subtotal, lang)}
+                  {count} {t("cart.items")} · {formatPrice(displayedSubtotal, lang)}
                 </span>
               </div>
               <button type="button" onClick={onClose} className="inline-flex items-center gap-1 text-[10px] font-bold text-plum underline decoration-acid decoration-2 underline-offset-2">
@@ -214,7 +238,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
                   >
                     <option value="">{t("cart.cityPh")}</option>
                     {governorates.map((governorate) => (
-                      <option key={governorate.en} value={l(governorate)}>
+                      <option key={governorate.en} value={governorate.en}>
                         {l(governorate)}
                       </option>
                     ))}
@@ -248,14 +272,20 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
               </label>
             </div>
 
+            <label className="mt-3 block"><span className="text-xs">{lang === 'ar' ? 'كود الخصم (اختياري)' : 'Coupon code (optional)'}</span><input className="field" value={coupon} maxLength={40} onChange={e=>setCoupon(e.target.value)} /></label>
+            {activeQuote && <div className="mt-4 rounded-xl border border-ink/10 p-3 text-sm" role="status">
+              <p className="font-bold">{lang === 'ar' ? 'راجع الأسعار قبل تأكيد الطلب:' : 'Review prices before confirming:'}</p>
+              {activeQuote.prices.map(p=><p key={`${p.productId}:${p.ml}`}>{lines.find(x=>x.productId===p.productId && x.ml===p.ml)?.name[lang]} · {p.ml} ml: {formatPrice(p.price,lang)}</p>)}
+              <p>{lang === 'ar' ? 'المنتجات' : 'Subtotal'}: {formatPrice(activeQuote.subtotal,lang)}</p><p>{lang === 'ar' ? 'الخصم' : 'Discount'}: {formatPrice(activeQuote.discount,lang)}</p><p>{lang === 'ar' ? 'الشحن' : 'Shipping'}: {formatPrice(activeQuote.shipping,lang)}</p><strong>{lang === 'ar' ? 'الإجمالي' : 'Total'}: {formatPrice(activeQuote.total,lang)}</strong>
+            </div>}
             <div className="mt-4 rounded-xl border border-ink/10 bg-white/40 p-3">
               <div className="flex items-center justify-between text-[12px]">
                 <span className="text-mist">{t("cart.subtotal")}</span>
-                <span className="font-display text-xl">{formatPrice(subtotal, lang)}</span>
+                <span className="font-display text-xl">{formatPrice(displayedSubtotal, lang)}</span>
               </div>
               <div className="mt-1 flex items-center justify-between text-[10px] text-mist">
                 <span>{t("cart.shipping")}</span>
-                <span>{subtotal >= settings.freeShippingThreshold ? t("cart.free") : t("cart.calc")}</span>
+                <span>{activeQuote ? formatPrice(activeQuote.shipping, lang) : t("cart.calc")}</span>
               </div>
               <p className="mt-2 flex items-center gap-1.5 rounded-lg bg-acid/40 px-2 py-1.5 text-[10px] font-semibold text-ink">
                 <Check className="h-3.5 w-3.5 shrink-0" /> {t("cart.cod")}
@@ -263,12 +293,12 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
             </div>
 
             <div className="sticky bottom-0 -mx-4 mt-4 space-y-2 border-t border-ink/10 bg-bone/95 px-4 pb-1 pt-3 backdrop-blur sm:-mx-5 sm:px-5">
-              <Button type="submit" variant="acid" full size="lg" icon={<Whatsapp className="h-4 w-4" />} iconPosition="start">
-                {t("cart.sendOrder")}
+              <Button type="submit" disabled={submitting} variant="acid" full size="lg" icon={<Whatsapp className="h-4 w-4" />} iconPosition="start">
+                {activeQuote ? (lang === "ar" ? "تأكيد الطلب" : "Confirm order") : (lang === "ar" ? "حساب الإجمالي" : "Calculate total")}
               </Button>
               <div className="grid grid-cols-2 gap-2">
-                <Button type="button" variant="outline" size="sm" onClick={sendMessenger} icon={<Messenger className="h-3.5 w-3.5" />} iconPosition="start">
-                  {t("cart.sendMessenger")}
+                <Button type="button" variant="outline" size="sm" disabled={submitting} onClick={sendMessenger} icon={<Messenger className="h-3.5 w-3.5" />} iconPosition="start">
+                  {activeQuote ? t("cart.sendMessenger") : (lang === "ar" ? "حساب الإجمالي" : "Calculate total")}
                 </Button>
                 <Button type="button" variant="ghost" size="sm" onClick={copyOrder} icon={<Copy className="h-3.5 w-3.5" />} iconPosition="start">
                   {t("cart.copy")}
@@ -284,11 +314,13 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
             </span>
             <h3 className="font-display mt-4 text-3xl">{t("cart.successTitle")}</h3>
             <p className="mt-2 max-w-xs text-[12px] leading-relaxed text-mist">{t("cart.successBody")}</p>
+            {confirmedSubtotal !== null && <p className="mt-2">{lang === "ar" ? "الإجمالي المؤكد" : "Confirmed total"}: {formatPrice(confirmedSubtotal, lang)}</p>}
+            {tracking && <a className="mt-3 underline" href={`#/track/${tracking}`}>{lang === "ar" ? "تتبع طلبك — احفظ الرابط" : "Track your order — save this link"}</a>}
             <div className="mt-6 w-full space-y-2">
               <Button
                 variant="acid"
                 full
-                href={whatsappUrl(settings.whatsapp, cartMessage(lines, lang, settings, customer))}
+                href={whatsappUrl(settings.whatsapp, lang === "ar" ? "تم تسجيل طلبي" : "My order has been placed")}
                 icon={<Whatsapp className="h-4 w-4" />}
                 iconPosition="start"
               >
@@ -303,6 +335,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
                 size="sm"
                 onClick={() => {
                   clear();
+                  sessionStorage.removeItem("malika.pendingOrder");
                   onClose();
                 }}
               >
