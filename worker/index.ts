@@ -1,8 +1,9 @@
 import { Hono, type Context, type MiddlewareHandler } from 'hono';
 import { getCookie, setCookie, deleteCookie } from 'hono/cookie';
 import { z } from 'zod';
+import { ensureStoreReady } from './bootstrap';
 
-type Env = { Bindings: { DB: D1Database }, Variables: { adminId: string; role: "owner" | "orders" } };
+type Env = { Bindings: { DB: D1Database }, Variables: { adminId: string; role: "owner" | "orders"; mustChangePassword: boolean } };
 const app = new Hono<Env>();
 const text = (max: number) => z.string().trim().min(1).max(max);
 const localized = z.object({ en: text(5000), ar: text(5000) });
@@ -33,6 +34,7 @@ app.use('/api/*', async (c, next) => {
     const size = Number(c.req.header('Content-Length') || 0);
     if (size > 6_000_000) return c.json({ error: 'Request too large' }, 413);
   }
+  await ensureStoreReady(c.env.DB);
   await next();
 });
 app.post('/api/login', async c => {
@@ -43,7 +45,7 @@ app.post('/api/login', async c => {
   await c.env.DB.prepare('INSERT INTO login_attempts (key,count,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET count = CASE WHEN expires_at < ? THEN 1 ELSE count + 1 END, expires_at = CASE WHEN expires_at < ? THEN ? ELSE expires_at END').bind(key,now+900000,now,now,now+900000).run();
   const attempts = await c.env.DB.prepare('SELECT count FROM login_attempts WHERE key=?').bind(key).first<{count:number}>();
   if ((attempts?.count || 0) > 10) return c.json({ error: 'Too many attempts' }, 429);
-  const admin = await c.env.DB.prepare('SELECT * FROM admins WHERE username=?').bind(data.data.username).first<{id:string,salt:string,password_hash:string}>();
+  const admin = await c.env.DB.prepare('SELECT id,salt,password_hash,must_change_password FROM admins WHERE username=?').bind(data.data.username).first<{id:string,salt:string,password_hash:string,must_change_password:number}>();
   const hash = await passwordHash(data.data.password, admin?.salt || '00000000000000000000000000000000');
   let diff = 0; const expected = admin?.password_hash || '0'.repeat(64);
   for (let i = 0; i < 64; i++) diff |= hash.charCodeAt(i) ^ expected.charCodeAt(i);
@@ -51,33 +53,51 @@ app.post('/api/login', async c => {
   const token = random();
   await c.env.DB.prepare('INSERT INTO sessions (token_hash,admin_id,expires_at,last_seen) VALUES (?,?,?,?)').bind(await sha(token),admin.id,now+8*3600000,now).run();
   setCookie(c, '__Host-malika_session', token, { httpOnly:true, secure:true, sameSite:'Strict', path:'/', maxAge:28800 });
-  return c.json({ ok:true });
+  return c.json({ ok:true, mustChangePassword: Boolean(admin.must_change_password) });
 });
 const adminGuard: MiddlewareHandler<Env> = async (c, next) => {
   const token = getCookie(c, '__Host-malika_session');
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return c.json({error:'Unauthorized'},401);
   const tokenHash = await sha(token), now = Date.now();
-  const session = await c.env.DB.prepare('SELECT sessions.admin_id,admins.role FROM sessions JOIN admins ON admins.id=sessions.admin_id WHERE token_hash=? AND expires_at>? AND last_seen>?').bind(tokenHash,now,now-30*60000).first<{admin_id:string,role:'owner'|'orders'}>();
+  const session = await c.env.DB.prepare('SELECT sessions.admin_id,admins.role,admins.must_change_password FROM sessions JOIN admins ON admins.id=sessions.admin_id WHERE token_hash=? AND expires_at>? AND last_seen>?').bind(tokenHash,now,now-30*60000).first<{admin_id:string,role:'owner'|'orders',must_change_password:number}>();
   if (!session) return c.json({error:'Unauthorized'},401);
   await c.env.DB.prepare('UPDATE sessions SET last_seen=? WHERE token_hash=? AND expires_at>? AND last_seen>?').bind(now,tokenHash,now,now-30*60000).run();
-  c.set('adminId', session.admin_id); c.set('role', session.role);
+  c.set('adminId', session.admin_id); c.set('role', session.role); c.set('mustChangePassword', Boolean(session.must_change_password));
+  if (session.must_change_password && !['/api/admin/session','/api/admin/logout','/api/admin/password'].includes(c.req.path)) return c.json({error:'Password change required',mustChangePassword:true},403);
   if (session.role === 'orders' && !(['/api/admin/session','/api/admin/logout','/api/admin/password','/api/admin/orders'].includes(c.req.path) || /^\/api\/admin\/orders\/[^/]+$/.test(c.req.path))) return c.json({error:'Forbidden'},403);
   await next();
 };
 app.use('/api/admin/*', adminGuard);
-app.get('/api/admin/session', c => c.json({ok:true,role:c.get('role')}));
+app.get('/api/admin/session', c => c.json({ok:true,role:c.get('role'),mustChangePassword:c.get('mustChangePassword')}));
 app.post('/api/admin/logout', async c => { const token = getCookie(c,'__Host-malika_session'); if (token) await c.env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(await sha(token)).run(); deleteCookie(c,'__Host-malika_session',{secure:true,path:'/'}); return c.json({ok:true}); });
 app.post('/api/admin/password', async c => {
-  const data = z.object({ currentPassword: text(256), newPassword: z.string().min(16).max(256) }).safeParse(await jsonBody(c));
-  if (!data.success) return c.json({error:'New password must contain at least 16 characters'},400);
-  const admin = await c.env.DB.prepare('SELECT salt,password_hash FROM admins WHERE id=?').bind(c.get('adminId')).first<{salt:string,password_hash:string}>();
+  const data = z.object({ currentPassword: z.string().max(256).optional(), newPassword: z.string().min(8).max(256) }).safeParse(await jsonBody(c));
+  if (!data.success) return c.json({error:'New password must contain at least 8 characters'},400);
+  const admin = await c.env.DB.prepare('SELECT salt,password_hash,must_change_password FROM admins WHERE id=?').bind(c.get('adminId')).first<{salt:string,password_hash:string,must_change_password:number}>();
   if (!admin) return c.json({error:'Unauthorized'},401);
-  const hash = await passwordHash(data.data.currentPassword,admin.salt); let diff = 0;
-  for (let i=0;i<64;i++) diff |= hash.charCodeAt(i) ^ admin.password_hash.charCodeAt(i);
-  if (diff !== 0) return c.json({error:'Invalid credentials'},401);
+  if (!admin.must_change_password) {
+    if (!data.data.currentPassword) return c.json({error:'Current password required'},400);
+    const hash = await passwordHash(data.data.currentPassword,admin.salt); let diff = 0;
+    for (let i=0;i<64;i++) diff |= hash.charCodeAt(i) ^ admin.password_hash.charCodeAt(i);
+    if (diff !== 0) return c.json({error:'Invalid credentials'},401);
+  }
+  const candidateOnOldSalt = await passwordHash(data.data.newPassword,admin.salt); let sameDiff = 0;
+  for (let i=0;i<64;i++) sameDiff |= candidateOnOldSalt.charCodeAt(i) ^ admin.password_hash.charCodeAt(i);
+  if (sameDiff === 0) return c.json({error:'Choose a new password different from the current password'},400);
   const salt = random().slice(0,32), newHash = await passwordHash(data.data.newPassword,salt);
+  if (admin.must_change_password) {
+    const token = random(), now = Date.now();
+    await c.env.DB.batch([
+      c.env.DB.prepare('UPDATE admins SET salt=?,password_hash=?,must_change_password=0 WHERE id=?').bind(salt,newHash,c.get('adminId')),
+      c.env.DB.prepare('DELETE FROM sessions WHERE admin_id=?').bind(c.get('adminId')),
+      c.env.DB.prepare('INSERT INTO sessions (token_hash,admin_id,expires_at,last_seen) VALUES (?,?,?,?)').bind(await sha(token),c.get('adminId'),now+8*3600000,now),
+      c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'password_changed',c.get('adminId'))
+    ]);
+    setCookie(c, '__Host-malika_session', token, { httpOnly:true, secure:true, sameSite:'Strict', path:'/', maxAge:28800 });
+    return c.json({ok:true,stayedSignedIn:true});
+  }
   await c.env.DB.batch([
-    c.env.DB.prepare('UPDATE admins SET salt=?,password_hash=? WHERE id=?').bind(salt,newHash,c.get('adminId')),
+    c.env.DB.prepare('UPDATE admins SET salt=?,password_hash=?,must_change_password=0 WHERE id=?').bind(salt,newHash,c.get('adminId')),
     c.env.DB.prepare('DELETE FROM sessions WHERE admin_id=?').bind(c.get('adminId')),
     c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'password_changed',c.get('adminId'))
   ]);
@@ -86,7 +106,7 @@ app.post('/api/admin/password', async c => {
 });
 app.get('/api/admin/accounts', async c => c.json((await c.env.DB.prepare('SELECT id,username,role FROM admins ORDER BY username').all()).results));
 app.post('/api/admin/accounts', async c => {
-  const data=z.object({username:z.string().regex(/^[A-Za-z0-9_.-]{3,64}$/),password:z.string().min(16).max(256),role:z.enum(['orders'])}).safeParse(await jsonBody(c));
+  const data=z.object({username:z.string().regex(/^[A-Za-z0-9_.-]{3,64}$/),password:z.string().min(8).max(256),role:z.enum(['orders'])}).safeParse(await jsonBody(c));
   if (!data.success) return c.json({error:'Invalid account'},400);
   const id=crypto.randomUUID(), salt=random().slice(0,32), hash=await passwordHash(data.data.password,salt);
   try { await c.env.DB.batch([c.env.DB.prepare('INSERT INTO admins(id,username,salt,password_hash,role) VALUES(?,?,?,?,?)').bind(id,data.data.username,salt,hash,data.data.role),c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'account_created',id)]); }

@@ -1,4 +1,5 @@
 import { useBrand } from "@/hooks/useBrand";
+import { resolveAsset } from "@/lib/assets";
 import { cn } from "@/utils/cn";
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
@@ -160,6 +161,7 @@ export function SectionHeading({
 /* ---------- Smart image ---------- */
 export function SmartImage({
   src,
+  fallbackSrc,
   alt,
   className,
   imgClassName,
@@ -167,31 +169,50 @@ export function SmartImage({
   priority,
 }: {
   src: string;
+  fallbackSrc?: string;
   alt: string;
   className?: string;
   imgClassName?: string;
   sizes?: string;
   priority?: boolean;
 }) {
+  const [currentSrc, setCurrentSrc] = useState(src);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setCurrentSrc(src);
+    setLoaded(false);
+    setFailed(false);
+  }, [src]);
+
+  const resolved = resolveAsset(currentSrc);
+  const isCutout =
+    currentSrc.startsWith("/api/images/40000000-0000-4000-8000-00000000000") ||
+    currentSrc.startsWith("/images/bottles/");
 
   return (
     <div className={cn("relative overflow-hidden bg-bone-2", className)}>
       {!failed ? (
         <img
-          src={src}
+          src={resolved}
           alt={alt}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
           sizes={sizes}
           onLoad={() => setLoaded(true)}
           onError={() => {
+            if (fallbackSrc && fallbackSrc !== currentSrc) {
+              setCurrentSrc(fallbackSrc);
+              setLoaded(false);
+              return;
+            }
             setFailed(true);
             setLoaded(true);
           }}
           className={cn(
-            "h-full w-full object-cover transition-all duration-700 ease-out",
+            "h-full w-full transition-all duration-700 ease-out",
+            isCutout ? "object-contain p-3 drop-shadow-[0_14px_22px_rgba(0,0,0,0.22)]" : "object-cover",
             loaded ? "scale-100 opacity-100 blur-0" : "scale-[1.04] opacity-0 blur-sm",
             imgClassName
           )}
