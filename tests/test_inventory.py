@@ -87,5 +87,17 @@ class InventoryTests(unittest.TestCase):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.execute("UPDATE orders SET status='new' WHERE id='one'")
 
+    def test_d1_image_constraints_and_tombstone(self):
+        key = '11111111-1111-4111-8111-111111111111'
+        self.db.execute("INSERT INTO images(key,content_type,data_base64,size) VALUES(?,?,?,?)", (key, 'image/png', 'iVBORw0KGgoAAAANSUhEUg==', 16))
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.db.execute("INSERT INTO images(key,content_type,data_base64,size) VALUES(?,?,?,?)", ('bad-type', 'image/svg+xml', 'iVBORw0KGgoAAAANSUhEUg==', 16))
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.db.execute("INSERT INTO images(key,content_type,data_base64,size) VALUES(?,?,?,?)", ('too-big', 'image/png', 'A' * 16, 1_000_001))
+        self.db.execute("INSERT INTO deleted_images(key) VALUES(?)", (key,))
+        self.db.execute("DELETE FROM images WHERE key=?", (key,))
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.db.execute("UPDATE products SET data=? WHERE id='p'", (json.dumps({'sizes': [{'ml': 50, 'price': 100}], 'images': ['/api/images/' + key]}),))
+
 if __name__ == '__main__':
     unittest.main()

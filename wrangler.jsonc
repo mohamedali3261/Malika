@@ -1,9 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "malika-store",
+  "name": "malika",
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "assets": { "directory": "./dist", "binding": "ASSETS", "not_found_handling": "single-page-application", "run_worker_first": ["/api/*"] },
-  "d1_databases": [{ "binding": "DB", "database_name": "malika-db", "database_id": "REPLACE_WITH_D1_DATABASE_ID", "migrations_dir": "migrations" }],
-  "r2_buckets": [{ "binding": "IMAGES", "bucket_name": "malika-images" }]
+  "d1_databases": [{ "binding": "DB", "database_name": "malika-db", "database_id": "REPLACE_WITH_D1_DATABASE_ID", "migrations_dir": "migrations" }]
 }

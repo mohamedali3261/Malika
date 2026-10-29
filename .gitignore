@@ -9,3 +9,4 @@ Thumbs.db
 
 .wrangler/
 admin-bootstrap.local.sql
+__pycache__/
