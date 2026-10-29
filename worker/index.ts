@@ -1,8 +1,8 @@
-import { Hono } from 'hono';
+import { Hono, type Context, type MiddlewareHandler } from 'hono';
 import { getCookie, setCookie, deleteCookie } from 'hono/cookie';
 import { z } from 'zod';
 
-type Env = { Bindings: { DB: D1Database; IMAGES: R2Bucket }, Variables: { adminId: string; role: "owner" | "orders" } };
+type Env = { Bindings: { DB: D1Database }, Variables: { adminId: string; role: "owner" | "orders" } };
 const app = new Hono<Env>();
 const text = (max: number) => z.string().trim().min(1).max(max);
 const localized = z.object({ en: text(5000), ar: text(5000) });
@@ -26,7 +26,7 @@ const random = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), x =>
 const jsonBody = async (c: any) => { try { return await c.req.json(); } catch { return null; } };
 app.use('/api/*', async (c, next) => {
   c.header('X-Content-Type-Options', 'nosniff');
-  c.header('Cache-Control', 'no-store');
+  if (!(c.req.method === 'GET' && c.req.path.startsWith('/api/images/'))) c.header('Cache-Control', 'no-store');
   if (!['GET','HEAD'].includes(c.req.method)) {
     const origin = c.req.header('Origin');
     if (!origin || origin !== new URL(c.req.url).origin) return c.json({ error: 'Invalid origin' }, 403);
@@ -53,7 +53,7 @@ app.post('/api/login', async c => {
   setCookie(c, '__Host-malika_session', token, { httpOnly:true, secure:true, sameSite:'Strict', path:'/', maxAge:28800 });
   return c.json({ ok:true });
 });
-app.use('/api/admin/*', async (c,next) => {
+const adminGuard: MiddlewareHandler<Env> = async (c, next) => {
   const token = getCookie(c, '__Host-malika_session');
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return c.json({error:'Unauthorized'},401);
   const tokenHash = await sha(token), now = Date.now();
@@ -63,7 +63,8 @@ app.use('/api/admin/*', async (c,next) => {
   c.set('adminId', session.admin_id); c.set('role', session.role);
   if (session.role === 'orders' && !(['/api/admin/session','/api/admin/logout','/api/admin/password','/api/admin/orders'].includes(c.req.path) || /^\/api\/admin\/orders\/[^/]+$/.test(c.req.path))) return c.json({error:'Forbidden'},403);
   await next();
-});
+};
+app.use('/api/admin/*', adminGuard);
 app.get('/api/admin/session', c => c.json({ok:true,role:c.get('role')}));
 app.post('/api/admin/logout', async c => { const token = getCookie(c,'__Host-malika_session'); if (token) await c.env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(await sha(token)).run(); deleteCookie(c,'__Host-malika_session',{secure:true,path:'/'}); return c.json({ok:true}); });
 app.post('/api/admin/password', async c => {
@@ -233,32 +234,110 @@ app.patch('/api/admin/orders/:id', async c => {
   await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),`order_status:${data.data.status}`,c.req.param('id')).run();
   return c.json({ok:true});
 });
-app.get('/api/admin/images', async c => {
-  const cursor=c.req.query('cursor'); if (cursor && cursor.length>1024) return c.json({error:'Invalid cursor'},400);
-  const page=await c.env.IMAGES.list({limit:100,...(cursor?{cursor}:{})});
-  return c.json({images:page.objects.map(object=>({key:object.key,size:object.size,uploaded:object.uploaded})),cursor:page.truncated?page.cursor:null});
-});
-app.delete('/api/admin/images/:key', async c => {
-  const key=c.req.param('key'); if(!/^[a-f0-9-]{36}$/.test(key)) return c.json({error:'Invalid key'},400);
-  // A tombstone and reference check in one statement prevent concurrent product saves
-  // from linking this image after the check but before the R2 deletion.
-  const result=await c.env.DB.prepare("INSERT OR IGNORE INTO deleted_images(key) SELECT ? WHERE NOT EXISTS (SELECT 1 FROM products p WHERE instr(COALESCE(json_extract(p.data,'$.cutout'),''),'/api/images/' || ?)>0 OR EXISTS (SELECT 1 FROM json_each(p.data,'$.images') j WHERE instr(j.value,'/api/images/' || ?)>0))").bind(key,key,key).run();
-  if(!result.meta.changes) {
-    const tombstone=await c.env.DB.prepare('SELECT key FROM deleted_images WHERE key=?').bind(key).first();
-    if(!tombstone) return c.json({error:'Image is referenced by a product'},409);
+const imageKey = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
+const maxImageBytes = 1_000_000;
+const maxMultipartBytes = 1_050_000;
+const toBase64 = (bytes: Uint8Array): string => {
+  const native = (bytes as unknown as { toBase64?: () => string }).toBase64;
+  if (typeof native === 'function') return native.call(bytes);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(binary);
+};
+const fromBase64 = (b64: string): Uint8Array<ArrayBuffer> => {
+  const native = (Uint8Array as unknown as { fromBase64?: (s: string) => Uint8Array }).fromBase64;
+  if (typeof native === 'function') {
+    const decoded = native.call(Uint8Array, b64);
+    const out = new Uint8Array(decoded.byteLength);
+    out.set(decoded);
+    return out;
   }
-  await c.env.IMAGES.delete(key);
-  await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'image_deleted',key).run();
-  return c.json({ok:true});
+  const binary = atob(b64), bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+};
+app.get('/api/admin/images', async c => {
+  const cursor=c.req.query('cursor') || '';
+  if (cursor && !imageKey.test(cursor)) return c.json({error:'Invalid cursor'},400);
+  const rows=(await c.env.DB.prepare('SELECT key,size,created_at AS uploaded FROM images WHERE key>? ORDER BY key LIMIT 101').bind(cursor).all<{key:string,size:number,uploaded:string}>()).results;
+  const more=rows.length>100;
+  if (more) rows.pop();
+  return c.json({images:rows,cursor:more ? rows[rows.length-1].key : null});
 });
-app.post('/api/admin/images', async c => {
-  let form: FormData; try { form=await c.req.formData(); } catch { return c.json({error:'Invalid upload'},400); }
-  const file=form.get('file'); if (!(file instanceof File) || file.size > 5_000_000 || file.size < 12) return c.json({error:'Invalid image'},400);
+const edgeCache = (): Cache | undefined => (typeof caches !== 'undefined' ? (caches as unknown as { default?: Cache }).default : undefined);
+const deleteImage = async (c: Context<Env>) => {
+  const key=c.req.param('key'); if(!imageKey.test(key)) return c.json({error:'Invalid key'},400);
+  // The reference check, tombstone, audit entry and deletion share one D1
+  // transaction. Product triggers prevent later references to a tombstoned key.
+  const results=await c.env.DB.batch([
+    c.env.DB.prepare("INSERT OR IGNORE INTO deleted_images(key) SELECT ? WHERE EXISTS (SELECT 1 FROM images WHERE key=?) AND NOT EXISTS (SELECT 1 FROM products p WHERE instr(COALESCE(json_extract(p.data,'$.cutout'),''),'/api/images/' || ?)>0 OR EXISTS (SELECT 1 FROM json_each(p.data,'$.images') j WHERE instr(j.value,'/api/images/' || ?)>0))").bind(key,key,key,key),
+    c.env.DB.prepare("INSERT INTO audit_log(id,admin_id,action,target_id) SELECT ?,?,'image_deleted',? WHERE EXISTS (SELECT 1 FROM images WHERE key=?) AND EXISTS (SELECT 1 FROM deleted_images WHERE key=?)").bind(crypto.randomUUID(),c.get('adminId'),key,key,key),
+    c.env.DB.prepare('DELETE FROM images WHERE key=? AND EXISTS (SELECT 1 FROM deleted_images WHERE key=?)').bind(key,key)
+  ]);
+  if (results[2].meta.changes) {
+    await edgeCache()?.delete(new Request(new URL(`/api/images/${key}`, c.req.url).toString(), { method: 'GET' }));
+    return c.json({ok:true});
+  }
+  const existing=await c.env.DB.prepare('SELECT key FROM images WHERE key=?').bind(key).first();
+  return existing ? c.json({error:'Image is referenced by a product'},409) : c.json({error:'Not found'},404);
+};
+app.delete('/api/admin/images/:key', deleteImage);
+app.delete('/api/images/:key', adminGuard, deleteImage);
+const uploadImage = async (c: Context<Env>) => {
+  if (!c.req.header('Content-Type')?.toLowerCase().startsWith('multipart/form-data;')) return c.json({error:'Invalid upload'},400);
+  const contentLength = Number(c.req.header('Content-Length') || 0);
+  if (contentLength > maxMultipartBytes) return c.json({error:'Image upload too large (max 1 MB)'},413);
+  // Enforce the limit while reading, including for requests without Content-Length.
+  const reader=c.req.raw.body?.getReader();
+  if (!reader) return c.json({error:'Invalid upload'},400);
+  const chunks: Uint8Array[]=[]; let length=0;
+  try {
+    for (;;) {
+      const {done,value}=await reader.read(); if(done) break;
+      length+=value.byteLength;
+      if(length>maxMultipartBytes) { await reader.cancel(); return c.json({error:'Image upload too large (max 1 MB)'},413); }
+      chunks.push(value);
+    }
+  } catch { return c.json({error:'Invalid upload'},400); }
+  const body=new Uint8Array(length); let offset=0;
+  for(const chunk of chunks) {body.set(chunk,offset);offset+=chunk.byteLength;}
+  let form: FormData;
+  try { form=await new Response(body,{headers:{'Content-Type':c.req.header('Content-Type')!}}).formData(); }
+  catch { return c.json({error:'Invalid upload'},400); }
+  const files=form.getAll('file'); const file=files[0];
+  if (files.length!==1 || !(file instanceof File) || file.size<12) return c.json({error:'Invalid image'},400);
+  if (file.size>maxImageBytes) return c.json({error:'Image exceeds 1 MB limit'},413);
   const bytes=new Uint8Array(await file.arrayBuffer());
   const type=bytes[0]===0xff && bytes[1]===0xd8 && bytes[2]===0xff ? 'image/jpeg' : bytes[0]===0x89 && bytes[1]===0x50 && bytes[2]===0x4e && bytes[3]===0x47 && bytes[4]===0x0d && bytes[5]===0x0a && bytes[6]===0x1a && bytes[7]===0x0a ? 'image/png' : String.fromCharCode(...bytes.slice(0,4))==='RIFF' && String.fromCharCode(...bytes.slice(8,12))==='WEBP' ? 'image/webp' : null;
   if (!type) return c.json({error:'Only JPEG, PNG and WebP are supported'},400);
-  const key=crypto.randomUUID(); await c.env.IMAGES.put(key,bytes,{httpMetadata:{contentType:type}}); return c.json({url:`/api/images/${key}`},201);
+  const key=crypto.randomUUID();
+  await c.env.DB.batch([
+    c.env.DB.prepare('INSERT INTO images(key,content_type,data_base64,size) VALUES(?,?,?,?)').bind(key,type,toBase64(bytes),bytes.length),
+    c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'image_uploaded',key)
+  ]);
+  return c.json({id:key,url:`/api/images/${key}`},201);
+};
+app.post('/api/admin/images', uploadImage);
+app.post('/api/images', adminGuard, uploadImage);
+app.get('/api/images/:key', async c => {
+  const key=c.req.param('key');
+  if(!imageKey.test(key)) { c.header('Cache-Control','no-store'); return c.notFound(); }
+  const cacheKey = new Request(new URL(`/api/images/${key}`, c.req.url).toString(), { method: 'GET' });
+  const cache = edgeCache();
+  const cached = await cache?.match(cacheKey);
+  if (cached) return cached;
+  const image=await c.env.DB.prepare('SELECT content_type,data_base64 FROM images WHERE key=?').bind(key).first<{content_type:string,data_base64:string}>();
+  if(!image) { c.header('Cache-Control','no-store'); return c.notFound(); }
+  const bytes=fromBase64(image.data_base64);
+  const res = new Response(bytes, {
+    headers: {
+      'Content-Type': image.content_type,
+      'X-Content-Type-Options': 'nosniff',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    },
+  });
+  if (cache) await cache.put(cacheKey, res.clone());
+  return res;
 });
-app.get('/api/images/:key', async c => { const key=c.req.param('key'); if(!/^[a-f0-9-]{36}$/.test(key)) return c.notFound(); const image=await c.env.IMAGES.get(key); if(!image) return c.notFound(); c.header('Content-Type',image.httpMetadata?.contentType || 'application/octet-stream'); c.header('Cache-Control','public, max-age=31536000, immutable'); return c.body(image.body); });
 app.all('/api/*', c => c.json({error:'Not found'},404));
 export default app;

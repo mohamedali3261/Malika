@@ -3,6 +3,7 @@ import { Portal, SmartImage } from "@/components/ui/Primitives";
 import { Check, Plus, Trash, X } from "@/components/ui/icons";
 import { useBodyLock } from "@/hooks/useUi";
 import { useLang } from "@/i18n/LanguageContext";
+import { ImageError, uploadImageToD1 } from "@/lib/image";
 import type { Category, Gender, Localized, Mood, Product, SizeOption } from "@/types";
 import { cn } from "@/utils/cn";
 import { useEffect, useState, type FormEvent } from "react";
@@ -119,12 +120,14 @@ export function ProductForm({
   const { t, l, lang } = useLang();
   const [draft, setDraft] = useState<Draft>(emptyDraft);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
   useBodyLock(open);
 
   useEffect(() => {
     if (!open) return;
     setDraft(initial ? toDraft(initial) : emptyDraft);
     setError("");
+    setUploading(false);
   }, [open, initial]);
 
   useEffect(() => {
@@ -353,24 +356,86 @@ export function ProductForm({
               <input value={draft.baseAr} onChange={(event) => update("baseAr", event.target.value)} className="field" dir="rtl" placeholder="مسك، أرز" />
             </Field>
 
-            <Field label={`${t("admin.image")} *`} full hint={lang === "ar" ? "يمكنك استخدام روابط Pexels أو أي رابط مباشر." : "Use Pexels or any direct image URL."}>
-              <input type="file" accept="image/jpeg,image/png,image/webp" onChange={async event => {
-                const file = event.target.files?.[0]; if (!file) return;
-                const data = new FormData(); data.append('file', file);
-                try { const response = await fetch('/api/admin/images', {method:'POST',body:data}); if (!response.ok) throw new Error(); const result = await response.json(); update('images', [draft.images, result.url].filter(Boolean).join('\n')); }
-                catch { setError(lang === 'ar' ? 'تعذر رفع الصورة' : 'Image upload failed'); }
-                event.target.value = '';
-              }} />
-              <textarea value={draft.images} onChange={(event) => update("images", event.target.value)} rows={3} className="field resize-none text-[11px]" dir="ltr" placeholder="https://…" />
+            <Field
+              label={`${t("admin.image")} *`}
+              full
+              hint={
+                lang === "ar"
+                  ? "حد أقصى ١ ميجابايت للصورة في D1 (تُضغط الصور الكبيرة تلقائيًا قبل الرفع)، أو الصق رابطًا مباشرًا."
+                  : "Max 1 MB per D1 image (large photos are compressed automatically before upload), or paste a direct URL."
+              }
+            >
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                disabled={uploading}
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (!file) return;
+                  setError("");
+                  setUploading(true);
+                  try {
+                    const result = await uploadImageToD1(file);
+                    update("images", [draft.images, result.url].filter(Boolean).join("\n"));
+                  } catch (err) {
+                    setError(
+                      err instanceof ImageError && err.code === "size"
+                        ? lang === "ar"
+                          ? "حجم الصورة يتجاوز ١ ميجابايت؛ اضغط الصورة قبل الرفع."
+                          : "Image exceeds 1 MB; compress it before uploading."
+                        : lang === "ar"
+                          ? "تعذر رفع الصورة"
+                          : "Image upload failed",
+                    );
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              />
+              {uploading && (
+                <span className="mt-1 block text-[10px] text-plum">
+                  {lang === "ar" ? "جاري ضغط ورفع الصورة إلى D1…" : "Compressing and uploading image to D1…"}
+                </span>
+              )}
+              <textarea value={draft.images} onChange={(event) => update("images", event.target.value)} rows={3} className="field mt-1.5 resize-none text-[11px]" dir="ltr" placeholder="/api/images/… or https://…" />
             </Field>
 
             <Field label={t("admin.cutout")} full hint={t("admin.cutoutHint")}>
               <input
+                type="file"
+                accept="image/png,image/webp"
+                disabled={uploading}
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (!file) return;
+                  setError("");
+                  setUploading(true);
+                  try {
+                    const result = await uploadImageToD1(file);
+                    update("cutout", result.url);
+                  } catch (err) {
+                    setError(
+                      err instanceof ImageError && err.code === "size"
+                        ? lang === "ar"
+                          ? "حجم الصورة يتجاوز ١ ميجابايت؛ اضغط الصورة قبل الرفع."
+                          : "Image exceeds 1 MB; compress it before uploading."
+                        : lang === "ar"
+                          ? "تعذر رفع الصورة"
+                          : "Image upload failed",
+                    );
+                  } finally {
+                    setUploading(false);
+                  }
+                }}
+              />
+              <input
                 value={draft.cutout}
                 onChange={(event) => update("cutout", event.target.value)}
-                className="field text-[11px]"
+                className="field mt-1.5 text-[11px]"
                 dir="ltr"
-                placeholder="/images/bottles/dark.webp"
+                placeholder="/images/bottles/dark.webp or /api/images/…"
               />
             </Field>
 
