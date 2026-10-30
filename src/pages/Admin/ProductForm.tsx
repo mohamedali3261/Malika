@@ -334,28 +334,6 @@ export function ProductForm({
               </button>
             </div>
 
-            <div className="sm:col-span-2 my-1 border-t border-ink/10 pt-4">
-              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-mist">{t("product.notes")} · {t("admin.notesHint")}</p>
-            </div>
-            <Field label="Top notes (EN)">
-              <input value={draft.topEn} onChange={(event) => update("topEn", event.target.value)} className="field" dir="ltr" placeholder="Bergamot, pepper" />
-            </Field>
-            <Field label="نوتات المقدمة (AR)">
-              <input value={draft.topAr} onChange={(event) => update("topAr", event.target.value)} className="field" dir="rtl" placeholder="برجموت، فلفل" />
-            </Field>
-            <Field label="Heart notes (EN)">
-              <input value={draft.heartEn} onChange={(event) => update("heartEn", event.target.value)} className="field" dir="ltr" placeholder="Iris, rose" />
-            </Field>
-            <Field label="نوتات القلب (AR)">
-              <input value={draft.heartAr} onChange={(event) => update("heartAr", event.target.value)} className="field" dir="rtl" placeholder="سوسن، ورد" />
-            </Field>
-            <Field label="Base notes (EN)">
-              <input value={draft.baseEn} onChange={(event) => update("baseEn", event.target.value)} className="field" dir="ltr" placeholder="Musk, cedar" />
-            </Field>
-            <Field label="نوتات القاعدة (AR)">
-              <input value={draft.baseAr} onChange={(event) => update("baseAr", event.target.value)} className="field" dir="rtl" placeholder="مسك، أرز" />
-            </Field>
-
             <Field
               label={`${t("admin.image")} *`}
               full
@@ -445,29 +423,6 @@ export function ProductForm({
                 <input value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="field" dir="ltr" />
               </div>
             </Field>
-            <Field label="Longevity" hint="e.g. 8–10h">
-              <input value={draft.longevity} onChange={(event) => update("longevity", event.target.value)} className="field" dir="ltr" />
-            </Field>
-
-            <div className="sm:col-span-2">
-              <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{t("admin.moods")}</span>
-              <div className="flex flex-wrap gap-2">
-                {moodsList.map((mood) => (
-                  <button
-                    key={mood}
-                    type="button"
-                    onClick={() => toggleMood(mood)}
-                    className={cn(
-                      "rounded-full border px-3 py-1.5 text-[10px] font-bold transition",
-                      draft.moods.includes(mood) ? "border-ink bg-ink text-bone" : "border-ink/15 text-ink/60"
-                    )}
-                  >
-                    {t(`finder.${mood}`)}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="sm:col-span-2">
               <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{t("admin.badges")}</span>
               <div className="flex flex-wrap gap-2">
@@ -490,14 +445,6 @@ export function ProductForm({
                 ))}
               </div>
             </div>
-
-            <Field label="Rating (0–5)">
-              <input type="number" step="0.1" min={0} max={5} value={draft.rating} onChange={(event) => update("rating", Number(event.target.value))} className="field" dir="ltr" />
-            </Field>
-            <Field label="Reviews count">
-              <input type="number" min={0} value={draft.reviews} onChange={(event) => update("reviews", Number(event.target.value))} className="field" dir="ltr" />
-            </Field>
-          </div>
 
           {error && <p className="mt-4 rounded-xl bg-rose-100 px-3 py-2 text-[11px] font-semibold text-rose-700">{error}</p>}
 
