@@ -136,7 +136,7 @@ app.put('/api/admin/products/:id', async c => {
   const data = product.safeParse(await jsonBody(c));
   if (!data.success || data.data.id !== c.req.param('id')) return c.json({error:'Invalid product'},400);
   const p=data.data;
-  try { await c.env.DB.prepare('INSERT INTO products(id,slug,category_id,data,archived) VALUES (?,?,?,?,0) ON CONFLICT(id) DO UPDATE SET slug=excluded.slug, category_id=excluded.category_id,data=excluded.data,archived=0,updated_at=CURRENT_TIMESTAMP').bind(p.id,p.slug,p.category,JSON.stringify(p)).run(); }
+  try { await c.env.DB.prepare('INSERT INTO products(id,slug,category_id,data,archived) VALUES (?,?,?,?,0) ON CONFLICT(id) DO UPDATE SET slug=excluded.slug, category_id=excluded.category_id,data=excluded.data,archived=products.archived,updated_at=CURRENT_TIMESTAMP').bind(p.id,p.slug,p.category,JSON.stringify(p)).run(); }
   catch { return c.json({error:'Product could not be saved; check slug'},409); }
   await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'product_saved',p.id).run();
   return c.json({ok:true});
