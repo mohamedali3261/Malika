@@ -21,7 +21,7 @@ const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16
 const sha = async (s: string) => hex(await crypto.subtle.digest('SHA-256', encoder.encode(s)));
 async function passwordHash(password: string, salt: string) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
-  return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: encoder.encode(salt), iterations: 310000 }, key, 256));
+  return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: encoder.encode(salt), iterations: 100000 }, key, 256));
 }
 const random = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2,'0')).join('');
 const jsonBody = async (c: any) => { try { return await c.req.json(); } catch { return null; } };
