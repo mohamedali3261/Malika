@@ -155,26 +155,17 @@ export function StudioLock({ onUnlocked }: { onUnlocked: () => void }) {
             {busy ? t("lock.checking") : wait > 0 ? `${seconds}${t("lock.seconds")}` : t("lock.submit")}
           </Button>
 
-          <div className="mt-4 space-y-2 border-t border-bone/10 pt-3">
-            <p className="flex items-start gap-2 text-[9.5px] leading-relaxed text-bone/35">
-              <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-acid/70" />
-              {t("lock.security")}
-            </p>
-            <p className="flex items-start gap-2 text-[9.5px] leading-relaxed text-bone/35">
-              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-acid/70" />
-              {t("lock.session")}
-            </p>
-          </div>
+
         </form>
 
         <div className="mt-5 text-center">
           <Link to="/" className="text-[10px] font-bold uppercase tracking-[0.18em] text-bone/35 transition hover:text-acid">
-            ← {t("lock.back")}
+            â† {t("lock.back")}
           </Link>
         </div>
 
         <p className="mt-3 text-center text-[8.5px] uppercase tracking-[0.2em] text-bone/20">
-          {lang === "ar" ? `${authPolicy.freeAttempts} محاولات ثم حظر متصاعد` : `${authPolicy.freeAttempts} attempts, then rising cooldown`}
+          {lang === "ar" ? `${authPolicy.freeAttempts} Ù…Ø­Ø§ÙˆÙ„Ø§Øª Ø«Ù… Ø­Ø¸Ø± Ù…ØªØµØ§Ø¹Ø¯` : `${authPolicy.freeAttempts} attempts, then rising cooldown`}
         </p>
       </div>
     </div>
