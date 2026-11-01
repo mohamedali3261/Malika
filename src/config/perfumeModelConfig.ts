@@ -21,7 +21,15 @@ export type PartId =
 
 export type Vec3 = readonly [number, number, number];
 
-export type MaterialKind = "glass" | "thinGlass" | "liquid" | "metal" | "darkMetal" | "cap" | "label" | "tube";
+export type MaterialKind =
+  | "glass"
+  | "thinGlass"
+  | "liquid"
+  | "metal"
+  | "darkMetal"
+  | "cap"
+  | "label"
+  | "tube";
 
 export interface PartConfig {
   /** Semantic id used by the animation timeline. */
@@ -81,120 +89,126 @@ export const stages = {
 export type StageName = keyof typeof stages;
 
 /**
- * The bottle rig. Units are "bottle units" — the body is 1.2 tall, which
- * keeps the whole product a little under 2 units so a 35° camera at z≈4.6
- * frames it with generous negative space.
+ * Precision-seated flacon rig:
+ * When assembled (progress = 0 or 1), `BottleCap` seats flush on the brass
+ * `Collar`, enclosing `SprayPump` and `AtomizerNozzle` completely inside.
  */
 export const partsConfig: readonly PartConfig[] = [
   {
     id: "BottleCap",
     nodeName: "BottleCap",
-    assembled: { position: [0, 1.17, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.0, 0.78, 0.0], rotation: [0, 0.6, 0] },
-    stagger: { start: 0, end: 0.55 },
+    assembled: { position: [0, 1.045, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.0, 0.92, 0.0], rotation: [0.04, 0.58, -0.02] },
+    stagger: { start: 0, end: 0.5 },
     material: "cap",
     label: { en: "Weighted cap", ar: "غطاء موزون" },
-    labelOffset: [0.44, 0.06, 0],
+    labelOffset: [0.48, 0.06, 0],
     showLabel: true,
     connector: true,
   },
   {
     id: "AtomizerNozzle",
     nodeName: "AtomizerNozzle",
-    assembled: { position: [0, 1.04, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.322, 0.57, 0.062], rotation: [0.25, 0.4, 0.18] },
-    stagger: { start: 0.08, end: 0.62 },
+    assembled: { position: [0, 0.98, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.28, 0.62, 0.06], rotation: [0.18, 0.36, 0.12] },
+    stagger: { start: 0.08, end: 0.6 },
     material: "metal",
-    label: { en: "Atomizer", ar: "البخاخ" },
-    labelOffset: [0.4, 0.06, 0],
+    label: { en: "Micro-mist atomizer", ar: "بخاخ الرذاذ الدقيق" },
+    labelOffset: [0.44, 0.05, 0],
     showLabel: true,
     connector: true,
   },
   {
     id: "SprayPump",
     nodeName: "SprayPump",
-    assembled: { position: [0, 0.94, 0], rotation: [0, 0, 0] },
-    exploded: { position: [-0.384, 0.409, 0.087], rotation: [-0.2, -0.3, -0.22] },
-    stagger: { start: 0.14, end: 0.68 },
+    assembled: { position: [0, 0.895, 0], rotation: [0, 0, 0] },
+    exploded: { position: [-0.32, 0.44, 0.08], rotation: [-0.15, -0.28, -0.16] },
+    stagger: { start: 0.14, end: 0.66 },
     material: "darkMetal",
-    label: { en: "Pump", ar: "المضخة" },
-    labelOffset: [-0.46, 0.1, 0],
+    label: { en: "Hermetic pump", ar: "مضخة لا هوائية" },
+    labelOffset: [-0.48, 0.08, 0],
+    showLabel: true,
     connector: true,
   },
   {
     id: "Collar",
     nodeName: "Collar",
-    assembled: { position: [0, 0.84, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.285, 0.211, -0.198], rotation: [0.3, 0.5, 0.1] },
-    stagger: { start: 0.2, end: 0.74 },
+    assembled: { position: [0, 0.812, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.24, 0.25, -0.14], rotation: [0.22, 0.46, 0.08] },
+    stagger: { start: 0.2, end: 0.72 },
     material: "metal",
-    label: { en: "Collar", ar: "الطوق" },
-    labelOffset: [0.44, 0.06, 0],
+    label: { en: "Brushed brass collar", ar: "طوق نحاسي مصقول" },
+    labelOffset: [0.46, 0.04, 0],
+    showLabel: true,
+    connector: true,
   },
   {
     id: "BottleNeck",
     nodeName: "BottleNeck",
-    assembled: { position: [0, 0.71, 0], rotation: [0, 0, 0] },
-    exploded: { position: [-0.298, 0.074, -0.186], rotation: [-0.26, -0.45, -0.12] },
+    assembled: { position: [0, 0.695, 0], rotation: [0, 0, 0] },
+    exploded: { position: [-0.24, 0.1, -0.14], rotation: [-0.18, -0.38, -0.09] },
     stagger: { start: 0.24, end: 0.78 },
     material: "thinGlass",
-    label: { en: "Neck", ar: "العنق" },
+    label: { en: "Fire-polished neck", ar: "عنق زجاجي مصقول" },
     labelOffset: [-0.42, 0.04, 0],
   },
   {
     id: "DipTube",
     nodeName: "DipTube",
-    assembled: { position: [0, 0.1, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.533, 0.062, 0.211], rotation: [0, 0, 0.3] },
+    assembled: { position: [0, 0.08, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.46, 0.06, 0.18], rotation: [0, 0, 0.22] },
     stagger: { start: 0.18, end: 0.8 },
     material: "tube",
-    label: { en: "Dip tube", ar: "أنبوب السحب" },
-    labelOffset: [0.34, 0.5, 0],
+    label: { en: "Capillary tube", ar: "أنبوب السحب الشعري" },
+    labelOffset: [0.36, 0.42, 0],
     connector: true,
   },
   {
     id: "BottleLabel",
     nodeName: "BottleLabel",
-    assembled: { position: [0, -0.16, 0.281], rotation: [0, 0, 0] },
-    exploded: { position: [-0.484, -0.112, 0.31], rotation: [0, -0.5, 0] },
-    stagger: { start: 0.3, end: 0.86 },
+    assembled: { position: [0, -0.06, 0], rotation: [0, 0, 0] },
+    exploded: { position: [-0.36, -0.06, 0.42], rotation: [0, -0.36, 0] },
+    stagger: { start: 0.26, end: 0.84 },
     material: "label",
-    label: { en: "Hand-numbered label", ar: "ملصق مرقّم يدوياً" },
-    labelOffset: [-0.5, -0.2, 0],
+    label: { en: "Hot-foil crest", ar: "وسام مذهّب مرقّم" },
+    labelOffset: [-0.52, -0.1, 0],
+    showLabel: true,
+    connector: true,
   },
   {
     id: "BottleGlass",
     nodeName: "BottleGlass",
     assembled: { position: [0, 0, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.0, -0.186, -0.174], rotation: [0, 0.22, 0] },
+    exploded: { position: [0.0, -0.16, -0.14], rotation: [0, 0.22, 0] },
     stagger: { start: 0.06, end: 0.7 },
     material: "glass",
-    label: { en: "Glass body", ar: "جسم الزجاج" },
-    labelOffset: [0.56, 0.1, 0],
+    label: { en: "Hand-blown crystal", ar: "كريستال منفوخ يدوياً" },
+    labelOffset: [0.58, 0.1, 0],
     showLabel: true,
     connector: true,
   },
   {
     id: "PerfumeLiquid",
-    // Travels with the glass body so it always reads as liquid *inside* it.
     nodeName: "PerfumeLiquid",
-    assembled: { position: [0, -0.1, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.0, -0.186, -0.174], rotation: [0, 0.22, 0] },
+    assembled: { position: [0, -0.04, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.0, -0.2, -0.14], rotation: [0, 0.22, 0] },
     stagger: { start: 0.06, end: 0.7 },
     material: "liquid",
     label: { en: "Extrait 30%", ar: "إكستريه ٣٠٪" },
-    labelOffset: [-0.52, -0.08, 0],
+    labelOffset: [-0.54, -0.08, 0],
     showLabel: true,
   },
   {
     id: "BottleBase",
     nodeName: "BottleBase",
-    assembled: { position: [0, -0.66, 0], rotation: [0, 0, 0] },
-    exploded: { position: [0.0, -0.57, -0.124], rotation: [0, -0.3, 0] },
+    assembled: { position: [0, -0.685, 0], rotation: [0, 0, 0] },
+    exploded: { position: [0.0, -0.54, -0.1], rotation: [0, -0.3, 0] },
     stagger: { start: 0.1, end: 0.72 },
     material: "cap",
-    label: { en: "Weighted base", ar: "القاعدة الموزونة" },
-    labelOffset: [0.6, -0.1, 0],
+    label: { en: "Weighted plinth", ar: "القاعدة الكريستالية الموزونة" },
+    labelOffset: [0.58, -0.08, 0],
+    showLabel: true,
+    connector: true,
   },
 ];
 
@@ -207,25 +221,23 @@ export interface CameraKey {
 }
 
 export const cameraKeys: readonly CameraKey[] = [
-  // target.x offsets the product away from the copy column. It is ignored on
-  // narrow viewports, where the text stacks above/below instead (see CameraRig).
-  { at: 0, position: [0, 0.3, 5.1], target: [-0.3, 0.02, 0], fov: 32 },
-  { at: 0.15, position: [0.2, 0.34, 5.3], target: [-0.28, 0.04, 0], fov: 32 },
-  { at: 0.4, position: [0.95, 0.72, 6.5], target: [0.3, 0.28, 0], fov: 34 },
-  { at: 0.5, position: [0.05, 0.95, 6.75], target: [0.32, 0.3, 0], fov: 34 },
-  { at: 0.6, position: [-1.0, 0.68, 6.5], target: [0.3, 0.28, 0], fov: 34 },
-  { at: 0.85, position: [-0.15, 0.28, 5.15], target: [-0.2, 0.02, 0], fov: 32 },
-  { at: 1, position: [0, 0.06, 4.95], target: [-0.32, 0.0, 0], fov: 30 },
+  { at: 0, position: [0, 0.26, 4.95], target: [-0.3, 0.02, 0], fov: 32 },
+  { at: 0.15, position: [0.22, 0.32, 5.15], target: [-0.28, 0.04, 0], fov: 32 },
+  { at: 0.4, position: [0.88, 0.68, 6.35], target: [0.3, 0.26, 0], fov: 34 },
+  { at: 0.5, position: [0.05, 0.88, 6.55], target: [0.32, 0.28, 0], fov: 34 },
+  { at: 0.6, position: [-0.92, 0.64, 6.35], target: [0.3, 0.26, 0], fov: 34 },
+  { at: 0.85, position: [-0.15, 0.26, 5.0], target: [-0.22, 0.02, 0], fov: 32 },
+  { at: 1, position: [0, 0.08, 4.85], target: [-0.32, 0.0, 0], fov: 30 },
 ];
 
 /** Palette, aligned with the storefront design tokens. */
 export const perfumePalette = {
-  glassTint: "#dfe8e4",
-  liquid: "#c8872e",
-  liquidEmissive: "#7a3d08",
-  metal: "#d8c9a8",
-  darkMetal: "#2a2430",
-  cap: "#17121d",
+  glassTint: "#e7efec",
+  liquid: "#d49035",
+  liquidEmissive: "#7c3f09",
+  metal: "#dfcaa4",
+  darkMetal: "#2b2432",
+  cap: "#16111c",
   label: "#f3efe7",
   background: "#141019",
   accent: "#ddf25c",
@@ -237,21 +249,53 @@ export interface QualityProfile {
   dpr: [number, number];
   transmission: boolean;
   contactShadows: boolean;
+  /** 0 = live every frame (desktop), 1 = baked once at zero ongoing cost (mobile/tablet). */
+  shadowFrames: number;
   connectors: boolean;
   labels: boolean;
-  /** MeshTransmissionMaterial sample count (refraction quality). */
   glassSamples: number;
-  /** Render-target size for the transmission buffer. */
   glassResolution: number;
-  /** Mirror floor beneath the product. */
   reflectiveFloor: boolean;
   segments: number;
 }
 
 export const qualityProfiles: Record<"high" | "medium" | "low", QualityProfile> = {
-  high: { dpr: [1, 1.9], transmission: true, contactShadows: true, connectors: true, labels: true, glassSamples: 6, glassResolution: 512, reflectiveFloor: true, segments: 96 },
-  medium: { dpr: [1, 1.5], transmission: true, contactShadows: true, connectors: true, labels: true, glassSamples: 3, glassResolution: 256, reflectiveFloor: false, segments: 64 },
-  low: { dpr: [1, 1.5], transmission: false, contactShadows: false, connectors: false, labels: false, glassSamples: 0, glassResolution: 128, reflectiveFloor: false, segments: 40 },
+  high: {
+    dpr: [1, 1.95],
+    transmission: true,
+    contactShadows: true,
+    shadowFrames: 0,
+    connectors: true,
+    labels: true,
+    glassSamples: 6,
+    glassResolution: 512,
+    reflectiveFloor: true,
+    segments: 96,
+  },
+  medium: {
+    dpr: [1, 1.65],
+    transmission: true,
+    contactShadows: true,
+    shadowFrames: 1,
+    connectors: true,
+    labels: true,
+    glassSamples: 4,
+    glassResolution: 256,
+    reflectiveFloor: false,
+    segments: 64,
+  },
+  low: {
+    dpr: [1, 1.65],
+    transmission: false,
+    contactShadows: true,
+    shadowFrames: 1,
+    connectors: true,
+    labels: false,
+    glassSamples: 0,
+    glassResolution: 128,
+    reflectiveFloor: false,
+    segments: 56,
+  },
 };
 
 /** Scroll length of the pinned section, per breakpoint. */
@@ -261,14 +305,14 @@ export const scrollLength = {
   mobile: 260,
 } as const;
 
-/** Editorial copy for the experience. */
+/** Editorial copy for the experience (merged with Studio `c.perfume3d`). */
 export const perfumeStory = {
   collection: { en: "The Signature Collection", ar: "مجموعة التوقيع" },
   productSlug: "malika-noir",
   name: { en: "Malika Noir", ar: "مليكة نوار" },
   tagline: {
-    en: "Nine parts. One unforgettable presence.",
-    ar: "تسعة أجزاء. حضورٌ واحد لا يُنسى.",
+    en: "Ten precision elements. One unforgettable presence.",
+    ar: "عشرة أجزاء دقيقة. حضورٌ واحد لا يُنسى.",
   },
   heroLine: {
     en: "Extrait de parfum · 30% concentration",
@@ -277,8 +321,8 @@ export const perfumeStory = {
   craft: {
     title: { en: "Engineered to be opened.", ar: "مصمّمة لتُفتَح." },
     body: {
-      en: "Every Malika bottle is assembled by hand from nine parts: hand-blown glass, a weighted base, a precision pump and a brass collar machined to a tenth of a millimetre. Scroll to take it apart.",
-      ar: "كل زجاجة مليكة تُجمَّع يدوياً من تسعة أجزاء: زجاج منفوخ يدوياً، قاعدة موزونة، مضخة دقيقة، وطوق نحاسي مخرَّط بدقة عُشر المليمتر. مرّر لتفكيكها.",
+      en: "Every Malika bottle is assembled by hand: heavy hand-blown crystal, a weighted plinth, a hermetic pump and a brass collar machined to a tenth of a millimetre. Scroll to take it apart, or drag to rotate.",
+      ar: "كل زجاجة مليكة تُجمَّع يدوياً: كريستال سميك منفوخ يدوياً، قاعدة موزونة، مضخة محكمة وطوق نحاسي مخرَّط بدقة عُشر المليمتر. مرّر لتفكيكها أو اسحب لتدويرها.",
     },
   },
   notes: [

@@ -19,7 +19,14 @@ html[dir="rtl"] .sc-progress {
 
 /* Only the visible bottle floats, so a single animation runs at a time. */
 .sc-float {
-  animation: sc-float 7s ease-in-out infinite;
+  --sc-float-y: -5px;
+  animation: sc-float 6.8s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  .sc-float {
+    --sc-float-y: -9px;
+  }
 }
 
 @keyframes sc-float {
@@ -28,7 +35,7 @@ html[dir="rtl"] .sc-progress {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-9px);
+    transform: translateY(var(--sc-float-y, -7px));
   }
 }
 

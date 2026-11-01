@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import { MeshTransmissionMaterial, useGLTF } from "@react-three/drei";
-import { useEffect, useMemo, useRef, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, type MutableRefObject, type ReactNode } from "react";
 import * as THREE from "three";
 import {
   partsConfig,
@@ -16,56 +16,130 @@ import { explosionFactor, partFactor, stageProgress, subProgress } from "@/utils
 import type { ScrollState } from "@/hooks/usePerfumeScrollAnimation";
 
 /* ------------------------------------------------------------------ *
- * Geometry — a real nine-part flacon. Every part is its own mesh, so
- * the exploded view is genuine geometry separation, not a 2D trick.
+ * Geometry — precision ten-part flacon with inner crystal cavity,
+ * curved oval hot-foil crest, liquid meniscus, and curved capillary.
  * ------------------------------------------------------------------ */
 
 function buildLathe(points: [number, number][], segments: number) {
-  return new THREE.LatheGeometry(
-    points.map(([x, y]) => new THREE.Vector2(x, y)),
+  const geo = new THREE.LatheGeometry(
+    points.map(([x, y]) => new THREE.Vector2(Math.max(0.0001, x), y)),
     segments
   );
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/**
+ * Curved oval plaque that hugs the exact `[1, 1, 0.66]` cross-section of
+ * `BottleGlass` so the label never pokes flat edges out into empty air.
+ */
+function buildCurvedOvalPatch(
+  rx: number,
+  rz: number,
+  arcHalfAngle: number,
+  height: number,
+  segX = 28,
+  segY = 8
+) {
+  const geo = new THREE.PlaneGeometry(1, height, segX, segY);
+  const pos = geo.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const u = pos.getX(i); // -0.5 .. +0.5
+    const y = pos.getY(i);
+    const theta = u * 2 * arcHalfAngle;
+    pos.setXYZ(i, rx * Math.sin(theta), y, rz * Math.cos(theta));
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  return geo;
 }
 
 function createLabelTexture(): THREE.CanvasTexture {
-  const size = 512;
+  const width = 512;
+  const height = 640;
   const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
+  canvas.width = width;
+  canvas.height = height;
   const ctx = canvas.getContext("2d");
 
   if (ctx) {
-    ctx.fillStyle = "#15111b";
-    ctx.fillRect(0, 0, size, size);
+    // Rich obsidian cotton paper ground with subtle vignette
+    const bg = ctx.createLinearGradient(0, 0, 0, height);
+    bg.addColorStop(0, "#1a1423");
+    bg.addColorStop(0.5, "#130f1a");
+    bg.addColorStop(1, "#0d0a12");
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, width, height);
 
-    ctx.strokeStyle = "rgba(216, 201, 168, 0.55)";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(30, 30, size - 60, size - 60);
+    // Double hot-foil champagne gold frame
+    ctx.strokeStyle = "#dfcaa4";
+    ctx.lineWidth = 4.5;
+    ctx.strokeRect(22, 22, width - 44, height - 44);
+
+    ctx.strokeStyle = "rgba(216, 201, 168, 0.42)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(36, 36, width - 72, height - 72);
+
+    // Diamond emblem at top
+    ctx.save();
+    ctx.translate(width / 2, 108);
+    ctx.rotate(Math.PI / 4);
+    ctx.strokeStyle = "#dfcaa4";
+    ctx.lineWidth = 2.2;
+    ctx.strokeRect(-13, -13, 26, 26);
+    ctx.fillStyle = "#ddf25c";
+    ctx.fillRect(-4, -4, 8, 8);
+    ctx.restore();
 
     ctx.textAlign = "center";
-    ctx.fillStyle = "#d8c9a8";
 
-    ctx.font = "600 40px 'Manrope', system-ui, sans-serif";
-    ctx.letterSpacing = "16px";
-    ctx.fillText("MALIKA", size / 2 + 8, 200);
+    ctx.fillStyle = "rgba(223, 202, 164, 0.68)";
+    ctx.font = "600 17px 'Manrope', system-ui, sans-serif";
+    ctx.fillText("MAISON DE PARFUM · CAIRO", width / 2, 174);
 
-    ctx.font = "italic 88px 'Instrument Serif', Georgia, serif";
+    ctx.fillStyle = "#f3efe7";
+    ctx.font = "600 48px 'Manrope', system-ui, sans-serif";
+    ctx.letterSpacing = "14px";
+    ctx.fillText("MALIKA", width / 2 + 7, 258);
+
+    // Thin gold rule
+    ctx.strokeStyle = "rgba(223, 202, 164, 0.55)";
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(156, 294);
+    ctx.lineTo(width - 156, 294);
+    ctx.stroke();
+
+    ctx.fillStyle = "#dfcaa4";
+    ctx.font = "italic 92px 'Instrument Serif', Georgia, serif";
     ctx.letterSpacing = "0px";
-    ctx.fillText("Noir", size / 2, 306);
+    ctx.fillText("Noir", width / 2, 392);
 
-    ctx.fillStyle = "rgba(216, 201, 168, 0.6)";
-    ctx.font = "500 26px 'Manrope', system-ui, sans-serif";
-    ctx.letterSpacing = "7px";
-    ctx.fillText("EXTRAIT 30%  ·  50 ML", size / 2 + 4, 372);
+    ctx.fillStyle = "rgba(243, 239, 231, 0.72)";
+    ctx.font = "600 22px 'Manrope', system-ui, sans-serif";
+    ctx.letterSpacing = "6px";
+    ctx.fillText("EXTRAIT DE PARFUM", width / 2 + 3, 474);
+
+    ctx.fillStyle = "rgba(223, 202, 164, 0.65)";
+    ctx.font = "500 20px 'Manrope', system-ui, sans-serif";
+    ctx.letterSpacing = "5px";
+    ctx.fillText("30% OIL  ·  50 ML", width / 2 + 2, 522);
+
+    ctx.fillStyle = "rgba(221, 242, 92, 0.75)";
+    ctx.font = "600 16px ui-monospace, monospace";
+    ctx.letterSpacing = "3px";
+    ctx.fillText("BATCH N° 014 / 250", width / 2 + 1, 574);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = 8;
+  texture.needsUpdate = true;
   return texture;
 }
 
-type GeometryKey = PartId | "BottleCavity";
+type ExtraGeometryKey = "BottleCavity" | "LiquidMeniscus" | "LabelGoldRim";
+type GeometryKey = PartId | ExtraGeometryKey;
 
 interface GeometrySet {
   geometries: Partial<Record<GeometryKey, THREE.BufferGeometry>>;
@@ -76,103 +150,134 @@ function useProceduralGeometry(quality: QualityProfile): GeometrySet {
   const set = useMemo<GeometrySet>(() => {
     const radial = quality.segments;
 
-    // Shouldered flacon profile. Extra points around every edge create real
-    // chamfers — the narrow bevels are what catch studio highlights and make
-    // glass read as thick rather than as a thin shell.
+    // Shouldered flacon profile with crisp light-catching chamfers.
     const bodyProfile: [number, number][] = [
       [0.001, -0.6],
-      [0.3, -0.6],
-      [0.372, -0.598],
-      [0.404, -0.578],
-      [0.417, -0.548],
-      [0.42, -0.5],
-      [0.42, 0.236],
-      [0.417, 0.3],
-      [0.405, 0.372],
-      [0.378, 0.436],
-      [0.33, 0.49],
-      [0.262, 0.536],
-      [0.2, 0.566],
-      [0.166, 0.586],
-      [0.152, 0.6],
-      [0.148, 0.606],
+      [0.31, -0.6],
+      [0.376, -0.596],
+      [0.408, -0.576],
+      [0.419, -0.544],
+      [0.422, -0.49],
+      [0.422, 0.25],
+      [0.418, 0.315],
+      [0.405, 0.385],
+      [0.376, 0.448],
+      [0.326, 0.5],
+      [0.258, 0.544],
+      [0.196, 0.572],
+      [0.164, 0.59],
+      [0.151, 0.602],
+      [0.148, 0.608],
     ];
 
-    // Inner wall, offset ~22 mm — gives the transmission shader a real
-    // thickness to refract through instead of a single surface.
+    // Inner crystal cavity — leaves heavy optical punt at bottom and thick walls.
     const cavityProfile: [number, number][] = [
-      [0.001, -0.52],
-      [0.3, -0.52],
-      [0.355, -0.515],
-      [0.382, -0.495],
-      [0.39, -0.46],
-      [0.39, 0.23],
-      [0.384, 0.3],
-      [0.36, 0.38],
-      [0.312, 0.448],
-      [0.24, 0.5],
-      [0.166, 0.54],
-      [0.13, 0.56],
-      [0.126, 0.6],
+      [0.001, -0.495],
+      [0.295, -0.495],
+      [0.352, -0.488],
+      [0.376, -0.466],
+      [0.384, -0.43],
+      [0.384, 0.24],
+      [0.378, 0.31],
+      [0.352, 0.388],
+      [0.304, 0.452],
+      [0.232, 0.502],
+      [0.158, 0.542],
+      [0.128, 0.57],
+      [0.001, 0.575],
     ];
 
+    // Rich amber extrait filling ~72% of the inner chamber.
     const liquidProfile: [number, number][] = [
-      [0.001, -0.505],
-      [0.3, -0.505],
-      [0.356, -0.5],
-      [0.383, -0.48],
-      [0.388, -0.45],
-      [0.388, -0.02],
-      [0.386, 0.03],
-      [0.384, 0.055],
-      [0.001, 0.06],
+      [0.001, -0.482],
+      [0.292, -0.482],
+      [0.348, -0.474],
+      [0.372, -0.452],
+      [0.378, -0.415],
+      [0.378, 0.14],
+      [0.375, 0.172],
+      [0.369, 0.186],
+      [0.001, 0.188],
     ];
 
-    const basePofile: [number, number][] = [
-      [0.001, -0.1],
-      [0.36, -0.1],
-      [0.406, -0.092],
-      [0.428, -0.068],
-      [0.433, -0.03],
-      [0.433, 0.04],
-      [0.424, 0.072],
-      [0.4, 0.09],
-      [0.001, 0.09],
+    // Weighted optical plinth cradling the bottom of the crystal body.
+    const baseProfile: [number, number][] = [
+      [0.001, -0.095],
+      [0.362, -0.095],
+      [0.408, -0.086],
+      [0.428, -0.062],
+      [0.432, -0.02],
+      [0.43, 0.042],
+      [0.418, 0.068],
+      [0.388, 0.078],
+      [0.001, 0.062],
     ];
 
+    // Weighted obsidian lacquer cap — seats flush onto `Collar` when assembled.
     const capProfile: [number, number][] = [
-      [0.001, -0.205],
-      [0.19, -0.205],
-      [0.222, -0.198],
-      [0.236, -0.178],
-      [0.239, -0.15],
-      [0.239, 0.118],
-      [0.234, 0.162],
-      [0.219, 0.198],
-      [0.188, 0.224],
-      [0.13, 0.238],
-      [0.001, 0.24],
+      [0.188, -0.205],
+      [0.222, -0.2],
+      [0.236, -0.18],
+      [0.24, -0.15],
+      [0.24, 0.122],
+      [0.235, 0.166],
+      [0.22, 0.202],
+      [0.188, 0.226],
+      [0.132, 0.239],
+      [0.001, 0.242],
     ];
+
+    // Subtly curved capillary tube reaching into the bottom corner of the flacon.
+    const dipCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0.58, 0),
+      new THREE.Vector3(0.012, 0.18, 0.008),
+      new THREE.Vector3(0.045, -0.2, 0.02),
+      new THREE.Vector3(0.11, -0.54, 0.042),
+    ]);
 
     const geometries: Partial<Record<GeometryKey, THREE.BufferGeometry>> = {
       BottleGlass: buildLathe(bodyProfile, radial),
-      // Rendered as a back-face shell inside the body (see renderPart).
-      BottleCavity: buildLathe(cavityProfile, radial),
-      PerfumeLiquid: buildLathe(liquidProfile, Math.max(16, radial - 12)),
-      BottleBase: buildLathe(basePofile, radial),
+      BottleCavity: buildLathe(cavityProfile, Math.max(36, Math.round(radial * 0.8))),
+      PerfumeLiquid: buildLathe(liquidProfile, Math.max(32, Math.round(radial * 0.78))),
+      LiquidMeniscus: new THREE.CircleGeometry(0.371, Math.max(32, Math.round(radial * 0.7))),
+      BottleBase: buildLathe(baseProfile, radial),
       BottleCap: buildLathe(capProfile, radial),
-      BottleNeck: new THREE.CylinderGeometry(0.142, 0.152, 0.2, Math.max(16, radial / 2), 1),
-      Collar: new THREE.CylinderGeometry(0.172, 0.172, 0.078, Math.max(20, radial / 2), 1),
-      SprayPump: new THREE.CylinderGeometry(0.112, 0.126, 0.135, Math.max(16, radial / 2), 1),
-      AtomizerNozzle: new THREE.CylinderGeometry(0.082, 0.098, 0.1, Math.max(14, radial / 3), 1),
-      DipTube: new THREE.CylinderGeometry(0.013, 0.013, 1.08, 8, 1, true),
-      BottleLabel: new THREE.PlaneGeometry(0.235, 0.3),
+      BottleNeck: new THREE.CylinderGeometry(
+        0.138,
+        0.148,
+        0.185,
+        Math.max(24, Math.round(radial * 0.6)),
+        1
+      ),
+      Collar: new THREE.CylinderGeometry(
+        0.176,
+        0.182,
+        0.084,
+        Math.max(28, Math.round(radial * 0.65)),
+        1
+      ),
+      SprayPump: new THREE.CylinderGeometry(
+        0.106,
+        0.12,
+        0.118,
+        Math.max(22, Math.round(radial * 0.5)),
+        1
+      ),
+      AtomizerNozzle: new THREE.CylinderGeometry(
+        0.082,
+        0.094,
+        0.092,
+        Math.max(22, Math.round(radial * 0.5)),
+        1
+      ),
+      DipTube: new THREE.TubeGeometry(dipCurve, 28, 0.011, 10, false),
+      BottleLabel: buildCurvedOvalPatch(0.4265, 0.4265 * 0.662, 0.305, 0.34, 28, 8),
+      LabelGoldRim: buildCurvedOvalPatch(0.4242, 0.4242 * 0.662, 0.316, 0.354, 28, 6),
     };
 
     return { geometries, labelTexture: createLabelTexture() };
   }, [quality.segments]);
 
-  // Manual disposal: these are created outside the R3F declarative tree.
   useEffect(() => {
     const current = set;
     return () => {
@@ -202,39 +307,39 @@ function PartMaterial({
   switch (kind) {
     case "glass":
       return useTransmission ? (
-        /* Real-time refraction with chromatic aberration — the single biggest
-           realism win over meshPhysicalMaterial for thick studio glass. */
         <MeshTransmissionMaterial
+          backside
+          backsideThickness={0.22}
           samples={quality.glassSamples}
           resolution={quality.glassResolution}
-          transmission={1}
-          thickness={0.45}
-          roughness={0.03}
-          ior={1.52}
-          chromaticAberration={0.03}
+          transmission={0.98}
+          thickness={0.52}
+          roughness={0.032}
+          ior={1.53}
+          chromaticAberration={0.026}
           anisotropicBlur={0.08}
-          distortion={0.04}
-          distortionScale={0.12}
+          distortion={0.035}
+          distortionScale={0.14}
           temporalDistortion={0}
           clearcoat={1}
           clearcoatRoughness={0.03}
-          attenuationColor="#d8e6e2"
-          attenuationDistance={3.4}
+          attenuationColor="#e8efe9"
+          attenuationDistance={3.2}
           color="#ffffff"
-          background={new THREE.Color("#171221")}
+          background={new THREE.Color("#161120")}
         />
       ) : (
         <meshPhysicalMaterial
-          color="#cfe0db"
-          roughness={0.05}
-          metalness={0}
+          color="#eef3f0"
+          roughness={0.04}
+          metalness={0.04}
           clearcoat={1}
-          clearcoatRoughness={0.04}
-          ior={1.5}
-          reflectivity={0.6}
+          clearcoatRoughness={0.03}
+          ior={1.52}
+          reflectivity={1}
           transparent
-          opacity={0.3}
-          envMapIntensity={2.1}
+          opacity={0.34}
+          envMapIntensity={2.6}
           depthWrite={false}
         />
       );
@@ -242,17 +347,17 @@ function PartMaterial({
     case "thinGlass":
       return (
         <meshPhysicalMaterial
-          color="#e4ece8"
-          transmission={useTransmission ? 0.94 : 0}
+          color="#eaeff0"
+          transmission={useTransmission ? 0.92 : 0}
           thickness={0.2}
-          roughness={0.06}
-          ior={1.5}
-          metalness={0}
+          roughness={0.055}
+          ior={1.52}
+          metalness={0.03}
           clearcoat={1}
           clearcoatRoughness={0.04}
-          envMapIntensity={1.6}
+          envMapIntensity={1.9}
           transparent
-          opacity={useTransmission ? 1 : 0.55}
+          opacity={useTransmission ? 1 : 0.58}
           depthWrite={false}
         />
       );
@@ -260,29 +365,33 @@ function PartMaterial({
     case "liquid":
       return useTransmission ? (
         <meshPhysicalMaterial
-          color="#a8631b"
-          transmission={0.55}
-          thickness={1.1}
-          roughness={0.14}
-          ior={1.38}
-          metalness={0}
-          attenuationColor="#8a4a0d"
-          attenuationDistance={1.6}
+          color="#bf7722"
+          transmission={0.52}
+          thickness={1.05}
+          roughness={0.09}
+          ior={1.39}
+          metalness={0.02}
+          attenuationColor="#8f4c0c"
+          attenuationDistance={1.5}
           emissive={perfumePalette.liquidEmissive}
-          emissiveIntensity={0.22}
-          envMapIntensity={1.1}
+          emissiveIntensity={0.28}
+          envMapIntensity={1.5}
           transparent
         />
       ) : (
         <meshPhysicalMaterial
-          color="#c07b23"
-          roughness={0.16}
-          metalness={0.05}
-          clearcoat={0.8}
-          clearcoatRoughness={0.2}
+          color="#cf862c"
+          roughness={0.08}
+          metalness={0.06}
+          clearcoat={0.95}
+          clearcoatRoughness={0.08}
+          ior={1.39}
+          reflectivity={0.92}
           emissive={perfumePalette.liquidEmissive}
-          emissiveIntensity={0.3}
-          envMapIntensity={1.4}
+          emissiveIntensity={0.34}
+          envMapIntensity={2.0}
+          transparent
+          opacity={0.88}
         />
       );
 
@@ -291,8 +400,8 @@ function PartMaterial({
         <meshStandardMaterial
           color={perfumePalette.metal}
           metalness={1}
-          roughness={0.19}
-          envMapIntensity={1.6}
+          roughness={0.17}
+          envMapIntensity={2.0}
         />
       );
 
@@ -301,8 +410,8 @@ function PartMaterial({
         <meshStandardMaterial
           color={perfumePalette.darkMetal}
           metalness={0.95}
-          roughness={0.34}
-          envMapIntensity={1.2}
+          roughness={0.28}
+          envMapIntensity={1.5}
         />
       );
 
@@ -310,23 +419,25 @@ function PartMaterial({
       return (
         <meshPhysicalMaterial
           color={perfumePalette.cap}
-          metalness={0.55}
-          roughness={0.22}
+          metalness={0.45}
+          roughness={0.16}
           clearcoat={1}
-          clearcoatRoughness={0.12}
-          envMapIntensity={1.35}
+          clearcoatRoughness={0.07}
+          reflectivity={1}
+          envMapIntensity={1.85}
         />
       );
 
     case "tube":
       return (
-        <meshStandardMaterial
-          color="#6b6560"
-          metalness={0.2}
-          roughness={0.55}
+        <meshPhysicalMaterial
+          color="#e2ddd4"
+          metalness={0.06}
+          roughness={0.14}
+          clearcoat={0.8}
           transparent
-          opacity={0.32}
-          side={THREE.DoubleSide}
+          opacity={0.42}
+          depthWrite={false}
         />
       );
 
@@ -335,9 +446,11 @@ function PartMaterial({
       return (
         <meshStandardMaterial
           map={labelTexture}
-          roughness={0.55}
-          metalness={0.12}
+          roughness={0.46}
+          metalness={0.14}
           side={THREE.FrontSide}
+          polygonOffset
+          polygonOffsetFactor={-2}
           toneMapped
         />
       );
@@ -369,14 +482,16 @@ interface ModelProps {
   quality: QualityProfile;
   /** Published per-part world positions, consumed by labels/connectors. */
   anchorsRef: React.RefObject<Record<string, THREE.Vector3>>;
+  /** Interactive horizontal spin offset (radians) controlled by pointer drag. */
+  userYawRef?: MutableRefObject<{ target: number; current: number }>;
 }
 
-export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps) {
+export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }: ModelProps) {
   const groupRef = useRef<THREE.Group>(null);
+  const meniscusRef = useRef<THREE.Mesh>(null);
   const partRefs = useRef<Partial<Record<PartId, THREE.Group>>>({});
   const { geometries, labelTexture } = useProceduralGeometry(quality);
 
-  // Pre-allocated scratch values — nothing is created inside the frame loop.
   const scratch = useMemo(
     () => ({
       position: [0, 0, 0] as [number, number, number],
@@ -387,6 +502,7 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
 
   useFrame((frameState, delta) => {
     const progress = stateRef.current?.progress ?? 0;
+    const velocity = stateRef.current?.velocity ?? 0;
     const group = groupRef.current;
     if (!group) return;
 
@@ -395,12 +511,31 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
     const hero = stageProgress(progress, "heroReveal");
     const settle = subProgress(progress, stages.reassembly[1], 1);
 
-    // Idle presentation motion: a slow turn plus a gentle float. It eases out
-    // while exploded so the technical read stays stable and legible.
-    const calm = 1 - rig;
-    group.rotation.y = Math.sin(time * 0.18) * 0.16 * calm + rig * 0.35 + progress * 0.4;
-    group.position.y = Math.sin(time * 0.52) * 0.035 * calm;
-    group.rotation.z = Math.sin(time * 0.32) * 0.012 * calm;
+    // Smoothly damp interactive user pointer spin
+    let extraYaw = 0;
+    if (userYawRef) {
+      userYawRef.current.current +=
+        (userYawRef.current.target - userYawRef.current.current) * Math.min(1, delta * 9);
+      extraYaw = userYawRef.current.current;
+    }
+
+    // Subtle liquid meniscus slosh driven by scroll velocity
+    if (meniscusRef.current) {
+      const slosh = THREE.MathUtils.clamp((velocity / 2800) * 0.08, -0.07, 0.07);
+      meniscusRef.current.rotation.z +=
+        (slosh - meniscusRef.current.rotation.z) * Math.min(1, delta * 6);
+    }
+
+    // Idle presentation motion + scroll choreography + user spin
+    const calm = 1 - rig * 0.65;
+    const desiredRotY =
+      Math.sin(time * 0.22) * 0.14 * calm + rig * 0.34 + progress * 0.42 + extraYaw;
+    const desiredPosY = Math.sin(time * 0.56) * 0.03 * calm;
+    const desiredRotZ = Math.sin(time * 0.34) * 0.011 * calm;
+
+    group.rotation.y += (desiredRotY - group.rotation.y) * Math.min(1, delta * 10);
+    group.position.y += (desiredPosY - group.position.y) * Math.min(1, delta * 10);
+    group.rotation.z += (desiredRotZ - group.rotation.z) * Math.min(1, delta * 10);
 
     const scale = 1 + hero * 0.02 + settle * 0.03;
     group.scale.setScalar(scale);
@@ -416,12 +551,10 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
       scratch.position[1] = assembled.position[1] + exploded.position[1] * amount;
       scratch.position[2] = assembled.position[2] + exploded.position[2] * amount;
 
-      // Parts drift very slightly while suspended — never enough to break
-      // the exploded alignment, just enough to feel alive.
       if (amount > 0.01) {
         const phase = part.stagger.start * 10;
-        scratch.position[1] += Math.sin(time * 0.6 + phase) * 0.012 * amount;
-        scratch.position[0] += Math.cos(time * 0.45 + phase) * 0.008 * amount;
+        scratch.position[1] += Math.sin(time * 0.6 + phase) * 0.011 * amount;
+        scratch.position[0] += Math.cos(time * 0.45 + phase) * 0.007 * amount;
       }
 
       node.position.set(scratch.position[0], scratch.position[1], scratch.position[2]);
@@ -435,7 +568,7 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
         const anchor = anchorsRef.current[part.id];
         if (anchor) {
           node.getWorldPosition(scratch.world);
-          anchor.lerp(scratch.world, Math.min(1, delta * 14));
+          anchor.lerp(scratch.world, Math.min(1, delta * 16));
         }
       }
     }
@@ -445,9 +578,27 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
     const geometry = geometries[part.id];
     if (!geometry) return null;
 
-    // The oval cross-section of the flacon: body, liquid and base share it.
-    const ovalise = part.id === "BottleGlass" || part.id === "PerfumeLiquid" || part.id === "BottleBase";
-    const isLabel = part.id === "BottleLabel";
+    const ovalise =
+      part.id === "BottleGlass" || part.id === "PerfumeLiquid" || part.id === "BottleBase";
+    const isDirectWorldScale = part.id === "BottleLabel" || part.id === "DipTube";
+    const meshScale: [number, number, number] = ovalise
+      ? [1, 1, 0.66]
+      : isDirectWorldScale
+        ? [1, 1, 1]
+        : [1, 1, 0.78];
+
+    const renderOrder =
+      part.id === "PerfumeLiquid"
+        ? 1
+        : part.id === "DipTube"
+          ? 2
+          : part.id === "BottleNeck"
+            ? 3
+            : part.id === "BottleGlass"
+              ? 4
+              : part.id === "BottleLabel"
+                ? 6
+                : 0;
 
     return (
       <group
@@ -458,46 +609,155 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef }: ModelProps
         }}
         position={part.assembled.position as unknown as [number, number, number]}
       >
+        {/* Inner crystal cavity wall inside BottleGlass */}
+        {part.id === "BottleGlass" && geometries.BottleCavity && (
+          <mesh geometry={geometries.BottleCavity} scale={[1, 1, 0.66]} renderOrder={3}>
+            <meshPhysicalMaterial
+              color="#d8e4df"
+              roughness={0.07}
+              metalness={0.02}
+              ior={1.52}
+              reflectivity={0.85}
+              envMapIntensity={1.6}
+              transparent
+              opacity={quality.transmission ? 0.2 : 0.22}
+              side={THREE.BackSide}
+              depthWrite={false}
+            />
+          </mesh>
+        )}
+
+        {/* Gold foil backing frame behind the curved label */}
+        {part.id === "BottleLabel" && geometries.LabelGoldRim && (
+          <mesh geometry={geometries.LabelGoldRim} renderOrder={5}>
+            <meshStandardMaterial
+              color={perfumePalette.metal}
+              metalness={0.96}
+              roughness={0.22}
+              envMapIntensity={1.9}
+            />
+          </mesh>
+        )}
+
         <mesh
           geometry={geometry}
-          scale={ovalise ? [1, 1, 0.66] : isLabel ? [1, 1, 1] : [1, 1, 0.78]}
+          scale={meshScale}
           castShadow={part.material !== "glass" && part.material !== "liquid"}
           receiveShadow={false}
-          renderOrder={part.material === "glass" ? 2 : part.material === "liquid" ? 1 : 0}
+          renderOrder={renderOrder}
         >
           <PartMaterial kind={part.material} quality={quality} labelTexture={labelTexture} />
         </mesh>
 
-        {/* A machined knurl ring on the collar reads as real hardware. */}
+        {/* Luminous top meniscus surface on PerfumeLiquid */}
+        {part.id === "PerfumeLiquid" && geometries.LiquidMeniscus && (
+          <mesh
+            ref={meniscusRef}
+            geometry={geometries.LiquidMeniscus}
+            position={[0, 0.186, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+            scale={[1, 0.66, 1]}
+            renderOrder={2}
+          >
+            <meshPhysicalMaterial
+              color="#f2ba68"
+              emissive={perfumePalette.liquidEmissive}
+              emissiveIntensity={0.38}
+              roughness={0.04}
+              metalness={0.08}
+              clearcoat={1}
+              envMapIntensity={2.3}
+              transparent
+              opacity={0.9}
+            />
+          </mesh>
+        )}
+
+        {/* Brushed gold trim ring cradling BottleBase */}
+        {part.id === "BottleBase" && (
+          <mesh position={[0, -0.058, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.66, 1]}>
+            <torusGeometry args={[0.422, 0.0085, 10, Math.max(28, quality.segments / 2)]} />
+            <meshStandardMaterial
+              color={perfumePalette.metal}
+              metalness={1}
+              roughness={0.18}
+              envMapIntensity={2.0}
+            />
+          </mesh>
+        )}
+
+        {/* Machined knurl rings on Collar */}
         {part.id === "Collar" && (
-          <mesh position={[0, 0.045, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
-            <torusGeometry args={[0.158, 0.009, 8, Math.max(24, quality.segments / 2)]} />
-            <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.3} />
-          </mesh>
+          <>
+            {[-0.022, 0.004, 0.03].map((ry) => (
+              <mesh
+                key={ry}
+                position={[0, ry, 0]}
+                rotation={[Math.PI / 2, 0, 0]}
+                scale={[1, 0.78, 1]}
+              >
+                <torusGeometry args={[0.181, 0.0055, 8, Math.max(24, quality.segments / 2)]} />
+                <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.2} />
+              </mesh>
+            ))}
+          </>
         )}
+
+        {/* Glass threads on BottleNeck */}
+        {part.id === "BottleNeck" && (
+          <>
+            {[-0.015, 0.03].map((ry) => (
+              <mesh
+                key={ry}
+                position={[0, ry, 0]}
+                rotation={[Math.PI / 2, 0, 0]}
+                scale={[1, 0.78, 1]}
+                renderOrder={3}
+              >
+                <torusGeometry args={[0.144, 0.006, 8, Math.max(24, quality.segments / 2)]} />
+                <PartMaterial kind="thinGlass" quality={quality} labelTexture={labelTexture} />
+              </mesh>
+            ))}
+          </>
+        )}
+
+        {/* Recessed dark micro-mist orifice on AtomizerNozzle */}
         {part.id === "AtomizerNozzle" && (
-          <mesh position={[0, 0.052, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
-            <cylinderGeometry args={[0.016, 0.016, 0.03, 10]} />
-            <meshStandardMaterial color="#0d0a12" metalness={0.8} roughness={0.5} />
+          <mesh position={[0, 0.014, 0.068]} rotation={[Math.PI / 2, 0, 0]}>
+            <cylinderGeometry args={[0.016, 0.016, 0.028, 14]} />
+            <meshStandardMaterial color="#0d0a12" metalness={0.85} roughness={0.35} />
           </mesh>
         )}
+
+        {/* Gold base band & brushed crown medallion on BottleCap */}
         {part.id === "BottleCap" && (
           <>
-            <mesh position={[0, -0.192, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
-              <torusGeometry args={[0.231, 0.011, 10, Math.max(28, quality.segments / 2)]} />
-              <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.18} />
+            <mesh position={[0, -0.194, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
+              <torusGeometry args={[0.228, 0.01, 10, Math.max(28, quality.segments / 2)]} />
+              <meshStandardMaterial
+                color={perfumePalette.metal}
+                metalness={1}
+                roughness={0.16}
+                envMapIntensity={2.1}
+              />
             </mesh>
-            {/* Brushed inlay disc on the crown. */}
-            <mesh position={[0, 0.241, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
-              <circleGeometry args={[0.125, Math.max(24, quality.segments / 2)]} />
-              <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.32} />
+            <mesh position={[0, 0.243, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
+              <circleGeometry args={[0.128, Math.max(28, quality.segments / 2)]} />
+              <meshStandardMaterial
+                color={perfumePalette.metal}
+                metalness={1}
+                roughness={0.24}
+                envMapIntensity={2.0}
+              />
             </mesh>
           </>
         )}
+
+        {/* Precision gold crimp ring on SprayPump */}
         {part.id === "SprayPump" && (
-          <mesh position={[0, 0.072, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
-            <torusGeometry args={[0.104, 0.008, 8, Math.max(20, quality.segments / 3)]} />
-            <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.26} />
+          <mesh position={[0, 0.056, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.78, 1]}>
+            <torusGeometry args={[0.106, 0.0075, 8, Math.max(20, quality.segments / 3)]} />
+            <meshStandardMaterial color={perfumePalette.metal} metalness={1} roughness={0.22} />
           </mesh>
         )}
       </group>
