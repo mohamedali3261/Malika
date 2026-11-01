@@ -265,3 +265,29 @@ export const Box = (p: IconProps) => (
     <path d="m4 7.5 8 4.5 8-4.5M12 12v9" />
   </Base>
 );
+export const ArrowUp = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 20V4M6 10l6-6 6 6" />
+  </Base>
+);
+export const GridEditorial = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3.5" y="4" width="7" height="7" rx="1.5" />
+    <rect x="13.5" y="4" width="7" height="7" rx="1.5" />
+    <rect x="3.5" y="13" width="7" height="7" rx="1.5" />
+    <rect x="13.5" y="13" width="7" height="7" rx="1.5" />
+  </Base>
+);
+export const GridCompact = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="4" width="4.5" height="4.5" rx="1" />
+    <rect x="9.75" y="4" width="4.5" height="4.5" rx="1" />
+    <rect x="16.5" y="4" width="4.5" height="4.5" rx="1" />
+    <rect x="3" y="10.25" width="4.5" height="4.5" rx="1" />
+    <rect x="9.75" y="10.25" width="4.5" height="4.5" rx="1" />
+    <rect x="16.5" y="10.25" width="4.5" height="4.5" rx="1" />
+    <rect x="3" y="16.5" width="4.5" height="3.5" rx="1" />
+    <rect x="9.75" y="16.5" width="4.5" height="3.5" rx="1" />
+    <rect x="16.5" y="16.5" width="4.5" height="3.5" rx="1" />
+  </Base>
+);

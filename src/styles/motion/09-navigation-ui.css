@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Motion Module 09 · Navigation, Drawers, Modals & Micro-UI (161–180)
+   ========================================================================== */
+
+/* Opacity-only page transition — never sets transform so GSAP ScrollTrigger
+   position:fixed pinned sections work without creating a containing block. */
+@keyframes m-kf-page-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes m-kf-drawer-in-ltr {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes m-kf-drawer-in-rtl {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes m-kf-sheet-up-mobile {
+  from { opacity: 0; transform: translate3d(0, 36px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-modal-zoom-in {
+  from { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.965); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-backdrop-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes m-kf-toast-slide-up {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.96); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-nav-pill-morph {
+  from { opacity: 0.6; transform: scale(0.94); }
+  to   { opacity: 1;   transform: scale(1); }
+}
+@keyframes m-kf-nav-drop-bar {
+  from { opacity: 0; transform: translate3d(0, -12px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-tabbar-icon-pop {
+  0%   { transform: scale(0.86); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+@keyframes m-kf-accordion-down {
+  from { opacity: 0; transform: translate3d(0, -6px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-filter-panel-expand {
+  from { opacity: 0; transform: translate3d(0, -8px, 0) scaleY(0.96); transform-origin: top; }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scaleY(1);       transform-origin: top; }
+}
+@keyframes m-kf-search-focus-glow {
+  from { box-shadow: 0 0 0 0 rgba(201, 181, 247, 0); }
+  to   { box-shadow: 0 0 0 4px rgba(201, 181, 247, 0.3); }
+}
+@keyframes m-kf-whatsapp-float-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.9); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-scroll-progress-glow {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.22); }
+}
+@keyframes m-kf-marquee-ltr {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes m-kf-marquee-rtl {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@keyframes m-kf-step-dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 32, 63, 0.35); }
+  60%      { box-shadow: 0 0 0 7px rgba(52, 32, 63, 0); }
+}
+@keyframes m-kf-tooltip-pop {
+  from { opacity: 0; transform: translate3d(0, 4px, 0) scale(0.94); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-arrow-launch {
+  0%   { transform: translate3d(0, 0, 0); }
+  45%  { transform: translate3d(3px, -3px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* 161 */ .m-page-fade, .anim-page       { animation: m-kf-page-fade 0.45s var(--m-ease-silk) both; }
+/* 162 */ .m-drawer-in-ltr, .drawer-panel { animation: m-kf-drawer-in-ltr 0.42s var(--m-ease-silk) both; }
+/* 163 */ .m-drawer-in-rtl               { animation: m-kf-drawer-in-rtl 0.42s var(--m-ease-silk) both; }
+html[dir="rtl"] .drawer-panel            { animation-name: m-kf-drawer-in-rtl; }
+/* 164 */ .m-sheet-up-mobile             { animation: m-kf-sheet-up-mobile 0.4s var(--m-ease-expo) both; }
+/* 165 */ .m-modal-zoom-in, .anim-pop    { animation: m-kf-modal-zoom-in 0.38s var(--m-ease-silk) both; }
+/* 166 */ .m-backdrop-fade, .anim-fade   { animation: m-kf-backdrop-fade 0.32s ease both; }
+/* 167 */ .m-toast-slide-up, .anim-toast { animation: m-kf-toast-slide-up 0.34s var(--m-ease-silk) both; }
+/* 168 */ .m-nav-pill-morph              { animation: m-kf-nav-pill-morph 0.28s var(--m-ease-silk) both; }
+/* 169 */ .m-nav-drop-bar                { animation: m-kf-nav-drop-bar 0.45s var(--m-ease-expo) both; }
+/* 170 */ .m-tabbar-icon-pop             { animation: m-kf-tabbar-icon-pop 0.3s var(--m-ease-silk) both; }
+/* 171 */ .m-accordion-down              { animation: m-kf-accordion-down 0.28s var(--m-ease-silk) both; }
+/* 172 */ .m-filter-panel-expand         { animation: m-kf-filter-panel-expand 0.32s var(--m-ease-expo) both; }
+/* 173 */ .m-search-focus-glow           { animation: m-kf-search-focus-glow 0.3s ease both; }
+/* 174 */ .m-whatsapp-float-in           { animation: m-kf-whatsapp-float-in 0.55s var(--m-ease-expo) 0.25s both; }
+/* 175 */ .m-scroll-progress-glow        { animation: m-kf-scroll-progress-glow 3.5s ease-in-out infinite; }
+/* 176 */ .m-marquee-ltr, .marquee       { display: flex; width: max-content; animation: m-kf-marquee-ltr 34s linear infinite; }
+/* 177 */ .m-marquee-rtl                 { display: flex; width: max-content; animation: m-kf-marquee-rtl 34s linear infinite; }
+.marquee-slow                            { animation-duration: 52s; }
+.marquee-fast                            { animation-duration: 22s; }
+.marquee:hover                           { animation-play-state: paused; }
+html[dir="rtl"] .marquee                 { animation-direction: reverse; }
+/* 178 */ .m-step-dot-pulse              { animation: m-kf-step-dot-pulse 2.2s ease-out infinite; }
+/* 179 */ .m-tooltip-pop                 { animation: m-kf-tooltip-pop 0.22s var(--m-ease-silk) both; }
+/* 180 */ .m-arrow-launch                { animation: m-kf-arrow-launch 0.45s var(--m-ease-silk) both; }
+
+/* Legacy alias kept intact */
+.anim-rise { animation: m-kf-rise-soft 0.5s var(--m-ease-silk) both; }

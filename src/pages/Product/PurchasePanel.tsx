@@ -8,6 +8,7 @@ import { useLang } from "@/i18n/LanguageContext";
 import { discountPercent, formatPrice } from "@/lib/format";
 import { copyText, messengerUrl, openChannel, productMessage, whatsappUrl } from "@/lib/messaging";
 import { Link } from "@/lib/router";
+import { emitBagPulse } from "@/motion";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
@@ -28,6 +29,7 @@ export function PurchasePanel({ product }: { product: Product }) {
   const handleAdd = () => {
     if (!selected) return;
     add(product, selected.ml, selected.price, qty);
+    emitBagPulse();
     push(`${l(product.name)} · ${t("product.added")}`);
     open();
   };

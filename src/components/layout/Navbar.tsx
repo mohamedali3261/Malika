@@ -16,6 +16,7 @@ import { useBodyLock, useScrolled } from "@/hooks/useUi";
 import { useLang } from "@/i18n/LanguageContext";
 import { messengerUrl, whatsappUrl } from "@/lib/messaging";
 import { Link, useRoute } from "@/lib/router";
+import { useBagPulse } from "@/motion";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
 
@@ -32,6 +33,7 @@ export function Navbar() {
   const { count, open } = useCart();
   const { wishlist, settings } = useStore();
   const scrolled = useScrolled(24);
+  const bagPulsing = useBagPulse();
   const [mobileOpen, setMobileOpen] = useState(false);
   useBodyLock(mobileOpen);
 
@@ -128,14 +130,22 @@ export function Navbar() {
             </a>
             <button
               onClick={open}
-              className="group relative flex h-10 items-center gap-2.5 rounded-full bg-ink ps-4 pe-3 text-bone transition hover:bg-plum"
+              className="m-press-spring group relative flex h-10 items-center gap-2.5 rounded-full bg-ink ps-4 pe-3 text-bone transition hover:bg-plum"
               aria-label={t("nav.cart")}
             >
-              <Bag className="h-4 w-4" />
+              <span className={cn("grid place-items-center", bagPulsing && "m-bag-jiggle")}>
+                <Bag className="h-4 w-4" />
+              </span>
               <span className="hidden text-[11px] font-bold uppercase tracking-widest sm:block">
                 {t("nav.cart")}
               </span>
-              <span className="grid h-5 min-w-5 place-items-center rounded-full bg-acid px-1 text-[10px] font-extrabold text-ink">
+              <span
+                key={count}
+                className={cn(
+                  "grid h-5 min-w-5 place-items-center rounded-full bg-acid px-1 text-[10px] font-extrabold text-ink",
+                  count > 0 && "m-badge-ping-pop"
+                )}
+              >
                 {count}
               </span>
             </button>

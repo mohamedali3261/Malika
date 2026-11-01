@@ -4,6 +4,7 @@ import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { formatPrice } from "@/lib/format";
 import { openChannel, productMessage, whatsappUrl } from "@/lib/messaging";
+import { emitBagPulse } from "@/motion";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export function PurchaseBar({ product }: { product: Product }) {
   const addToBag = () => {
     if (!selected) return;
     add(product, selected.ml, selected.price);
+    emitBagPulse();
     push(`${l(product.name)} · ${t("product.added")}`);
     open();
   };

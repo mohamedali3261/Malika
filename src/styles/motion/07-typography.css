@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Motion Module 07 · Editorial Typography & Ink Choreography (121–140)
+   ========================================================================== */
+
+@keyframes m-kf-text-mask-up {
+  from { opacity: 0; transform: translate3d(0, 105%, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-text-mask-down {
+  from { opacity: 0; transform: translate3d(0, -105%, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-tracking-condense {
+  from { opacity: 0; letter-spacing: 0.24em; }
+  to   { opacity: 1; letter-spacing: -0.02em; }
+}
+@keyframes m-kf-tracking-expand {
+  from { opacity: 0; letter-spacing: 0.04em; }
+  to   { opacity: 1; letter-spacing: 0.24em; }
+}
+@keyframes m-kf-serif-italic-glide {
+  from { opacity: 0; transform: translate3d(-18px, 6px, 0) skewX(-6deg); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); }
+}
+@keyframes m-kf-ink-bleed {
+  0%   { opacity: 0; filter: blur(6px) contrast(1.4); }
+  100% { opacity: 1; filter: blur(0) contrast(1); }
+}
+@keyframes m-kf-underline-draw {
+  from { transform-origin: inline-start; transform: scaleX(0); }
+  to   { transform-origin: inline-start; transform: scaleX(1); }
+}
+@keyframes m-kf-underline-center {
+  from { transform-origin: center; transform: scaleX(0); }
+  to   { transform-origin: center; transform: scaleX(1); }
+}
+@keyframes m-kf-strike-draw {
+  from { background-size: 0% 1.5px; }
+  to   { background-size: 100% 1.5px; }
+}
+@keyframes m-kf-highlight-marker {
+  from { background-size: 0% 42%; }
+  to   { background-size: 100% 42%; }
+}
+@keyframes m-kf-counter-roll-up {
+  from { opacity: 0; transform: translate3d(0, 65%, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-counter-roll-down {
+  from { opacity: 0; transform: translate3d(0, -65%, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-quote-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%      { transform: translate3d(0, -4px, 0) rotate(-4deg); }
+}
+@keyframes m-kf-watermark-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(-16px, 0, 0); }
+}
+@keyframes m-kf-eyebrow-dot-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.35; transform: scale(0.78); }
+}
+@keyframes m-kf-letter-wave {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes m-kf-word-blur-in {
+  from { opacity: 0; filter: blur(8px); transform: translateY(10px); }
+  to   { opacity: 1; filter: blur(0);   transform: translateY(0); }
+}
+@keyframes m-kf-arabic-calligraphy {
+  from { opacity: 0; transform: translate3d(calc(var(--m-dir, 1) * 16px), 6px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-glyph-spin-in {
+  from { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+  to   { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+@keyframes m-kf-caption-fade-slide {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* 121 */ .m-text-mask-up         { animation: m-kf-text-mask-up var(--m-dur, 0.78s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 122 */ .m-text-mask-down       { animation: m-kf-text-mask-down var(--m-dur, 0.78s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 123 */ .m-tracking-condense    { animation: m-kf-tracking-condense var(--m-dur, 0.85s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 124 */ .m-tracking-expand      { animation: m-kf-tracking-expand var(--m-dur, 0.82s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 125 */ .m-serif-italic-glide   { animation: m-kf-serif-italic-glide var(--m-dur, 0.76s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 126 */ .m-ink-bleed            { animation: m-kf-ink-bleed var(--m-dur, 0.72s) ease-out var(--m-delay, 0ms) both; }
+/* 127 */ .m-underline-draw       { animation: m-kf-underline-draw var(--m-dur, 0.7s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 128 */ .m-underline-center     { animation: m-kf-underline-center var(--m-dur, 0.7s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 129 */ .m-strike-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 55%;
+  background-repeat: no-repeat;
+  animation: m-kf-strike-draw 0.55s var(--m-ease-expo) both;
+}
+/* 130 */ .m-highlight-marker {
+  background-image: linear-gradient(transparent 58%, rgba(221, 242, 92, 0.55) 58%);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  animation: m-kf-highlight-marker 0.75s var(--m-ease-expo) both;
+}
+/* 131 */ .m-counter-roll-up      { animation: m-kf-counter-roll-up 0.42s var(--m-ease-silk) both; }
+/* 132 */ .m-counter-roll-down    { animation: m-kf-counter-roll-down 0.42s var(--m-ease-silk) both; }
+/* 133 */ .m-quote-float          { animation: m-kf-quote-float 4.8s ease-in-out infinite; }
+/* 134 */ .m-watermark-drift      { animation: m-kf-watermark-drift 18s ease-in-out infinite; }
+/* 135 */ .m-eyebrow-dot-blink    { animation: m-kf-eyebrow-dot-blink 2.4s ease-in-out infinite; }
+/* 136 */ .m-letter-wave          { animation: m-kf-letter-wave 2.6s ease-in-out infinite; }
+/* 137 */ .m-word-blur-in         { animation: m-kf-word-blur-in var(--m-dur, 0.68s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 138 */ .m-arabic-calligraphy-glide { animation: m-kf-arabic-calligraphy var(--m-dur, 0.75s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 139 */ .m-glyph-spin-in        { animation: m-kf-glyph-spin-in var(--m-dur, 0.65s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 140 */ .m-caption-fade-slide   { animation: m-kf-caption-fade-slide var(--m-dur, 0.55s) var(--m-ease-silk) var(--m-delay, 0ms) both; }

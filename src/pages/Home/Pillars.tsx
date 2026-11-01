@@ -1,8 +1,8 @@
-import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Primitives";
+import { Reveal } from "@/components/ui/Reveal";
 import { Flask, Gift, Leaf, Plus } from "@/components/ui/icons";
-import { useLang } from "@/i18n/LanguageContext";
 import { useContent } from "@/hooks/useContent";
+import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/utils/cn";
 
 export function Pillars() {
@@ -22,18 +22,17 @@ export function Pillars() {
     ...tones[index % tones.length],
   }));
 
-
   return (
     <section className="cv-auto relative bg-bone-2/50 sec-y">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <Reveal>
+        <Reveal variant="m-blur-rise">
           <SectionHeading
             eyebrow={lc(c.pillars.eyebrow)}
             title={lc(c.pillars.title)}
             align="between"
             action={
-              <div className="flex items-center gap-2 rounded-full border border-ink/10 bg-bone px-4 py-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-acid-deep" />
+              <div className="flex items-center gap-2 rounded-full border border-ink/10 bg-bone px-3.5 py-1.5">
+                <span className="m-pulse-beacon h-1.5 w-1.5 rounded-full bg-acid-deep" />
                 <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-mist">
                   {x("Cruelty-free · Vegan", "خالٍ من القسوة · نباتي")}
                 </span>
@@ -42,27 +41,28 @@ export function Pillars() {
           />
         </Reveal>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3 lg:mt-14">
+        <div className="mt-8 grid gap-3.5 md:grid-cols-3 lg:mt-11">
           {pillars.map((pillar, index) => (
-            <Reveal key={pillar.title} delay={index * 90} className="h-full">
+            <Reveal key={pillar.title} variant="m-3d-flip-x-up" delay={index * 75} className="h-full">
               <div
                 className={cn(
-                  "group relative flex h-full min-h-[240px] flex-col justify-between overflow-hidden rounded-[1.75rem] border p-6 transition-transform duration-500 hover:-translate-y-1.5",
+                  "sheen m-hover-lift-md group relative flex h-full min-h-[184px] flex-col justify-between overflow-hidden rounded-[1.35rem] border p-5",
                   pillar.className
                 )}
               >
+                <span aria-hidden="true" className="sheen-bar" />
                 <div className="flex items-start justify-between">
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-current/20 bg-white/10">
-                    <pillar.icon className="h-5 w-5" />
+                  <span className="grid h-9.5 w-9.5 place-items-center rounded-full border border-current/20 bg-white/10 transition-transform duration-300 group-hover:scale-105">
+                    <pillar.icon className="h-4.5 w-4.5" />
                   </span>
                   <span className={cn("font-mono text-[10px] tracking-[0.2em]", pillar.accent)}>0{index + 1}</span>
                 </div>
-                <div className="mt-8">
-                  <h3 className="font-display text-2xl leading-tight">{pillar.title}</h3>
-                  <p className="mt-2.5 text-[12px] leading-relaxed opacity-70">{pillar.body}</p>
+                <div className="mt-5">
+                  <h3 className="font-display text-xl leading-tight sm:text-[1.35rem]">{pillar.title}</h3>
+                  <p className="mt-1.5 text-[11.5px] leading-relaxed opacity-70">{pillar.body}</p>
                 </div>
-                <span className="absolute -bottom-5 -end-5 grid h-16 w-16 place-items-center rounded-full border border-current/15 opacity-30 transition-transform duration-500 group-hover:rotate-90">
-                  <Plus className="h-5 w-5" />
+                <span className="m-hover-icon-spin90 absolute -bottom-4 -end-4 grid h-13 w-13 place-items-center rounded-full border border-current/15 opacity-30">
+                  <Plus className="h-4 w-4" />
                 </span>
               </div>
             </Reveal>

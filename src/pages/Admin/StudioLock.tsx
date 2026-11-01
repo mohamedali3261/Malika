@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Check, Eye, KeyRound, Lock, Refresh, Shield } from "@/components/ui/icons";
+import { Eye, KeyRound, Lock, Refresh } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
 import { authPolicy, lockRemaining, unlock } from "@/lib/auth";
 import { Link } from "@/lib/router";
@@ -154,18 +154,16 @@ export function StudioLock({ onUnlocked }: { onUnlocked: () => void }) {
           >
             {busy ? t("lock.checking") : wait > 0 ? `${seconds}${t("lock.seconds")}` : t("lock.submit")}
           </Button>
-
-
         </form>
 
         <div className="mt-5 text-center">
           <Link to="/" className="text-[10px] font-bold uppercase tracking-[0.18em] text-bone/35 transition hover:text-acid">
-            â† {t("lock.back")}
+            ← {t("lock.back")}
           </Link>
         </div>
 
         <p className="mt-3 text-center text-[8.5px] uppercase tracking-[0.2em] text-bone/20">
-          {lang === "ar" ? `${authPolicy.freeAttempts} Ù…Ø­Ø§ÙˆÙ„Ø§Øª Ø«Ù… Ø­Ø¸Ø± Ù…ØªØµØ§Ø¹Ø¯` : `${authPolicy.freeAttempts} attempts, then rising cooldown`}
+          {lang === "ar" ? `${authPolicy.freeAttempts} محاولات ثم حظر متصاعد` : `${authPolicy.freeAttempts} attempts, then rising cooldown`}
         </p>
       </div>
     </div>

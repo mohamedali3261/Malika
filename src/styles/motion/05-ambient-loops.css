@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Motion Module 05 · Perfume Mist, Aura & Ambient Loops (081–100)
+   ========================================================================== */
+
+@keyframes m-kf-float-feather {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -6px, 0); }
+}
+@keyframes m-kf-float-bottle {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--tw-rotate, 0deg)); }
+  50%      { transform: translate3d(0, -12px, 0) rotate(calc(var(--tw-rotate, 0deg) + 1.4deg)); }
+}
+@keyframes m-kf-float-deep {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -18px, 0); }
+}
+@keyframes m-kf-drift-mist-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(18px, -24px, 0) scale(1.06); }
+}
+@keyframes m-kf-drift-mist-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-20px, 18px, 0) scale(1.05); }
+}
+@keyframes m-kf-drift-figure8 {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25%      { transform: translate3d(12px, -8px, 0); }
+  50%      { transform: translate3d(0, -14px, 0); }
+  75%      { transform: translate3d(-12px, -8px, 0); }
+}
+@keyframes m-kf-orbit-cw {
+  0%   { transform: rotate(0deg) translateX(7px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(7px) rotate(-360deg); }
+}
+@keyframes m-kf-orbit-ccw {
+  0%   { transform: rotate(0deg) translateX(7px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(7px) rotate(360deg); }
+}
+@keyframes m-kf-spin-seal-cw {
+  to { transform: rotate(360deg); }
+}
+@keyframes m-kf-spin-seal-ccw {
+  to { transform: rotate(-360deg); }
+}
+@keyframes m-kf-breathe-aura {
+  0%, 100% { opacity: 0.42; transform: scale(0.96); }
+  50%      { opacity: 0.68; transform: scale(1.07); }
+}
+@keyframes m-kf-breathe-glow {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.92; }
+}
+@keyframes m-kf-sway-botanical {
+  0%, 100% { transform-origin: 50% 100%; transform: rotate(-2.5deg); }
+  50%      { transform-origin: 50% 100%; transform: rotate(2.5deg); }
+}
+@keyframes m-kf-vapor-rise {
+  0%   { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.88); }
+  40%  { opacity: 0.55; }
+  100% { opacity: 0; transform: translate3d(0, -28px, 0) scale(1.16); }
+}
+@keyframes m-kf-vapor-curl {
+  0%   { opacity: 0; transform: translate3d(-4px, 12px, 0) scale(0.9); }
+  50%  { opacity: 0.5; transform: translate3d(6px, -8px, 0) scale(1.04); }
+  100% { opacity: 0; transform: translate3d(-3px, -26px, 0) scale(1.15); }
+}
+@keyframes m-kf-ripple-ring {
+  0%   { opacity: 0.65; transform: scale(0.85); }
+  100% { opacity: 0; transform: scale(1.75); }
+}
+@keyframes m-kf-ripple-double {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(221, 242, 92, 0.35), 0 0 0 0 rgba(201, 181, 247, 0.25); }
+  65%      { box-shadow: 0 0 0 8px rgba(221, 242, 92, 0), 0 0 0 15px rgba(201, 181, 247, 0); }
+}
+@keyframes m-kf-twinkle-star {
+  0%, 100% { opacity: 0.55; transform: scale(0.92) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1.18) rotate(18deg); }
+}
+@keyframes m-kf-pulse-beacon {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50%      { transform: scale(1.45); opacity: 0.25; }
+}
+@keyframes m-kf-wave-tide {
+  0%, 100% { transform: translateX(-5px); }
+  50%      { transform: translateX(5px); }
+}
+
+/* 081 */ .m-float-feather             { animation: m-kf-float-feather 4.8s ease-in-out infinite; }
+/* 082 */ .m-float-bottle, .anim-float { animation: m-kf-float-bottle 6.8s ease-in-out infinite; }
+/* 083 */ .m-float-deep                { animation: m-kf-float-deep 8.5s ease-in-out infinite; }
+/* 084 */ .m-drift-mist-a, .anim-drift { animation: m-kf-drift-mist-a 14s ease-in-out infinite; }
+/* 085 */ .m-drift-mist-b              { animation: m-kf-drift-mist-b 16s ease-in-out infinite; }
+/* 086 */ .m-drift-figure8             { animation: m-kf-drift-figure8 12s ease-in-out infinite; }
+/* 087 */ .m-orbit-cw                  { animation: m-kf-orbit-cw 11s linear infinite; }
+/* 088 */ .m-orbit-ccw                 { animation: m-kf-orbit-ccw 13s linear infinite; }
+/* 089 */ .m-spin-seal-cw, .anim-spin-slow { animation: m-kf-spin-seal-cw 26s linear infinite; }
+/* 090 */ .m-spin-seal-ccw             { animation: m-kf-spin-seal-ccw 32s linear infinite; }
+/* 091 */ .m-breathe-aura              { animation: m-kf-breathe-aura 6s ease-in-out infinite; }
+/* 092 */ .m-breathe-glow              { animation: m-kf-breathe-glow 4.2s ease-in-out infinite; }
+/* 093 */ .m-sway-botanical            { animation: m-kf-sway-botanical 5.2s ease-in-out infinite; }
+/* 094 */ .m-vapor-rise                { animation: m-kf-vapor-rise 4.6s ease-out infinite; }
+/* 095 */ .m-vapor-curl                { animation: m-kf-vapor-curl 5.4s ease-in-out infinite; }
+/* 096 */ .m-ripple-ring               { animation: m-kf-ripple-ring 2.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+/* 097 */ .m-ripple-double             { animation: m-kf-ripple-double 2.8s ease-out infinite; }
+/* 098 */ .m-twinkle-star              { animation: m-kf-twinkle-star 3.4s ease-in-out infinite; }
+/* 099 */ .m-pulse-beacon              { animation: m-kf-pulse-beacon 2.2s ease-in-out infinite; }
+/* 100 */ .m-wave-tide                 { animation: m-kf-wave-tide 5s ease-in-out infinite; }

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Motion Module 08 · Perfume Card & Bottle Signature Choreography (141–160)
+   ========================================================================== */
+
+@keyframes m-kf-bottle-levitate {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -6px, 0); }
+}
+@keyframes m-kf-bottle-settle {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.92); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-bottle-spritz {
+  0%   { transform: scale(1) translateY(0); }
+  30%  { transform: scale(0.97, 0.94) translateY(3px); }
+  65%  { transform: scale(1.02, 1.03) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+@keyframes m-kf-bottle-swirl {
+  0%   { transform: rotate(0deg); }
+  35%  { transform: rotate(-4deg); }
+  70%  { transform: rotate(2.5deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes m-kf-bottle-shadow-breathe {
+  0%, 100% { transform: scaleX(1); opacity: 0.42; }
+  50%      { transform: scaleX(0.84); opacity: 0.26; }
+}
+@keyframes m-kf-disc-bloom {
+  from { transform: scale(0.75); opacity: 0.55; }
+  to   { transform: scale(1); opacity: 1; }
+}
+@keyframes m-kf-disc-orb-pulse {
+  0%, 100% { filter: saturate(1) brightness(1); }
+  50%      { filter: saturate(1.12) brightness(1.05); }
+}
+@keyframes m-kf-swatch-pop {
+  0%   { opacity: 0; transform: scale(0.45) translateY(5px); }
+  70%  { opacity: 1; transform: scale(1.14) translateY(-1px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes m-kf-size-pill-select {
+  0%   { transform: scale(0.9); }
+  60%  { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+@keyframes m-kf-price-morph {
+  from { opacity: 0; transform: translate3d(0, 6px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-card-border-gleam {
+  0%, 100% { border-color: rgba(243, 239, 231, 0.08); }
+  50%      { border-color: rgba(243, 239, 231, 0.24); }
+}
+@keyframes m-kf-card-panel-glide {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-card-badge-slide {
+  from { opacity: 0; transform: translate3d(calc(var(--m-dir, 1) * -10px), 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-card-action-reveal {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes m-kf-card-add-success {
+  0%   { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(221, 242, 92, 0.6); }
+  60%  { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(221, 242, 92, 0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(221, 242, 92, 0); }
+}
+@keyframes m-kf-card-watermark-pan {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-12px, -4px, 0); }
+}
+@keyframes m-kf-longevity-ring-draw {
+  from { stroke-dashoffset: 295.3; }
+  to   { stroke-dashoffset: calc(295.3 - var(--dash, 220)); }
+}
+@keyframes m-kf-note-chip-cascade {
+  from { opacity: 0; transform: translate3d(0, 9px, 0) scale(0.95); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* 141 */ .m-bottle-levitate       { animation: m-kf-bottle-levitate 5.4s ease-in-out infinite; }
+/* 142 */ .m-bottle-settle         { animation: m-kf-bottle-settle 0.65s var(--m-ease-expo) both; }
+/* 143 */ .m-bottle-spritz         { animation: m-kf-bottle-spritz 0.42s var(--m-ease-silk) both; }
+/* 144 */ .m-bottle-swirl          { animation: m-kf-bottle-swirl 0.68s ease-out both; }
+/* 145 */ .m-bottle-shadow-breathe { animation: m-kf-bottle-shadow-breathe 5.4s ease-in-out infinite; }
+/* 146 */ .m-disc-bloom            { animation: m-kf-disc-bloom 0.6s var(--m-ease-expo) both; }
+/* 147 */ .m-disc-orb-pulse        { animation: m-kf-disc-orb-pulse 5s ease-in-out infinite; }
+/* 148 */ .m-swatch-pop-1          { animation: m-kf-swatch-pop 0.36s var(--m-ease-silk) 40ms both; }
+/* 149 */ .m-swatch-pop-2          { animation: m-kf-swatch-pop 0.36s var(--m-ease-silk) 100ms both; }
+/* 150 */ .m-swatch-pop-3          { animation: m-kf-swatch-pop 0.36s var(--m-ease-silk) 160ms both; }
+/* 151 */ .m-size-pill-select      { animation: m-kf-size-pill-select 0.28s var(--m-ease-silk) both; }
+/* 152 */ .m-price-morph           { animation: m-kf-price-morph 0.26s var(--m-ease-silk) both; }
+/* 153 */ .m-card-border-gleam     { animation: m-kf-card-border-gleam 4.5s ease-in-out infinite; }
+/* 154 */ .m-card-panel-glide      { animation: m-kf-card-panel-glide 0.42s var(--m-ease-expo) both; }
+/* 155 */ .m-card-badge-slide      { animation: m-kf-card-badge-slide 0.45s var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 156 */ .m-card-action-reveal    { animation: m-kf-card-action-reveal 0.32s var(--m-ease-silk) both; }
+/* 157 */ .m-card-add-success      { animation: m-kf-card-add-success 0.55s var(--m-ease-silk) both; }
+/* 158 */ .m-card-watermark-pan    { animation: m-kf-card-watermark-pan 0.7s var(--m-ease-expo) both; }
+/* 159 */ .m-longevity-ring-draw   { animation: m-kf-longevity-ring-draw 1.1s var(--m-ease-expo) both; }
+/* 160 */ .m-note-chip-cascade     { animation: m-kf-note-chip-cascade 0.44s var(--m-ease-silk) var(--m-delay, 0ms) both; }

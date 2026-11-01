@@ -1,0 +1,35 @@
+/* ------------------------------------------------------------------ *
+ * Type & spacing scale — controlled from Studio → Site content →
+ * "Sizes & spacing". ThemeProvider writes the three variables below.
+ *   --hs  headings       --bs  lead paragraphs       --ss  section spacing
+ * ------------------------------------------------------------------ */
+:root {
+  --hs: 1;
+  --bs: 1;
+  --ss: 1;
+}
+
+.hd-hero    { font-size: calc(clamp(2.5rem, 7vw, 5.2rem) * var(--hs)); }
+.hd-page    { font-size: calc(clamp(2.1rem, 5vw, 3.6rem) * var(--hs)); }
+.hd-section { font-size: calc(clamp(1.65rem, 3.4vw, 2.5rem) * var(--hs)); }
+.hd-sub     { font-size: calc(clamp(1.4rem, 2.6vw, 2.05rem) * var(--hs)); }
+
+.lead-copy {
+  font-size: calc(clamp(0.875rem, 1.05vw, 0.95rem) * var(--bs));
+  line-height: 1.7;
+}
+
+/* Section rhythm */
+.sec-y    { padding-block: calc(2.65rem * var(--ss)); }
+.sec-y-sm { padding-block: calc(2.15rem * var(--ss)); }
+.sec-pb   { padding-bottom: calc(2.65rem * var(--ss)); }
+.hero-pad { padding-top: calc(1.85rem * var(--ss)); padding-bottom: calc(2.5rem * var(--ss)); }
+.page-pad { padding-top: calc(1.85rem * var(--ss)); padding-bottom: calc(1.85rem * var(--ss)); }
+
+@media (min-width: 1024px) {
+  .sec-y    { padding-block: calc(4rem * var(--ss)); }
+  .sec-y-sm { padding-block: calc(3.15rem * var(--ss)); }
+  .sec-pb   { padding-bottom: calc(4rem * var(--ss)); }
+  .hero-pad { padding-top: calc(3rem * var(--ss)); padding-bottom: calc(3.75rem * var(--ss)); }
+  .page-pad { padding-top: calc(2.75rem * var(--ss)); padding-bottom: calc(2.25rem * var(--ss)); }
+}

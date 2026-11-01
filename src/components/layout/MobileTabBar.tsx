@@ -4,6 +4,7 @@ import { useStore } from "@/context/StoreContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { whatsappUrl } from "@/lib/messaging";
 import { Link, useRoute } from "@/lib/router";
+import { useBagPulse } from "@/motion";
 import { cn } from "@/utils/cn";
 
 function HomeGlyph({ className }: { className?: string }) {
@@ -30,6 +31,7 @@ export function MobileTabBar() {
   const { t, x } = useLang();
   const { count, open } = useCart();
   const { settings } = useStore();
+  const bagPulsing = useBagPulse();
 
   if (path === "/studio" || path === "/admin" || path.startsWith("/product/")) return null;
 
@@ -65,10 +67,13 @@ export function MobileTabBar() {
           {t("contact.wa")}
         </a>
         <button onClick={open} className={cn(itemClass(false), "relative")}>
-          <span className="relative">
+          <span className={cn("relative", bagPulsing && "m-bag-jiggle")}>
             <Bag className="h-5 w-5" />
             {count > 0 && (
-              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-ink">
+              <span
+                key={count}
+                className="m-badge-ping-pop absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-ink"
+              >
                 {count}
               </span>
             )}

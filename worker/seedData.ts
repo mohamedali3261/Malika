@@ -3,7 +3,7 @@ export const INITIAL_ADMIN = {
   "id": "owner-bootstrap",
   "username": "admin",
   "salt": "567c50b2b3f2872bab130759a330808e",
-  "passwordHash": "f36b3479e2165a250f56cde955f85ee49a949545bcbef896ccf694ab95cf200a"
+  "passwordHash": "1ea8a57bc5bb9e76b25f7f54056144af7a4db72f3d01ff6b3d9de078b924a2ce"
 } as const;
 
 export const SEED_SHIPPING_RATES: ReadonlyArray<readonly [string, number, number]> = [

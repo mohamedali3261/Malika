@@ -1,0 +1,71 @@
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    font-feature-settings: "ss01" on, "cv11" on;
+  }
+
+  html[lang="ar"] body {
+    font-family: var(--font-arabic);
+    letter-spacing: 0;
+  }
+
+  html[lang="ar"] .font-display {
+    font-family: var(--font-arabic);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-acid);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-plum);
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bone-2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #b9b1a4;
+    border-radius: 99px;
+    border: 3px solid var(--color-bone-2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-plum);
+  }
+}
+
+/* Unlayered so it wins over Tailwind's generated .font-display utility.
+   Instrument Serif has no Arabic glyphs — headings switch to IBM Plex Sans Arabic. */
+html[lang="ar"] .font-display {
+  font-family: var(--font-arabic) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
