@@ -9,6 +9,7 @@ import { useLang } from "@/i18n/LanguageContext";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { openChannel, productMessage, whatsappUrl } from "@/lib/messaging";
 import { Link } from "@/lib/router";
+import { emitBagPulse } from "@/motion";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
@@ -52,6 +53,7 @@ export function QuickView({
 
   const addToBag = () => {
     add(product, selected.ml, selected.price);
+    emitBagPulse();
     push(`${l(product.name)} · ${t("product.added")}`);
     onClose();
     openCart();

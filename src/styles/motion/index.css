@@ -1,0 +1,74 @@
+/* ==========================================================================
+   MALIKA 200-Motion Choreographic System · Barrel & Scroll-Reveal Bridge
+   ========================================================================== */
+
+@import "./01-entrances.css";
+@import "./02-clips-masks.css";
+@import "./03-3d-perspective.css";
+@import "./04-springs-physics.css";
+@import "./05-ambient-loops.css";
+@import "./06-shimmer-light.css";
+@import "./07-typography.css";
+@import "./08-cards-bottles.css";
+@import "./09-navigation-ui.css";
+@import "./10-interactions-svg.css";
+
+:root {
+  --m-ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --m-ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --m-dir: 1;
+}
+
+html[dir="rtl"] {
+  --m-dir: -1;
+}
+
+/* Default scroll reveal (when no custom variant is specified) */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale(0.985);
+  transition:
+    opacity 0.78s var(--m-ease-expo),
+    transform 0.78s var(--m-ease-expo);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.reveal-scale {
+  transform: translate3d(0, 16px, 0) scale(0.965);
+}
+.reveal-scale.is-visible {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Scroll-triggered custom motion variants via <Reveal variant="m-..."> */
+.reveal[data-motion] {
+  transition: none;
+  transform: none;
+}
+.reveal[data-motion]:not(.is-visible) {
+  opacity: 0 !important;
+  animation: none !important;
+}
+.reveal[data-motion].is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal[data-motion] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    filter: none !important;
+  }
+}

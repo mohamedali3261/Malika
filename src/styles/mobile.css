@@ -1,0 +1,111 @@
+/* ------------------------------------------------------------------
+   Mobile reading experience & compact card ergonomics
+------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  body {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* iOS zooms any field below 16px — keep all inputs at 16px */
+  .field,
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+    min-height: 48px;
+  }
+  textarea.field {
+    min-height: 120px;
+    padding-top: 0.75rem;
+  }
+
+  /* micro labels (8–10px) → 12px outside compact cards */
+  :not(.pcard-compact-scope) > [class*="text-[8px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[8.5px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[9px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[9.5px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[10px]"]:not(.pcard-keep) {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  /* captions (10.5–11.5px) → 13px outside compact cards */
+  :not(.pcard-compact-scope) > [class*="text-[10.5px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[11px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[11.5px]"]:not(.pcard-keep) {
+    font-size: 13px !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  /* body copy (12–13.5px) → 14.5px outside compact cards */
+  :not(.pcard-compact-scope) > [class*="text-[12px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[12.5px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[13px]"]:not(.pcard-keep),
+  :not(.pcard-compact-scope) > [class*="text-[13.5px]"]:not(.pcard-keep) {
+    font-size: 14.5px !important;
+    line-height: 1.65 !important;
+    letter-spacing: 0 !important;
+  }
+
+  /* display headings breathe a little more */
+  .font-display {
+    line-height: 1.06 !important;
+  }
+
+  /* comfortable tap targets (excluding compact card chips) */
+  button,
+  a[role="button"] {
+    touch-action: manipulation;
+  }
+  .field + button,
+  button.h-7:not(.pcard-chip),
+  button.h-8:not(.pcard-chip),
+  button.h-9:not(.pcard-chip) {
+    min-height: 40px;
+  }
+  button.h-7:not(.pcard-chip) {
+    min-width: 38px;
+  }
+  .qty-btn {
+    height: 38px;
+    width: 38px;
+  }
+
+  /* never allow a stray wide element to create a side-scroll on phones */
+  #root {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  .no-scrollbar {
+    scroll-padding-inline: 1rem;
+  }
+
+  .safe-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  /* Phones: drop GPU-heavy grain & giant blurs */
+  .grain::after {
+    display: none;
+  }
+  [class*="blur-["],
+  .blur-3xl,
+  .blur-2xl {
+    filter: blur(40px) !important;
+  }
+  .anim-drift,
+  .anim-spin-slow,
+  .animate-ping {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .font-display {
+    text-wrap: pretty;
+  }
+}

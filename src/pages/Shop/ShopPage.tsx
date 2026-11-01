@@ -10,7 +10,7 @@ import { useRoute } from "@/lib/router";
 import type { Category, Gender, Product, SortKey } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 8;
 
 function searchable(product: Product): string {
   const notes = [...product.notes.top, ...product.notes.heart, ...product.notes.base]

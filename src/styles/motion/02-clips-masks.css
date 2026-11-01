@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Motion Module 02 · Clip-Path, Curtain & Aperture Reveals (021–040)
+   ========================================================================== */
+
+@keyframes m-kf-clip-wipe-up {
+  from { opacity: 0.25; clip-path: inset(100% 0 0 0); transform: translate3d(0, 16px, 0); }
+  to   { opacity: 1;    clip-path: inset(0 0 0 0);    transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-clip-wipe-down {
+  from { opacity: 0.25; clip-path: inset(0 0 100% 0); transform: translate3d(0, -16px, 0); }
+  to   { opacity: 1;    clip-path: inset(0 0 0 0);    transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-clip-wipe-left {
+  from { opacity: 0.25; clip-path: inset(0 0 0 100%); }
+  to   { opacity: 1;    clip-path: inset(0 0 0 0); }
+}
+@keyframes m-kf-clip-wipe-right {
+  from { opacity: 0.25; clip-path: inset(0 100% 0 0); }
+  to   { opacity: 1;    clip-path: inset(0 0 0 0); }
+}
+@keyframes m-kf-clip-shutters-h {
+  from { opacity: 0.3; clip-path: inset(0 50% 0 50%); }
+  to   { opacity: 1;   clip-path: inset(0 0 0 0); }
+}
+@keyframes m-kf-clip-shutters-v {
+  from { opacity: 0.3; clip-path: inset(50% 0 50% 0); }
+  to   { opacity: 1;   clip-path: inset(0 0 0 0); }
+}
+@keyframes m-kf-clip-iris-center {
+  from { opacity: 0.3; clip-path: circle(0% at 50% 50%); }
+  to   { opacity: 1;   clip-path: circle(120% at 50% 50%); }
+}
+@keyframes m-kf-clip-iris-top {
+  from { opacity: 0.3; clip-path: circle(0% at 50% 12%); }
+  to   { opacity: 1;   clip-path: circle(135% at 50% 12%); }
+}
+@keyframes m-kf-clip-iris-corner-tr {
+  from { opacity: 0.3; clip-path: circle(0% at 88% 12%); }
+  to   { opacity: 1;   clip-path: circle(150% at 88% 12%); }
+}
+@keyframes m-kf-clip-iris-corner-bl {
+  from { opacity: 0.3; clip-path: circle(0% at 12% 88%); }
+  to   { opacity: 1;   clip-path: circle(150% at 12% 88%); }
+}
+@keyframes m-kf-clip-diamond {
+  from { opacity: 0.2; clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+  to   { opacity: 1;   clip-path: polygon(50% -60%, 160% 50%, 50% 160%, -60% 50%); }
+}
+@keyframes m-kf-clip-chevron-up {
+  from { opacity: 0.25; clip-path: polygon(0 100%, 50% 88%, 100% 100%, 100% 100%, 0 100%); }
+  to   { opacity: 1;    clip-path: polygon(0 0, 50% 0, 100% 0, 100% 100%, 0 100%); }
+}
+@keyframes m-kf-clip-diagonal-slash {
+  from { opacity: 0.25; clip-path: polygon(0 0, 0 0, -25% 100%, 0 100%); }
+  to   { opacity: 1;    clip-path: polygon(0 0, 125% 0, 100% 100%, 0 100%); }
+}
+@keyframes m-kf-clip-arch {
+  from { opacity: 0.3; clip-path: inset(38% 18% 0% 18% round 999px 999px 24px 24px); }
+  to   { opacity: 1;   clip-path: inset(0% 0% 0% 0% round 24px 24px 24px 24px); }
+}
+@keyframes m-kf-clip-capsule {
+  from { opacity: 0.25; clip-path: inset(32% 32% 32% 32% round 999px); }
+  to   { opacity: 1;    clip-path: inset(0% 0% 0% 0% round 20px); }
+}
+@keyframes m-kf-clip-frame-in {
+  from { opacity: 0.25; clip-path: inset(16% 16% 16% 16% round 24px); transform: scale(1.04); }
+  to   { opacity: 1;    clip-path: inset(0% 0% 0% 0% round 0px);     transform: scale(1); }
+}
+@keyframes m-kf-clip-ellipse-h {
+  from { opacity: 0.25; clip-path: ellipse(0% 42% at 50% 50%); }
+  to   { opacity: 1;    clip-path: ellipse(120% 120% at 50% 50%); }
+}
+@keyframes m-kf-clip-ellipse-v {
+  from { opacity: 0.25; clip-path: ellipse(38% 0% at 50% 50%); }
+  to   { opacity: 1;    clip-path: ellipse(120% 120% at 50% 50%); }
+}
+@keyframes m-kf-clip-venetian {
+  0%   { opacity: 0; clip-path: inset(0 0 85% 0); }
+  45%  { opacity: 0.85; clip-path: inset(0 0 32% 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes m-kf-clip-keyhole {
+  0%   { opacity: 0.25; clip-path: circle(8% at 50% 38%); }
+  55%  { opacity: 0.9;  clip-path: circle(42% at 50% 44%); }
+  100% { opacity: 1;    clip-path: circle(130% at 50% 50%); }
+}
+
+/* 021 */ .m-clip-wipe-up        { animation: m-kf-clip-wipe-up var(--m-dur, 0.85s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 022 */ .m-clip-wipe-down      { animation: m-kf-clip-wipe-down var(--m-dur, 0.85s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 023 */ .m-clip-wipe-left      { animation: m-kf-clip-wipe-left var(--m-dur, 0.82s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 024 */ .m-clip-wipe-right     { animation: m-kf-clip-wipe-right var(--m-dur, 0.82s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 025 */ .m-clip-shutters-h     { animation: m-kf-clip-shutters-h var(--m-dur, 0.8s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 026 */ .m-clip-shutters-v     { animation: m-kf-clip-shutters-v var(--m-dur, 0.8s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 027 */ .m-clip-iris-center    { animation: m-kf-clip-iris-center var(--m-dur, 0.9s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 028 */ .m-clip-iris-top       { animation: m-kf-clip-iris-top var(--m-dur, 0.9s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 029 */ .m-clip-iris-corner-tr { animation: m-kf-clip-iris-corner-tr var(--m-dur, 0.92s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 030 */ .m-clip-iris-corner-bl { animation: m-kf-clip-iris-corner-bl var(--m-dur, 0.92s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 031 */ .m-clip-diamond        { animation: m-kf-clip-diamond var(--m-dur, 0.88s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 032 */ .m-clip-chevron-up     { animation: m-kf-clip-chevron-up var(--m-dur, 0.86s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 033 */ .m-clip-diagonal-slash { animation: m-kf-clip-diagonal-slash var(--m-dur, 0.86s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 034 */ .m-clip-arch           { animation: m-kf-clip-arch var(--m-dur, 0.9s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 035 */ .m-clip-capsule        { animation: m-kf-clip-capsule var(--m-dur, 0.84s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 036 */ .m-clip-frame-in       { animation: m-kf-clip-frame-in var(--m-dur, 0.88s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 037 */ .m-clip-ellipse-h      { animation: m-kf-clip-ellipse-h var(--m-dur, 0.86s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 038 */ .m-clip-ellipse-v      { animation: m-kf-clip-ellipse-v var(--m-dur, 0.86s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 039 */ .m-clip-venetian       { animation: m-kf-clip-venetian var(--m-dur, 0.84s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 040 */ .m-clip-keyhole        { animation: m-kf-clip-keyhole var(--m-dur, 0.92s) var(--m-ease-silk) var(--m-delay, 0ms) both; }

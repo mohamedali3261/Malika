@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Motion Module 01 · Directional, Optical & Editorial Entrances (001–020)
+   ========================================================================== */
+
+@keyframes m-kf-rise-soft {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-rise-deep {
+  from { opacity: 0; transform: translate3d(0, 44px, 0) scale(0.975); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-drop-silk {
+  from { opacity: 0; transform: translate3d(0, -26px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-drop-crest {
+  0%   { opacity: 0; transform: translate3d(0, -34px, 0) scale(0.98); }
+  72%  { opacity: 1; transform: translate3d(0, 4px, 0) scale(1.005); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-glide-start {
+  from { opacity: 0; transform: translate3d(calc(var(--m-dir, 1) * -32px), 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-glide-end {
+  from { opacity: 0; transform: translate3d(calc(var(--m-dir, 1) * 32px), 0, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-diagonal-nw {
+  from { opacity: 0; transform: translate3d(-26px, -24px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-diagonal-ne {
+  from { opacity: 0; transform: translate3d(26px, -24px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-diagonal-sw {
+  from { opacity: 0; transform: translate3d(-26px, 26px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-diagonal-se {
+  from { opacity: 0; transform: translate3d(26px, 26px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-arc-rise-left {
+  0%   { opacity: 0; transform: translate3d(-28px, 30px, 0) rotate(-3deg); }
+  60%  { opacity: 1; transform: translate3d(4px, -4px, 0) rotate(0.6deg); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes m-kf-arc-rise-right {
+  0%   { opacity: 0; transform: translate3d(28px, 30px, 0) rotate(3deg); }
+  60%  { opacity: 1; transform: translate3d(-4px, -4px, 0) rotate(-0.6deg); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes m-kf-blur-rise {
+  from { opacity: 0; filter: blur(12px); transform: translate3d(0, 22px, 0); }
+  to   { opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0); }
+}
+@keyframes m-kf-blur-zoom-in {
+  from { opacity: 0; filter: blur(10px); transform: scale(0.91); }
+  to   { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+@keyframes m-kf-blur-zoom-out {
+  from { opacity: 0; filter: blur(10px); transform: scale(1.09); }
+  to   { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+@keyframes m-kf-skew-editorial {
+  from { opacity: 0; transform: translate3d(0, 26px, 0) skewY(3.5deg); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) skewY(0deg); }
+}
+@keyframes m-kf-skew-ribbon {
+  from { opacity: 0; transform: translate3d(-22px, 0, 0) skewX(-9deg); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) skewX(0deg); }
+}
+@keyframes m-kf-step-cascade {
+  0%   { opacity: 0; transform: translate3d(0, 32px, 0) scale(0.96); }
+  50%  { opacity: 0.85; transform: translate3d(0, 8px, 0) scale(0.99); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes m-kf-velvet-unfold {
+  from { opacity: 0; transform-origin: 50% 0%; transform: scaleY(0.82) translate3d(0, -10px, 0); }
+  to   { opacity: 1; transform-origin: 50% 0%; transform: scaleY(1) translate3d(0, 0, 0); }
+}
+@keyframes m-kf-pedestal-lift {
+  from { opacity: 0; transform-origin: 50% 100%; transform: scaleY(0.88) translate3d(0, 20px, 0); }
+  to   { opacity: 1; transform-origin: 50% 100%; transform: scaleY(1) translate3d(0, 0, 0); }
+}
+
+/* 001 */ .m-rise-soft         { animation: m-kf-rise-soft var(--m-dur, 0.55s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 002 */ .m-rise-deep         { animation: m-kf-rise-deep var(--m-dur, 0.85s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 003 */ .m-drop-silk         { animation: m-kf-drop-silk var(--m-dur, 0.65s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 004 */ .m-drop-crest        { animation: m-kf-drop-crest var(--m-dur, 0.72s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 005 */ .m-glide-inline-start { animation: m-kf-glide-start var(--m-dur, 0.7s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 006 */ .m-glide-inline-end  { animation: m-kf-glide-end var(--m-dur, 0.7s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 007 */ .m-diagonal-nw       { animation: m-kf-diagonal-nw var(--m-dur, 0.72s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 008 */ .m-diagonal-ne       { animation: m-kf-diagonal-ne var(--m-dur, 0.72s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 009 */ .m-diagonal-sw       { animation: m-kf-diagonal-sw var(--m-dur, 0.72s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 010 */ .m-diagonal-se       { animation: m-kf-diagonal-se var(--m-dur, 0.72s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 011 */ .m-arc-rise-left     { animation: m-kf-arc-rise-left var(--m-dur, 0.8s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 012 */ .m-arc-rise-right    { animation: m-kf-arc-rise-right var(--m-dur, 0.8s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 013 */ .m-blur-rise         { animation: m-kf-blur-rise var(--m-dur, 0.78s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 014 */ .m-blur-zoom-in      { animation: m-kf-blur-zoom-in var(--m-dur, 0.75s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 015 */ .m-blur-zoom-out     { animation: m-kf-blur-zoom-out var(--m-dur, 0.82s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 016 */ .m-skew-editorial    { animation: m-kf-skew-editorial var(--m-dur, 0.78s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 017 */ .m-skew-ribbon       { animation: m-kf-skew-ribbon var(--m-dur, 0.68s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 018 */ .m-step-cascade      { animation: m-kf-step-cascade var(--m-dur, 0.76s) var(--m-ease-silk) var(--m-delay, 0ms) both; }
+/* 019 */ .m-velvet-unfold     { animation: m-kf-velvet-unfold var(--m-dur, 0.74s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
+/* 020 */ .m-pedestal-lift     { animation: m-kf-pedestal-lift var(--m-dur, 0.74s) var(--m-ease-expo) var(--m-delay, 0ms) both; }
