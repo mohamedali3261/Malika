@@ -102,7 +102,7 @@ let pendingInit: Promise<void> | null = null;
 
 async function initialize(db: D1Database): Promise<void> {
   try {
-    const meta = await db.prepare("SELECT value FROM store_meta WHERE key='seed_v1'").first<{ value: string }>();
+    const meta = await db.prepare("SELECT value FROM store_meta WHERE key='seed_v2'").first<{ value: string }>();
     if (meta?.value === '1') {
       readyDb = db;
       return;
@@ -125,12 +125,18 @@ async function initialize(db: D1Database): Promise<void> {
     await db.prepare(sql).run();
   }
 
-  // Seed initial bootstrap owner ('admin') only if no admin accounts exist yet.
+  // Seed initial bootstrap owner ('admin') only if no admin accounts exist yet,
+  // or refresh the untouched bootstrap hash to 100k PBKDF2 iterations if still awaiting first password change.
   const adminCount = (await db.prepare('SELECT COUNT(*) AS n FROM admins').first<{ n: number }>())?.n ?? 0;
   if (adminCount === 0) {
     await db
       .prepare('INSERT OR IGNORE INTO admins(id, username, salt, password_hash, role, must_change_password) VALUES (?, ?, ?, ?, ?, 1)')
       .bind(INITIAL_ADMIN.id, INITIAL_ADMIN.username, INITIAL_ADMIN.salt, INITIAL_ADMIN.passwordHash, 'owner')
+      .run();
+  } else {
+    await db
+      .prepare('UPDATE admins SET salt = ?, password_hash = ? WHERE id = ? AND must_change_password = 1')
+      .bind(INITIAL_ADMIN.salt, INITIAL_ADMIN.passwordHash, INITIAL_ADMIN.id)
       .run();
   }
 
@@ -172,7 +178,7 @@ async function initialize(db: D1Database): Promise<void> {
     );
   }
 
-  await db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('seed_v1', '1')").run();
+  await db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('seed_v2', '1')").run();
   readyDb = db;
 }
 

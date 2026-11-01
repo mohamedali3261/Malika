@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import { Check, Eye, KeyRound, Lock, Refresh, Shield } from "@/components/ui/icons";
+import { Eye, KeyRound, Lock, Refresh } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
 import { authPolicy, lockRemaining, unlock } from "@/lib/auth";
 import { Link } from "@/lib/router";
@@ -154,17 +154,6 @@ export function StudioLock({ onUnlocked }: { onUnlocked: () => void }) {
           >
             {busy ? t("lock.checking") : wait > 0 ? `${seconds}${t("lock.seconds")}` : t("lock.submit")}
           </Button>
-
-          <div className="mt-4 space-y-2 border-t border-bone/10 pt-3">
-            <p className="flex items-start gap-2 text-[9.5px] leading-relaxed text-bone/35">
-              <Shield className="mt-0.5 h-3.5 w-3.5 shrink-0 text-acid/70" />
-              {t("lock.security")}
-            </p>
-            <p className="flex items-start gap-2 text-[9.5px] leading-relaxed text-bone/35">
-              <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-acid/70" />
-              {t("lock.session")}
-            </p>
-          </div>
         </form>
 
         <div className="mt-5 text-center">

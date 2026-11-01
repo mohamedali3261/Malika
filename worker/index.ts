@@ -21,7 +21,7 @@ const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16
 const sha = async (s: string) => hex(await crypto.subtle.digest('SHA-256', encoder.encode(s)));
 async function passwordHash(password: string, salt: string) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
-  return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: encoder.encode(salt), iterations: 310000 }, key, 256));
+  return hex(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: encoder.encode(salt), iterations: 100000 }, key, 256));
 }
 const random = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2,'0')).join('');
 const jsonBody = async (c: any) => { try { return await c.req.json(); } catch { return null; } };
@@ -136,7 +136,7 @@ app.put('/api/admin/products/:id', async c => {
   const data = product.safeParse(await jsonBody(c));
   if (!data.success || data.data.id !== c.req.param('id')) return c.json({error:'Invalid product'},400);
   const p=data.data;
-  try { await c.env.DB.prepare('INSERT INTO products(id,slug,category_id,data,archived) VALUES (?,?,?,?,0) ON CONFLICT(id) DO UPDATE SET slug=excluded.slug, category_id=excluded.category_id,data=excluded.data,archived=0,updated_at=CURRENT_TIMESTAMP').bind(p.id,p.slug,p.category,JSON.stringify(p)).run(); }
+  try { await c.env.DB.prepare('INSERT INTO products(id,slug,category_id,data,archived) VALUES (?,?,?,?,0) ON CONFLICT(id) DO UPDATE SET slug=excluded.slug, category_id=excluded.category_id,data=excluded.data,archived=products.archived,updated_at=CURRENT_TIMESTAMP').bind(p.id,p.slug,p.category,JSON.stringify(p)).run(); }
   catch { return c.json({error:'Product could not be saved; check slug'},409); }
   await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'product_saved',p.id).run();
   return c.json({ok:true});
