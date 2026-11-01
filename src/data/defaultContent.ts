@@ -49,11 +49,11 @@ export function createDefaultContent(): SiteContent {
     },
 
     showcase: {
-      eyebrow: { en: "The lineup", ar: "التشكيلة" },
-      title: { en: "Five bottles. One house.", ar: "خمس زجاجات. دارٌ واحدة." },
+      eyebrow: { en: "Curated editions", ar: "إصدارات مختارة" },
+      title: { en: "Icons of Malika.", ar: "أيقوناتُ مليكة." },
       lead: {
-        en: "Tap through the bottles that define the house — each one opens its own story.",
-        ar: "تصفّح الزجاجات التي تُعرّف الدار — وكل واحدة تفتح حكايتها.",
+        en: "Swipe through our defining extraits — each flacon carries its own chapter.",
+        ar: "تجوّل بين أبرز عطور الدار — كل زجاجة تروي فصلاً خاصاً.",
       },
       images: [
         { id: "s1", src: "/images/bottles/dark.webp", productSlug: "malika-noir", fit: "contain", caption: { en: "", ar: "" } },
@@ -341,10 +341,33 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
 
   const result = clean as unknown as SiteContent;
   // The cap holds even for hand-edited or imported data.
+  // Also upgrade untouched legacy default wording stored in older localStorage snapshots.
+  const legacyShowcaseTitle =
+    result.showcase?.title?.ar === "خمس زجاجات. دارٌ واحدة." ||
+    result.showcase?.title?.en === "Five bottles. One house.";
+  const legacyShowcaseEyebrow =
+    result.showcase?.eyebrow?.ar === "التشكيلة" && result.showcase?.eyebrow?.en === "The lineup";
+  const legacyShowcaseLead =
+    result.showcase?.lead?.ar === "تصفّح الزجاجات التي تُعرّف الدار — وكل واحدة تفتح حكايتها.";
+
   result.showcase = {
     ...result.showcase,
+    eyebrow: legacyShowcaseEyebrow ? base.showcase.eyebrow : result.showcase.eyebrow,
+    title: legacyShowcaseTitle ? base.showcase.title : result.showcase.title,
+    lead: legacyShowcaseLead ? base.showcase.lead : result.showcase.lead,
     images: (result.showcase?.images ?? []).slice(0, MAX_SHOWCASE_IMAGES),
   };
+
+  if (
+    result.perfume3d?.tagline?.ar === "تسعة أجزاء. حضورٌ واحد لا يُنسى." ||
+    result.perfume3d?.tagline?.en === "Nine parts. One unforgettable presence."
+  ) {
+    result.perfume3d = {
+      ...result.perfume3d,
+      tagline: base.perfume3d.tagline,
+      craftBody: base.perfume3d.craftBody,
+    };
+  }
   result.theme = {
     ...result.theme,
     headingScale: clampScale("headingScale", Number(result.theme.headingScale)),

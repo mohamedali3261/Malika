@@ -14,9 +14,8 @@ interface Props {
 }
 
 /**
- * Three copy blocks keyed to the narrative. Their opacity/transform are
- * written straight to the DOM from a single rAF loop, so scrolling never
- * triggers a React render.
+ * Three copy blocks keyed to the narrative. Writes `--p-shift` rather than
+ * overwriting `style.transform`, preserving desktop `-50%` vertical centering.
  */
 export function PerfumeProductInfo({ stateRef }: Props) {
   const { lang, l, t, x } = useLang();
@@ -38,7 +37,7 @@ export function PerfumeProductInfo({ stateRef }: Props) {
     const apply = (node: HTMLDivElement | null, opacity: number, shift: number) => {
       if (!node) return;
       node.style.opacity = opacity.toFixed(3);
-      node.style.transform = `translate3d(0, ${shift.toFixed(2)}px, 0)`;
+      node.style.setProperty("--p-shift", `${shift.toFixed(2)}px`);
       node.style.pointerEvents = opacity > 0.6 ? "auto" : "none";
       node.setAttribute("aria-hidden", opacity < 0.1 ? "true" : "false");
     };
@@ -56,9 +55,9 @@ export function PerfumeProductInfo({ stateRef }: Props) {
       const craft = fadeWindow(progress, 0.42, 0.6, 0.07);
       const final = fadeWindow(progress, 0.9, 1.02, 0.06);
 
-      apply(heroRef.current, hero, (1 - hero) * 26);
-      apply(craftRef.current, craft, (1 - craft) * 26);
-      apply(finalRef.current, final, (1 - final) * 26);
+      apply(heroRef.current, hero, (1 - hero) * 24);
+      apply(craftRef.current, craft, (1 - craft) * 24);
+      apply(finalRef.current, final, (1 - final) * 24);
 
       frame = window.requestAnimationFrame(tick);
     };
@@ -89,7 +88,7 @@ export function PerfumeProductInfo({ stateRef }: Props) {
       <div ref={craftRef} className="perfume-block perfume-block--craft" style={{ opacity: 0 }}>
         <span className="perfume-eyebrow">
           <Sparkle className="h-3 w-3" />
-          {x("Nine components", "تسعة أجزاء")}
+          {x("Ten precision parts", "عشرة أجزاء دقيقة")}
         </span>
         <h3 className="perfume-subtitle font-display">{lc(c.perfume3d.craftTitle)}</h3>
         <p className="perfume-body">{lc(c.perfume3d.craftBody)}</p>
@@ -109,7 +108,9 @@ export function PerfumeProductInfo({ stateRef }: Props) {
           <span className="perfume-eyebrow__dot" />
           {lc(c.perfume3d.finalLine)}
         </span>
-        <h3 className="perfume-subtitle font-display">{product ? l(product.name) : lc(c.perfume3d.name)}</h3>
+        <h3 className="perfume-subtitle font-display">
+          {product ? l(product.name) : lc(c.perfume3d.name)}
+        </h3>
         <p className="perfume-body perfume-body--tight">
           {product ? l(product.description) : lc(c.perfume3d.craftBody)}
         </p>
