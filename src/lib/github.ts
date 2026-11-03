@@ -222,10 +222,17 @@ export async function checkAccess(
   };
 
   const [owner = config.owner, repo = config.repo] = (info.full_name ?? `${config.owner}/${config.repo}`).split("/");
-  const defaultBranch = info.default_branch ?? "main";
-  const branch = config.branch.trim() || defaultBranch;
+  const defaultBranch = info.default_branch ?? "main1";
+  let branch = config.branch.trim() || defaultBranch;
 
-  const branchResponse = await request(`${repoPath({ owner, repo })}/branches/${enc(branch)}`, token);
+  let branchResponse = await request(`${repoPath({ owner, repo })}/branches/${enc(branch)}`, token);
+  if (branchResponse.status === 404 && branch !== defaultBranch) {
+    const fallbackResponse = await request(`${repoPath({ owner, repo })}/branches/${enc(defaultBranch)}`, token);
+    if (fallbackResponse.ok) {
+      branch = defaultBranch;
+      branchResponse = fallbackResponse;
+    }
+  }
   if (!branchResponse.ok && branchResponse.status !== 404) await fail(branchResponse);
 
   return {
@@ -252,8 +259,22 @@ export interface CatalogPayload {
 
 export type PublishOutcome = GithubPublishResult & { bytes: number };
 
-async function currentSha(config: GithubConfig, token: string): Promise<string | undefined> {
-  const response = await request(`${filePath(config)}?ref=${enc(config.branch || "main")}`, token);
+async function resolveTargetBranch(config: GithubConfig, token: string): Promise<string> {
+  const configured = config.branch.trim() || "main1";
+  const branchRes = await request(`${repoPath(config)}/branches/${enc(configured)}`, token);
+  if (branchRes.ok) return configured;
+  if (branchRes.status === 404) {
+    const repoRes = await request(repoPath(config), token);
+    if (repoRes.ok) {
+      const info = (await repoRes.json()) as { default_branch?: string };
+      if (info.default_branch) return info.default_branch;
+    }
+  }
+  return configured;
+}
+
+async function currentSha(config: GithubConfig, token: string, branch: string): Promise<string | undefined> {
+  const response = await request(`${filePath(config)}?ref=${enc(branch)}`, token);
   if (response.status === 404) return undefined; // first publish: the file does not exist yet
   if (!response.ok) await fail(response);
   const data = (await response.json()) as { sha?: string } | unknown[];
@@ -275,16 +296,17 @@ export async function publishCatalog(
 ): Promise<PublishOutcome> {
   if (!config.owner || !config.repo || !token) throw new GithubError("auth", 401, "Repository and token are required.");
 
+  const targetBranch = await resolveTargetBranch(config, token);
   const text = JSON.stringify(payload, null, 2);
   const bytes = new TextEncoder().encode(text).length;
   const content = toBase64Utf8(text);
   const message = `catalogue: update storefront${note ? ` · ${note}` : ""} · ${new Date().toISOString().slice(0, 16).replace("T", " ")}`;
 
   for (let attempt = 0; attempt < 2; attempt += 1) {
-    const sha = await currentSha(config, token);
+    const sha = await currentSha(config, token, targetBranch);
     const response = await request(filePath(config), token, {
       method: "PUT",
-      json: { message, content, branch: config.branch || "main", ...(sha ? { sha } : {}) },
+      json: { message, content, branch: targetBranch, ...(sha ? { sha } : {}) },
     });
 
     if (response.ok) {

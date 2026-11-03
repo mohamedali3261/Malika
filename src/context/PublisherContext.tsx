@@ -31,9 +31,9 @@ const DEPLOY_TIMEOUT_MS = 6 * 60 * 1000;
 const HASH_KEY = "malika.publish.hash.v1";
 
 export const defaultGithubConfig: GithubConfig = {
-  owner: "",
-  repo: "",
-  branch: "main",
+  owner: "mohamedali3261",
+  repo: "Malika",
+  branch: "main1",
   path: "src/data/products/catalog.json",
 };
 
@@ -83,6 +83,20 @@ export function PublisherProvider({ children }: { children: ReactNode }) {
   const { products, settings, content, markPublished } = useStore();
   const [config, setConfig] = usePersistentState<GithubConfig>("malika.github.config.v1", defaultGithubConfig);
   const [session, setSessionState] = useState<GitHubSession | null>(() => loadSession());
+
+  useEffect(() => {
+    if (!config.owner && !config.repo) {
+      setConfig((prev) => ({
+        ...prev,
+        owner: defaultGithubConfig.owner,
+        repo: defaultGithubConfig.repo,
+        branch: prev.branch === "main" || !prev.branch ? defaultGithubConfig.branch : prev.branch,
+      }));
+    } else if (config.repo.toLowerCase() === "malika" && config.branch === "main") {
+      setConfig((prev) => ({ ...prev, branch: "main1" }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [phase, setPhase] = useState<PublishPhase>("idle");
   const [step, setStep] = useState<"saving" | "uploading" | null>(null);
