@@ -59,7 +59,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone/55">{t("brand.tagline")}</p>
             <div className="mt-6 flex gap-2">
               {[
-                { href: whatsappUrl(settings.whatsapp, x("Hello MALIKA 🌿", "مرحباً مليكة 🌿")), icon: Whatsapp, label: "WhatsApp" },
+                { href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿")), icon: Whatsapp, label: "WhatsApp" },
                 { href: messengerUrl(settings.messenger), icon: Messenger, label: "Messenger" },
                 { href: instagramUrl(settings.instagram), icon: Instagram, label: "Instagram" },
                 { href: `mailto:${settings.email}`, icon: Mail, label: "Email" },
@@ -102,7 +102,7 @@ export function Footer() {
                 <Link to="/contact" className="transition hover:text-acid">{t("footer.shipping")}</Link>
               </li>
               <li>
-                <a href={whatsappUrl(settings.whatsapp, x("Hello MALIKA, I need help with an order", "مرحباً مليكة، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
+                <a href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I need help with an order", "مرحباً VLOR، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
                   {t("footer.contact")}
                 </a>
               </li>
@@ -134,7 +134,7 @@ export function Footer() {
         </div>
 
         <div className="relative select-none overflow-hidden border-t border-bone/12 pt-6">
-          <p className="font-display text-center text-[19vw] leading-[0.72] tracking-[0.06em] text-bone/[0.055] sm:text-[15vw]">
+          <p dir="ltr" className="font-display text-center text-[19vw] leading-[0.72] tracking-[0.06em] text-bone/[0.055] sm:text-[15vw]">
             {wordmark}
           </p>
         </div>
@@ -142,7 +142,7 @@ export function Footer() {
         <div className="flex flex-col items-center justify-between gap-3 border-t border-bone/12 py-5 text-[10px] uppercase tracking-[0.16em] text-bone/35 sm:flex-row">
           <p>
             {/* Isolated so the year never reorders inside the RTL line. */}
-            <span dir="ltr">© {year}</span> {wordmark} ·{" "}
+            <span dir="ltr">© {year}</span> <span dir="ltr">{wordmark}</span> ·{" "}
             {t("footer.rights")}
           </p>
           <p className="flex items-center gap-2">

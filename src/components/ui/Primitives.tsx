@@ -282,6 +282,7 @@ export function Accordion({
 export function Logo({ light, compact }: { light?: boolean; compact?: boolean }) {
   const { lang } = useLang();
   const { wordmark, descriptor } = useBrand();
+  const isArabicWordmark = /[\u0600-\u06FF]/.test(wordmark);
   return (
     <span className="inline-flex items-center gap-3">
       <span
@@ -299,9 +300,10 @@ export function Logo({ light, compact }: { light?: boolean; compact?: boolean })
       {!compact && (
         <span className="flex flex-col leading-none">
           <span
+            dir={isArabicWordmark ? undefined : "ltr"}
             className={cn(
               "font-display text-[22px]",
-              (lang === "ar" ? "tracking-normal" : "tracking-[0.28em]"),
+              isArabicWordmark ? "tracking-normal" : "tracking-[0.28em]",
               light ? "text-bone" : "text-ink"
             )}
           >

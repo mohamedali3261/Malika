@@ -36,7 +36,7 @@ export function FloatingWhatsApp() {
     <a
       href={whatsappUrl(
         settings.whatsapp,
-        x("Hello MALIKA, I'd love help choosing a scent 🌿", "مرحباً مليكة، أحتاج مساعدة في اختيار عطر 🌿")
+        x("Hello VLOR, I'd love help choosing a scent 🌿", "مرحباً VLOR، أحتاج مساعدة في اختيار عطر 🌿")
       )}
       target="_blank"
       rel="noopener noreferrer"

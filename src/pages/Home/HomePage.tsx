@@ -20,7 +20,7 @@ export function HomePage() {
   const { products } = useStore();
   const { c } = useContent();
   const signature =
-    products.find((product) => product.slug === "malika-noir") ??
+    products.find((product) => product.slug === "vlor-noir" || product.slug === "malika-noir") ??
     products.find((product) => product.featured) ??
     products[0];
 

@@ -99,8 +99,8 @@ function createLabelTexture(): THREE.CanvasTexture {
 
     ctx.fillStyle = "#f3efe7";
     ctx.font = "600 48px 'Manrope', system-ui, sans-serif";
-    ctx.letterSpacing = "14px";
-    ctx.fillText("MALIKA", width / 2 + 7, 258);
+    ctx.letterSpacing = "16px";
+    ctx.fillText("VLOR", width / 2 + 8, 258);
 
     // Thin gold rule
     ctx.strokeStyle = "rgba(223, 202, 164, 0.55)";

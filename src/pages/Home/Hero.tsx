@@ -21,7 +21,7 @@ export function Hero({ signature }: { signature?: Product }) {
   const heroTilt = useCardTilt3D<HTMLDivElement>(4);
   const magneticCta = useMagnetic<HTMLDivElement>(6);
 
-  const greeting = x("Hello MALIKA, help me find my scent", "مرحباً مليكة، أرغب في مساعدتي لاختيار عطر");
+  const greeting = x("Hello VLOR, help me find my scent", "مرحباً VLOR، أرغب في مساعدتي لاختيار عطر");
 
   return (
     <section className="grain relative overflow-hidden bg-ink text-bone">
@@ -30,7 +30,7 @@ export function Hero({ signature }: { signature?: Product }) {
         <div className="m-drift-mist-a absolute -start-24 top-10 h-[340px] w-[340px] rounded-full bg-plum-2/80 blur-[100px]" />
         <div className="m-drift-mist-b absolute end-1/4 top-1/3 h-[280px] w-[280px] rounded-full bg-lilac/25 blur-[110px]" />
         <div className="m-breathe-aura absolute bottom-0 start-1/3 h-52 w-52 rounded-full bg-acid/10 blur-[100px]" />
-        <p className="m-watermark-drift font-display absolute -end-6 top-16 select-none text-[24vw] leading-none tracking-tight text-bone/[0.035] lg:text-[15vw]">
+        <p dir="ltr" className="m-watermark-drift font-display absolute -end-6 top-16 select-none text-[24vw] leading-none tracking-tight text-bone/[0.035] lg:text-[15vw]">
           {wordmark}
         </p>
       </div>
@@ -150,7 +150,7 @@ export function Hero({ signature }: { signature?: Product }) {
               <span aria-hidden="true" className="m-tilt-3d-glare absolute inset-0 z-10 rounded-[inherit]" />
               <SmartImage
                 src={signature?.images[0] ?? ""}
-                alt={signature ? `${signature.name.en} bottle` : "Malika perfume"}
+                alt={signature ? `${signature.name.en} bottle` : "VLOR perfume"}
                 priority
                 className="aspect-[4/4.7] w-full rounded-[1.45rem] bg-plum-2 sm:rounded-[1.8rem]"
               />
@@ -161,7 +161,7 @@ export function Hero({ signature }: { signature?: Product }) {
                     {t("hero.featured")} · N°01
                   </p>
                   <p className="font-display mt-0.5 text-2xl leading-none text-bone sm:text-[1.75rem]">
-                    {signature ? l(signature.name) : "Malika Noir"}
+                    {signature ? l(signature.name) : "VLOR Noir"}
                   </p>
                   <p className="mt-1 text-[10px] text-bone/60">{signature ? l(signature.tagline) : ""}</p>
                 </div>

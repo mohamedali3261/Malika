@@ -64,7 +64,7 @@ export function StoreSettingsForm({
           <Field label="WhatsApp number" hint="e.g. 201234567890">
             <input value={draft.whatsapp} onChange={(event) => set("whatsapp", event.target.value)} className="field" dir="ltr" inputMode="tel" />
           </Field>
-          <Field label="Messenger username" hint="facebook.com/yourpage → malika.perfumes">
+          <Field label="Messenger username" hint="facebook.com/yourpage → vlor.perfumes">
             <input value={draft.messenger} onChange={(event) => set("messenger", event.target.value)} className="field" dir="ltr" />
           </Field>
           <Field label="Instagram handle">

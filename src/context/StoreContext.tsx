@@ -36,9 +36,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     fetch('/api/products').then(async r => { if (!r.ok) throw new Error('Catalogue unavailable'); setProducts(await r.json()); }).catch(() => console.error('Catalogue unavailable'));
   }, []);
-  const [settings, setSettings] = usePersistentState<SiteSettings>(
+  const [rawSettings, setSettings] = usePersistentState<SiteSettings>(
     `malika.settings.v2${catalogueVersion}`,
     publishedSettings ? { ...defaultSettings, ...publishedSettings } : defaultSettings
+  );
+  const settings = useMemo<SiteSettings>(
+    () => ({
+      ...rawSettings,
+      messenger: rawSettings.messenger === "malika.perfumes" ? defaultSettings.messenger : rawSettings.messenger,
+      instagram: rawSettings.instagram === "malika.perfumes" ? defaultSettings.instagram : rawSettings.instagram,
+      email: rawSettings.email === "hello@malika-perfumes.com" ? defaultSettings.email : rawSettings.email,
+    }),
+    [rawSettings]
   );
   const [wishlist, setWishlist] = usePersistentState<string[]>("malika.wishlist.v2", []);
   const [storedContent, setStoredContent] = usePersistentState<DeepPartial<SiteContent> | null>(

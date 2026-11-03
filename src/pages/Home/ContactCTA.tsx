@@ -12,7 +12,7 @@ export function ContactCTA() {
   const { t, x } = useLang();
   const { c, lc } = useContent();
   const { settings } = useStore();
-  const greeting = x("Hello MALIKA, help me pick a scent 🌿", "مرحباً مليكة، أرغب في مساعدتي لاختيار عطر 🌿");
+  const greeting = x("Hello VLOR, help me pick a scent 🌿", "مرحباً VLOR، أرغب في مساعدتي لاختيار عطر 🌿");
 
   return (
     <section className="cv-auto relative bg-bone sec-pb">
@@ -67,7 +67,7 @@ export function ContactCTA() {
                 <div className="absolute inset-4 rounded-full bg-lilac/25 blur-2xl" />
                 <SmartImage
                   src={IMG.bottleEditorial}
-                  alt={x("Malika perfume", "عطر مليكة")}
+                  alt={x("VLOR perfume", "عطر VLOR")}
                   className="aspect-[4/5] w-full rotate-2 rounded-[1.8rem] border border-bone/15"
                 />
                 <div className="absolute -bottom-4 -start-3 flex items-center gap-2.5 rounded-2xl border border-ink/10 bg-bone px-3.5 py-2.5 text-ink shadow-xl">

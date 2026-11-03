@@ -100,10 +100,72 @@ const TRIGGER_STATEMENTS = [
 let readyDb: D1Database | null = null;
 let pendingInit: Promise<void> | null = null;
 
+async function applyVlorBrandMigration(db: D1Database): Promise<void> {
+  const rebranded = await db
+    .prepare("SELECT value FROM store_meta WHERE key='rebrand_vlor_v1'")
+    .first<{ value: string }>();
+  if (rebranded?.value === '1') return;
+
+  const rows = await db
+    .prepare('SELECT id, slug, data FROM products')
+    .all<{ id: string; slug: string; data: string }>();
+
+  const updates: D1PreparedStatement[] = [];
+  for (const row of rows.results ?? []) {
+    try {
+      const parsed = JSON.parse(row.data);
+      let changed = false;
+
+      if (row.id === 'malika-noir' || row.slug === 'malika-noir') {
+        if (parsed.slug === 'malika-noir') {
+          parsed.slug = 'vlor-noir';
+          changed = true;
+        }
+        if (parsed.name?.en === 'Malika Noir') {
+          parsed.name.en = 'VLOR Noir';
+          changed = true;
+        }
+        if (parsed.name?.ar === 'مليكة نوار') {
+          parsed.name.ar = 'VLOR نوار';
+          changed = true;
+        }
+      }
+
+      for (const field of ['tagline', 'description', 'story'] as const) {
+        if (parsed[field]?.en && /malika/i.test(parsed[field].en)) {
+          parsed[field].en = parsed[field].en.replace(/MALIKA/g, 'VLOR').replace(/Malika/g, 'VLOR');
+          changed = true;
+        }
+        if (parsed[field]?.ar && parsed[field].ar.includes('مليكة')) {
+          parsed[field].ar = parsed[field].ar.replace(/مليكة/g, 'VLOR');
+          changed = true;
+        }
+      }
+
+      const nextSlug = row.slug === 'malika-noir' ? 'vlor-noir' : row.slug;
+      if (changed || nextSlug !== row.slug) {
+        updates.push(
+          db
+            .prepare('UPDATE products SET slug = ?, data = ? WHERE id = ?')
+            .bind(nextSlug, JSON.stringify(parsed), row.id)
+        );
+      }
+    } catch {
+      // Keep invalid/custom row untouched if JSON parsing fails.
+    }
+  }
+
+  updates.push(
+    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v1', '1')")
+  );
+  await db.batch(updates);
+}
+
 async function initialize(db: D1Database): Promise<void> {
   try {
     const meta = await db.prepare("SELECT value FROM store_meta WHERE key='seed_v2'").first<{ value: string }>();
     if (meta?.value === '1') {
+      await applyVlorBrandMigration(db);
       readyDb = db;
       return;
     }
@@ -178,7 +240,10 @@ async function initialize(db: D1Database): Promise<void> {
     );
   }
 
-  await db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('seed_v2', '1')").run();
+  await db.batch([
+    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('seed_v2', '1')"),
+    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v1', '1')"),
+  ]);
   readyDb = db;
 }
 

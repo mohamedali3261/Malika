@@ -476,12 +476,16 @@ export function RunwayLookbook() {
       ref={sectionRef}
       id="runway-lookbook"
       className="rl-section"
-      aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور مليكة")}
+      aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور VLOR")}
     >
       {/* Editorial Runway Header */}
       <div className="rl-header">
         <div className="rl-r1">
-          <Link to="/shop" className="rl-brand rl-wide rl-wide-i18n">
+          <Link
+            to="/shop"
+            dir={/[\u0600-\u06FF]/.test(wordmark) ? undefined : "ltr"}
+            className={cn("rl-brand rl-wide", /[\u0600-\u06FF]/.test(wordmark) && "rl-wide-i18n")}
+          >
             {wordmark}
           </Link>
 
@@ -595,8 +599,8 @@ export function RunwayLookbook() {
             </h2>
             <p>
               {x(
-                "A study in sillage and presence. Six signature extraits from MALIKA stand in one receding line — drag, scroll or tap any flacon in the distance to bring its story forward.",
-                "دراسة في الثبات والحضور. ستّ قوارير من إكستريه مليكة تقف في صفٍّ يمتدّ في العمق — اسحب أو مرّر أو اضغط على أي قارورة لتتقدّم بتفاصيلها إلى الواجهة."
+                "A study in sillage and presence. Six signature extraits from VLOR stand in one receding line — drag, scroll or tap any flacon in the distance to bring its story forward.",
+                "دراسة في الثبات والحضور. ستّ قوارير من إكستريه VLOR تقف في صفٍّ يمتدّ في العمق — اسحب أو مرّر أو اضغط على أي قارورة لتتقدّم بتفاصيلها إلى الواجهة."
               )}
             </p>
           </div>

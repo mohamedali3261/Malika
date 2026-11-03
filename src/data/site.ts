@@ -3,12 +3,12 @@ import type { Localized, SiteSettings } from "@/types";
 /**
  * Brand source of truth. Change the name here and in src/i18n/translations.ts
  * to rename the whole storefront.
- * «مليكة» (Malika) = queen — the house is built around regal, lasting presence.
+ * VLOR — the house is built around regal, lasting presence.
  */
 export const BRAND = {
-  name: "MALIKA",
-  nameAr: "مليكة",
-  wordmark: { en: "MALIKA", ar: "مليكة" } as Localized,
+  name: "VLOR",
+  nameAr: "VLOR",
+  wordmark: { en: "VLOR", ar: "VLOR" } as Localized,
   descriptor: { en: "Maison de parfum", ar: "دار عطور" } as Localized,
   tagline: { en: "Presence, bottled.", ar: "حضورٌ في زجاجة." } as Localized,
   foundingYear: 2021,
@@ -17,9 +17,9 @@ export const BRAND = {
 
 export const defaultSettings: SiteSettings = {
   whatsapp: "201234567890",
-  messenger: "malika.perfumes",
-  instagram: "malika.perfumes",
-  email: "hello@malika-perfumes.com",
+  messenger: "vlor.perfumes",
+  instagram: "vlor.perfumes",
+  email: "hello@vlor-perfumes.com",
   phone: "+20 123 456 7890",
   freeShippingThreshold: 2000,
   address: {

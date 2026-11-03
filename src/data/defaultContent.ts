@@ -50,13 +50,13 @@ export function createDefaultContent(): SiteContent {
 
     showcase: {
       eyebrow: { en: "Curated editions", ar: "إصدارات مختارة" },
-      title: { en: "Icons of Malika.", ar: "أيقوناتُ مليكة." },
+      title: { en: "Icons of VLOR.", ar: "أيقوناتُ VLOR." },
       lead: {
         en: "Swipe through our defining extraits — each flacon carries its own chapter.",
         ar: "تجوّل بين أبرز عطور الدار — كل زجاجة تروي فصلاً خاصاً.",
       },
       images: [
-        { id: "s1", src: "/images/bottles/dark.webp", productSlug: "malika-noir", fit: "contain", caption: { en: "", ar: "" } },
+        { id: "s1", src: "/images/bottles/dark.webp", productSlug: "vlor-noir", fit: "contain", caption: { en: "", ar: "" } },
         { id: "s2", src: "/images/bottles/amber.webp", productSlug: "fig-and-ember", fit: "contain", caption: { en: "", ar: "" } },
         { id: "s3", src: "/images/bottles/rose.webp", productSlug: "velvet-dusk", fit: "contain", caption: { en: "", ar: "" } },
         { id: "s4", src: "/images/bottles/lilac.webp", productSlug: "iris-mirage", fit: "contain", caption: { en: "", ar: "" } },
@@ -83,11 +83,11 @@ export function createDefaultContent(): SiteContent {
     },
 
     story: {
-      eyebrow: { en: "The house of Malika", ar: "دار مليكة" },
+      eyebrow: { en: "The house of VLOR", ar: "دار VLOR" },
       title: { en: "Built slowly. Worn quietly.", ar: "يُصنع ببطء. ويُلبَس بهدوء." },
       lead: {
-        en: "Malika began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
-        ar: "بدأت مليكة بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
+        en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
+        ar: "بدأت VLOR بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
       },
       quote: {
         en: "A perfume should not announce you. It should make people lean in.",
@@ -138,8 +138,8 @@ export function createDefaultContent(): SiteContent {
         {
           id: "nour",
           quote: {
-            en: "I wore Malika Noir to a wedding and three people followed me to the parking lot to ask what it was. It's the first perfume I've finished a full bottle of.",
-            ar: "لبست مليكة نوار في فرح، فتبعني ثلاثة أشخاص إلى الجراج يسألون عن العطر. أول برفان أُكمل زجاجته كاملة.",
+            en: "I wore VLOR Noir to a wedding and three people followed me to the parking lot to ask what it was. It's the first perfume I've finished a full bottle of.",
+            ar: "لبست VLOR نوار في فرح، فتبعني ثلاثة أشخاص إلى الجراج يسألون عن العطر. أول برفان أُكمل زجاجته كاملة.",
           },
           name: { en: "Nour El-Sayed", ar: "نور السيد" },
           city: { en: "New Cairo", ar: "القاهرة الجديدة" },
@@ -260,7 +260,7 @@ export function createDefaultContent(): SiteContent {
     },
 
     brand: {
-      wordmark: { en: "MALIKA", ar: "مليكة" },
+      wordmark: { en: "VLOR", ar: "VLOR" },
       descriptor: { en: "Maison de parfum", ar: "دار عطور" },
     },
 
@@ -343,9 +343,27 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
   const result = clean as unknown as SiteContent;
   // The cap holds even for hand-edited or imported data.
   // Also upgrade untouched legacy default wording stored in older localStorage snapshots.
+  const replaceLegacyBrand = (val?: { en?: string; ar?: string }) =>
+    val
+      ? {
+          en: (val.en ?? "").replace(/MALIKA/g, "VLOR").replace(/Malika/g, "VLOR"),
+          ar: (val.ar ?? "").replace(/مليكة/g, "VLOR"),
+        }
+      : val;
+
+  if (result.brand?.wordmark) {
+    const enMark = result.brand.wordmark.en?.trim();
+    const arMark = result.brand.wordmark.ar?.trim();
+    if (!enMark || enMark.toUpperCase() === "MALIKA" || arMark === "مليكة") {
+      result.brand = { ...result.brand, wordmark: base.brand.wordmark };
+    }
+  }
+
   const legacyShowcaseTitle =
     result.showcase?.title?.ar === "خمس زجاجات. دارٌ واحدة." ||
-    result.showcase?.title?.en === "Five bottles. One house.";
+    result.showcase?.title?.en === "Five bottles. One house." ||
+    result.showcase?.title?.ar === "أيقوناتُ مليكة." ||
+    result.showcase?.title?.en === "Icons of Malika.";
   const legacyShowcaseEyebrow =
     result.showcase?.eyebrow?.ar === "التشكيلة" && result.showcase?.eyebrow?.en === "The lineup";
   const legacyShowcaseLead =
@@ -354,19 +372,43 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
   result.showcase = {
     ...result.showcase,
     eyebrow: legacyShowcaseEyebrow ? base.showcase.eyebrow : result.showcase.eyebrow,
-    title: legacyShowcaseTitle ? base.showcase.title : result.showcase.title,
+    title: legacyShowcaseTitle ? base.showcase.title : (replaceLegacyBrand(result.showcase.title) as typeof base.showcase.title),
     lead: legacyShowcaseLead ? base.showcase.lead : result.showcase.lead,
-    images: (result.showcase?.images ?? []).slice(0, MAX_SHOWCASE_IMAGES),
+    images: (result.showcase?.images ?? []).slice(0, MAX_SHOWCASE_IMAGES).map((img) => ({
+      ...img,
+      productSlug: img.productSlug === "malika-noir" ? "vlor-noir" : img.productSlug,
+    })),
   };
 
-  if (
-    result.perfume3d?.tagline?.ar === "تسعة أجزاء. حضورٌ واحد لا يُنسى." ||
-    result.perfume3d?.tagline?.en === "Nine parts. One unforgettable presence."
-  ) {
+  if (result.story) {
+    result.story = {
+      ...result.story,
+      eyebrow: replaceLegacyBrand(result.story.eyebrow) as typeof base.story.eyebrow,
+      lead: replaceLegacyBrand(result.story.lead) as typeof base.story.lead,
+    };
+  }
+
+  if (Array.isArray(result.testimonials?.items)) {
+    result.testimonials = {
+      ...result.testimonials,
+      items: result.testimonials.items.map((item) => ({
+        ...item,
+        quote: replaceLegacyBrand(item.quote) as typeof item.quote,
+      })),
+    };
+  }
+
+  if (result.perfume3d) {
+    const legacyTagline =
+      result.perfume3d.tagline?.ar === "تسعة أجزاء. حضورٌ واحد لا يُنسى." ||
+      result.perfume3d.tagline?.en === "Nine parts. One unforgettable presence.";
     result.perfume3d = {
       ...result.perfume3d,
-      tagline: base.perfume3d.tagline,
-      craftBody: base.perfume3d.craftBody,
+      name: replaceLegacyBrand(result.perfume3d.name) as typeof base.perfume3d.name,
+      tagline: legacyTagline ? base.perfume3d.tagline : result.perfume3d.tagline,
+      craftBody: legacyTagline
+        ? base.perfume3d.craftBody
+        : (replaceLegacyBrand(result.perfume3d.craftBody) as typeof base.perfume3d.craftBody),
     };
   }
   result.theme = {

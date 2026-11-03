@@ -147,10 +147,10 @@ export const SEED_SHIPPING_RATES: ReadonlyArray<readonly [string, number, number
 export const SEED_PRODUCTS = [
   {
     "id": "malika-noir",
-    "slug": "malika-noir",
+    "slug": "vlor-noir",
     "name": {
-      "en": "Malika Noir",
-      "ar": "مليكة نوار"
+      "en": "VLOR Noir",
+      "ar": "VLOR نوار"
     },
     "tagline": {
       "en": "Incense · Oud · Smoked leather",
