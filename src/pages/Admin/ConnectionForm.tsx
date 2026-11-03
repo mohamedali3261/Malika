@@ -23,8 +23,8 @@ export function ConnectionForm({
   const { x } = useLang();
   const { config, connect, session } = usePublisher();
 
-  const [repo, setRepo] = useState(config.owner && config.repo ? `${config.owner}/${config.repo}` : "");
-  const [branch, setBranch] = useState(config.branch || "main");
+  const [repo, setRepo] = useState(config.owner && config.repo ? `${config.owner}/${config.repo}` : "mohamedali3261/Malika");
+  const [branch, setBranch] = useState(config.branch || "main1");
   const [token, setToken] = useState("");
   const [remember, setRemember] = useState(() => (session ? isRemembered() : true));
   const [busy, setBusy] = useState<"test" | "save" | null>(null);
@@ -87,7 +87,7 @@ export function ConnectionForm({
 
       <label className="block">
         <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.14em] text-mist">{x("Branch", "الفرع")}</span>
-        <input value={branch} onChange={(event) => setBranch(event.target.value)} className="field" dir="ltr" placeholder="main" autoComplete="off" />
+        <input value={branch} onChange={(event) => setBranch(event.target.value)} className="field" dir="ltr" placeholder="main1" autoComplete="off" />
       </label>
 
       <details open={autoOpenSteps && !session} className="group rounded-2xl border border-ink/10 bg-white/50">
