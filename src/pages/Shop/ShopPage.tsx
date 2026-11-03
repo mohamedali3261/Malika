@@ -41,7 +41,7 @@ export function ShopPage() {
   const [gender, setGender] = useState<Gender | "all">(initialGender);
   const [sort, setSort] = useState<SortKey>("featured");
   const [maxPrice, setMaxPrice] = useState(priceCeiling);
-  const [savedOnly, setSavedOnly] = useState(false);
+  const [savedOnly, setSavedOnly] = useState(routeQuery.get("saved") === "1");
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [priceTouched, setPriceTouched] = useState(false);
 
@@ -56,6 +56,7 @@ export function ShopPage() {
   useEffect(() => {
     setCategory((routeQuery.get("category") as Category | null) ?? "all");
     setGender((routeQuery.get("gender") as Gender | null) ?? "all");
+    if (routeQuery.get("saved") === "1") setSavedOnly(true);
   }, [routeQuery]);
 
   useEffect(() => {

@@ -120,6 +120,7 @@ export interface ShopHeroContent {
 
 export interface SectionToggles {
   marquee: boolean;
+  runwayLookbook: boolean;
   showcase: boolean;
   featured: boolean;
   perfume3d: boolean;

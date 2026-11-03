@@ -130,6 +130,7 @@ export function ContentEditor() {
           {(
             [
               ["marquee", ar ? "الشريط المتحرك" : "Moving strip"],
+              ["runwayLookbook", ar ? "منصّة العرض العميق (Runway)" : "Runway depth lookbook"],
               ["showcase", ar ? "كارت الصور" : "Image card"],
               ["featured", ar ? "المنتجات المميزة" : "Featured products"],
               ["perfume3d", ar ? "تجربة الزجاجة ثلاثية الأبعاد" : "3D bottle experience"],

@@ -26,6 +26,7 @@ export function Footer() {
 
   const explore = [
     { label: t("footer.shopAll"), to: "/shop" },
+    { label: x("Saved scents", "المفضلة"), to: "/wishlist" },
     { label: t("nav.about"), to: "/about" },
     { label: t("nav.contact"), to: "/contact" },
   ];
