@@ -3,6 +3,7 @@ import { Featured } from "@/pages/Home/Featured";
 import { Hero } from "@/pages/Home/Hero";
 import { NotesMarquee } from "@/pages/Home/NotesMarquee";
 import { Pillars } from "@/pages/Home/Pillars";
+import { RunwayLookbook } from "@/pages/Home/RunwayLookbook";
 import { ScentFinder } from "@/pages/Home/ScentFinder";
 import { Showcase } from "@/pages/Home/Showcase";
 import { StorySection } from "@/pages/Home/StorySection";
@@ -27,6 +28,7 @@ export function HomePage() {
     <div key="home" className="anim-page">
       <Hero signature={signature} />
       {c.sections.marquee && <NotesMarquee />}
+      {c.sections.runwayLookbook && <RunwayLookbook />}
       {c.sections.showcase && <Showcase />}
       {c.sections.featured && <Featured />}
       {c.sections.perfume3d && (

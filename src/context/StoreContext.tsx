@@ -22,6 +22,7 @@ interface StoreValue {
   lastPublishedAt: string | null;
   markPublished: (at: string) => void;
   toggleWishlist: (id: string) => boolean;
+  clearWishlist: () => void;
   isWished: (id: string) => boolean;
 }
 
@@ -118,12 +119,20 @@ export function StoreProvider({ children }: { children: ReactNode }) {
 
   const toggleWishlist = useCallback(
     (id: string) => {
-      const saved = wishlist.includes(id);
-      setWishlist(saved ? wishlist.filter((item) => item !== id) : [...wishlist, id]);
-      return !saved;
+      let nextSaved = false;
+      setWishlist((prev) => {
+        const exists = prev.includes(id);
+        nextSaved = !exists;
+        return exists ? prev.filter((item) => item !== id) : [...prev, id];
+      });
+      return nextSaved;
     },
-    [wishlist, setWishlist]
+    [setWishlist]
   );
+
+  const clearWishlist = useCallback(() => {
+    setWishlist([]);
+  }, [setWishlist]);
 
   const isWished = useCallback((id: string) => wishlist.includes(id), [wishlist]);
 
@@ -141,6 +150,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateContent,
       resetContent,
       toggleWishlist,
+      clearWishlist,
       isWished,
       dirty,
       lastPublishedAt,
@@ -159,6 +169,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       updateContent,
       resetContent,
       toggleWishlist,
+      clearWishlist,
       isWished,
       dirty,
       lastPublishedAt,

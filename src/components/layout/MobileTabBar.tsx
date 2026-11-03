@@ -1,4 +1,4 @@
-import { Bag, Whatsapp } from "@/components/ui/icons";
+import { Bag, Heart, Whatsapp } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useLang } from "@/i18n/LanguageContext";
@@ -30,7 +30,7 @@ export function MobileTabBar() {
   const { path } = useRoute();
   const { t, x } = useLang();
   const { count, open } = useCart();
-  const { settings } = useStore();
+  const { settings, wishlist } = useStore();
   const bagPulsing = useBagPulse();
 
   if (path === "/studio" || path === "/admin" || path.startsWith("/product/")) return null;
@@ -54,6 +54,21 @@ export function MobileTabBar() {
         <Link to="/shop" className={itemClass(path === "/shop")} aria-current={path === "/shop" ? "page" : undefined}>
           <ShopGlyph className="h-5 w-5" />
           {t("nav.shop")}
+        </Link>
+        <Link
+          to="/wishlist"
+          className={cn(itemClass(path === "/wishlist"), "relative")}
+          aria-current={path === "/wishlist" ? "page" : undefined}
+        >
+          <span className="relative">
+            <Heart className="h-5 w-5" fill={path === "/wishlist" || wishlist.length > 0 ? "currentColor" : "none"} />
+            {wishlist.length > 0 && (
+              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-extrabold text-ink">
+                {wishlist.length}
+              </span>
+            )}
+          </span>
+          {x("Saved", "المفضلة")}
         </Link>
         <a
           href={whatsappUrl(settings.whatsapp, x("Hello MALIKA, I'd love help choosing a scent 🌿", "مرحباً مليكة، أريد المساعدة في اختيار عطر 🌿"))}

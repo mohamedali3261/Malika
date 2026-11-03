@@ -108,11 +108,17 @@ export function Navbar() {
               {(lang === "ar" ? "EN" : "ع")}
             </button>
             <Link
-              to="/shop"
-              className="relative hidden h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink transition hover:border-ink/40 sm:grid"
+              to="/wishlist"
+              className={cn(
+                "relative grid h-10 w-10 place-items-center rounded-full border transition",
+                path === "/wishlist"
+                  ? "border-ink bg-ink text-bone"
+                  : "border-ink/12 text-ink hover:border-ink/40"
+              )}
               aria-label={t("product.wishlist")}
+              aria-current={path === "/wishlist" ? "page" : undefined}
             >
-              <Heart className="h-4 w-4" />
+              <Heart className="h-4 w-4" fill={wishlist.length > 0 || path === "/wishlist" ? "currentColor" : "none"} />
               {wishlist.length > 0 && (
                 <span className="absolute -end-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-bold text-ink">
                   {wishlist.length}
@@ -199,6 +205,24 @@ export function Navbar() {
                 <span className="font-mono text-[10px] text-mist">0{index + 1}</span>
               </Link>
             ))}
+            <Link
+              to="/wishlist"
+              onClick={() => setMobileOpen(false)}
+              className={cn(
+                "group flex items-center justify-between border-b border-ink/8 py-4 transition",
+                path === "/wishlist" ? "text-ink" : "text-ink/60"
+              )}
+            >
+              <span className="inline-flex items-center gap-2.5 font-display text-4xl leading-none">
+                {x("Saved", "المفضلة")}
+                {wishlist.length > 0 && (
+                  <span className="rounded-full bg-lilac px-2 py-0.5 font-sans text-xs font-bold text-ink">
+                    {wishlist.length}
+                  </span>
+                )}
+              </span>
+              <span className="font-mono text-[10px] text-mist">05</span>
+            </Link>
           </nav>
           <div className="space-y-3 border-t border-ink/10 p-5">
             <Button

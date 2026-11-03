@@ -285,6 +285,7 @@ export function createDefaultContent(): SiteContent {
 
     sections: {
       marquee: true,
+      runwayLookbook: true,
       showcase: true,
       featured: true,
       perfume3d: true,
