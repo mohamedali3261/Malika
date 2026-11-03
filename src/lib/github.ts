@@ -181,8 +181,8 @@ export function hashString(value: string): string {
  */
 export function tokenCreationUrl(owner?: string, days = 90): string {
   const params = new URLSearchParams({
-    name: "Malika studio",
-    description: "Lets the Malika studio publish catalog.json to this repository. Nothing else.",
+    name: "VLOR studio",
+    description: "Lets the VLOR studio publish catalog.json to this repository. Nothing else.",
     expires_in: String(days),
     contents: "write",
   });

@@ -12,7 +12,7 @@ export function Channels() {
     {
       label: t("contact.wa"),
       description: t("contact.wa.desc"),
-      href: whatsappUrl(settings.whatsapp, x("Hello MALIKA 🌿", "مرحباً مليكة 🌿")),
+      href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿")),
       icon: Whatsapp,
       tone: "hover:bg-[#25D366] hover:border-[#25D366] hover:text-ink",
       badge: x("fastest", "الأسرع"),

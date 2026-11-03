@@ -25,7 +25,7 @@ export function ContactHero() {
 
         <Reveal delay={120}>
           <div className="flex items-center gap-4 rounded-2xl border border-ink/10 bg-white/40 p-3 shadow-sm">
-            <SmartImage src={IMG.glass} alt={x("Malika studio", "استوديو مليكة")} className="h-24 w-20 shrink-0 rounded-xl" />
+            <SmartImage src={IMG.glass} alt={x("VLOR studio", "استوديو VLOR")} className="h-24 w-20 shrink-0 rounded-xl" />
             <div className="space-y-2">
               <p className="flex items-start gap-2 text-[11px] leading-snug text-ink/70">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-plum" /> {l(settings.address)}

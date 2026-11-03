@@ -78,7 +78,7 @@ export function ConnectionForm({
           }}
           className="field"
           dir="ltr"
-          placeholder="owner/malika-store"
+          placeholder="owner/vlor-store"
           autoComplete="off"
           spellCheck={false}
         />

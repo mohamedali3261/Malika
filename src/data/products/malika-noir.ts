@@ -3,8 +3,8 @@ import type { Product } from "@/types";
 
 const malikaNoir: Product = {
   id: "malika-noir",
-  slug: "malika-noir",
-  name: { en: "Malika Noir", ar: "مليكة نوار" },
+  slug: "vlor-noir",
+  name: { en: "VLOR Noir", ar: "VLOR نوار" },
   tagline: { en: "Incense · Oud · Smoked leather", ar: "بخور · عود · جلد مدخن" },
   description: {
     en: "A midnight extrait built around incense smoke, black pepper and a warm leather base. The one people ask about before they say hello.",

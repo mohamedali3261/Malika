@@ -1,7 +1,7 @@
 import type { Localized } from "@/types";
 
 /* ------------------------------------------------------------------ *
- * MALIKA — scroll-driven exploded perfume experience: asset config.
+ * VLOR — scroll-driven exploded perfume experience: asset config.
  *
  * Everything the animation needs is declared here. Swapping the visual
  * asset (procedural → real GLB) never requires touching animation code.
@@ -308,8 +308,8 @@ export const scrollLength = {
 /** Editorial copy for the experience (merged with Studio `c.perfume3d`). */
 export const perfumeStory = {
   collection: { en: "The Signature Collection", ar: "مجموعة التوقيع" },
-  productSlug: "malika-noir",
-  name: { en: "Malika Noir", ar: "مليكة نوار" },
+  productSlug: "vlor-noir",
+  name: { en: "VLOR Noir", ar: "VLOR نوار" },
   tagline: {
     en: "Ten precision elements. One unforgettable presence.",
     ar: "عشرة أجزاء دقيقة. حضورٌ واحد لا يُنسى.",
@@ -321,8 +321,8 @@ export const perfumeStory = {
   craft: {
     title: { en: "Engineered to be opened.", ar: "مصمّمة لتُفتَح." },
     body: {
-      en: "Every Malika bottle is assembled by hand: heavy hand-blown crystal, a weighted plinth, a hermetic pump and a brass collar machined to a tenth of a millimetre. Scroll to take it apart, or drag to rotate.",
-      ar: "كل زجاجة مليكة تُجمَّع يدوياً: كريستال سميك منفوخ يدوياً، قاعدة موزونة، مضخة محكمة وطوق نحاسي مخرَّط بدقة عُشر المليمتر. مرّر لتفكيكها أو اسحب لتدويرها.",
+      en: "Every VLOR bottle is assembled by hand: heavy hand-blown crystal, a weighted plinth, a hermetic pump and a brass collar machined to a tenth of a millimetre. Scroll to take it apart, or drag to rotate.",
+      ar: "كل زجاجة من VLOR تُجمَّع يدوياً: كريستال سميك منفوخ يدوياً، قاعدة موزونة، مضخة محكمة وطوق نحاسي مخرَّط بدقة عُشر المليمتر. مرّر لتفكيكها أو اسحب لتدويرها.",
     },
   },
   notes: [

@@ -20,12 +20,12 @@ export function whatsappUrl(phone: string, message: string): string {
 
 export function messengerUrl(username: string): string {
   const handle = username.replace(/^@/, "").replace(/^https?:\/\/(www\.)?(m\.me|facebook\.com)\//, "");
-  return `https://m.me/${handle || "malika.perfumes"}`;
+  return `https://m.me/${handle || "vlor.perfumes"}`;
 }
 
 export function instagramUrl(username: string): string {
   const handle = username.replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "");
-  return `https://instagram.com/${handle || "malika.perfumes"}`;
+  return `https://instagram.com/${handle || "vlor.perfumes"}`;
 }
 
 export function openChannel(url: string) {
@@ -36,14 +36,14 @@ export function productMessage(product: Product, ml: number, price: number, lang
   const name = product.name[lang];
   if (lang === "ar") {
     return [
-      "مرحباً مليكة 🌿",
+      "مرحباً VLOR 🌿",
       `مهتم بعطر: ${name}`,
       `الحجم: ${chatNumber(ml, lang)} مل — ${chatPrice(price, lang)}`,
       "هل هو متوفر الآن؟",
     ].join("\n");
   }
   return [
-    "Hello MALIKA 🌿",
+    "Hello VLOR 🌿",
     `I'm interested in: ${name}`,
     `Size: ${ml} ml — ${chatPrice(price, lang)}`,
     "Is it available right now?",
@@ -72,8 +72,8 @@ export function cartMessage(
 
   if (lang === "ar") {
     const header = customer
-      ? `مرحباً مليكة 🌿 أريد تأكيد هذا الطلب:`
-      : `مرحباً مليكة 🌿 أريد الاستفسار عن هذا الطلب:`;
+      ? `مرحباً VLOR 🌿 أريد تأكيد هذا الطلب:`
+      : `مرحباً VLOR 🌿 أريد الاستفسار عن هذا الطلب:`;
     const items = lines.map(
       (line, index) =>
         `${chatNumber(index + 1, lang)}. ${line.name.ar} — ${chatNumber(line.ml, lang)} مل × ${chatNumber(
@@ -103,8 +103,8 @@ export function cartMessage(
   }
 
   const header = customer
-    ? "Hello MALIKA 🌿 I'd like to confirm this order:"
-    : "Hello MALIKA 🌿 I'd like to ask about this order:";
+    ? "Hello VLOR 🌿 I'd like to confirm this order:"
+    : "Hello VLOR 🌿 I'd like to ask about this order:";
   const items = lines.map(
     (line, index) =>
       `${index + 1}. ${line.name.en} — ${line.ml}ml × ${line.qty} = ${chatPrice(
@@ -165,7 +165,7 @@ export function contactMessage(payload: {
   const { name, phone, subject, message, lang } = payload;
   if (lang === "ar") {
     return [
-      "مرحباً فريق مليكة،",
+      "مرحباً فريق VLOR،",
       `الاسم: ${name}`,
       `الهاتف: ${phone}`,
       `الموضوع: ${subject}`,
@@ -174,7 +174,7 @@ export function contactMessage(payload: {
     ].join("\n");
   }
   return [
-    "Hello MALIKA team,",
+    "Hello VLOR team,",
     `Name: ${name}`,
     `Phone: ${phone}`,
     `About: ${subject}`,

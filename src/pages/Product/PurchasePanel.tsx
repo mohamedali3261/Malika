@@ -38,8 +38,8 @@ export function PurchasePanel({ product }: { product: Product }) {
     const url = `${window.location.origin}${window.location.pathname}#/product/${product.slug}`;
     const text =
       lang === "ar"
-        ? `${l(product.name)} من مليكة — ${l(product.tagline)}`
-        : `${product.name.en} by MALIKA — ${product.tagline.en}`;
+        ? `${l(product.name)} من VLOR — ${l(product.tagline)}`
+        : `${product.name.en} by VLOR — ${product.tagline.en}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: l(product.name), text, url });

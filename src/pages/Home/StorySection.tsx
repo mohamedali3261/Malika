@@ -20,7 +20,7 @@ export function StorySection() {
             <div className="absolute -start-6 -top-6 h-24 w-24 rounded-full border border-dashed border-ink/20" />
             <SmartImage
               src={IMG.atelier}
-              alt={x("Malika atelier in Cairo", "ورشة مليكة في القاهرة")}
+              alt={x("VLOR atelier in Cairo", "ورشة VLOR في القاهرة")}
               className="aspect-[5/4] w-full rounded-[2rem] shadow-2xl shadow-ink/10"
             />
             <div className="absolute -bottom-10 -end-2 w-[44%] rotate-3 overflow-hidden rounded-[1.5rem] border-[6px] border-bone shadow-xl sm:-end-6">

@@ -4,7 +4,7 @@ type Entry = { en: string; ar: string };
 
 export const dict = {
   // Brand / global
-  "brand.name": { en: "MALIKA", ar: "مليكة" },
+  "brand.name": { en: "VLOR", ar: "VLOR" },
   "brand.sub": { en: "Maison de parfum", ar: "دار عطور" },
   "brand.tagline": { en: "Presence, bottled.", ar: "حضورٌ في زجاجة." },
   "nav.home": { en: "Home", ar: "الرئيسية" },
@@ -137,11 +137,11 @@ export const dict = {
   "shop.savedOnly": { en: "Saved only", ar: "المحفوظة فقط" },
 
   // Story / about
-  "story.eyebrow": { en: "The house of Malika", ar: "دار مليكة" },
+  "story.eyebrow": { en: "The house of VLOR", ar: "دار VLOR" },
   "story.title": { en: "Built slowly. Worn quietly.", ar: "يُصنع ببطء. ويُلبَس بهدوء." },
   "story.lead": {
-    en: "Malika began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
-    ar: "بدأت مليكة بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
+    en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
+    ar: "بدأت VLOR بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
   },
   "story.cta": { en: "Read our story", ar: "اقرأ حكايتنا" },
   "story.quote": {
@@ -263,8 +263,8 @@ export const dict = {
     ar: "مؤسستنا يارا كانت صيدلانية تشتري عطوراً رائحتها ساحرة لعشرين دقيقة ثم تختفي. بدأت التركيب في مطبخها، مع دفتر لكل محاولة وكل مزيج وكل فشل.",
   },
   "about.story2": {
-    en: "Malika is that notebook, distilled. Today we are a team of seven — two perfumers, three hands in the atelier, one photographer, one person who answers your messages. We still blend in 40-litre batches and we still keep notes.",
-    ar: "مليكة هي ذلك الدفتر بعد التقطير. اليوم نحن فريق من سبعة — عطّاران، وثلاثة أيدٍ في الورشة، ومصور، وشخص يرد على رسائلكم. ما زلنا نركّب ٤٠ لتراً في المرة وما زلنا ندون الملاحظات.",
+    en: "VLOR is that notebook, distilled. Today we are a team of seven — two perfumers, three hands in the atelier, one photographer, one person who answers your messages. We still blend in 40-litre batches and we still keep notes.",
+    ar: "VLOR هي ذلك الدفتر بعد التقطير. اليوم نحن فريق من سبعة — عطّاران، وثلاثة أيدٍ في الورشة، ومصور، وشخص يرد على رسائلكم. ما زلنا نركّب ٤٠ لتراً في المرة وما زلنا ندون الملاحظات.",
   },
   "about.valuesTitle": { en: "What we believe.", ar: "ما نؤمن به." },
   "about.v1": { en: "Honest composition", ar: "تركيبة صادقة" },

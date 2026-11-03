@@ -37,7 +37,7 @@ export const LIGHT_PRESETS: readonly MotionPreset[] = [
   { index: 111, id: "m-velvet-vignette", category: "light", trigger: "loop", durationMs: 6500, label: { en: "Velvet Inner Depth", ar: "عمق الظل المخملي" } },
   { index: 112, id: "m-border-trace", category: "light", trigger: "loop", durationMs: 4500, label: { en: "Luminous Border Pulse", ar: "نبض الإطار المضيء" } },
   { index: 113, id: "m-halo-bloom", category: "light", trigger: "loop", durationMs: 5000, label: { en: "Lilac Halo Bloom", ar: "إشراقة هالة الليلك" } },
-  { index: 114, id: "m-acid-glow", category: "light", trigger: "loop", durationMs: 3800, label: { en: "Signature Acid Glow", ar: "توهج مليكة المميز" } },
+  { index: 114, id: "m-acid-glow", category: "light", trigger: "loop", durationMs: 3800, label: { en: "Signature Acid Glow", ar: "توهج VLOR المميز" } },
   { index: 115, id: "m-plum-glow", category: "light", trigger: "loop", durationMs: 5500, label: { en: "Deep Plum Shadow Pulse", ar: "توهج البرقوق الداكن" } },
   { index: 116, id: "m-skeleton-wave", category: "light", trigger: "loop", durationMs: 1600, label: { en: "Bone Linen Shimmer", ar: "موجة تحميل عاجية" } },
   { index: 117, id: "m-spotlight-pan", category: "light", trigger: "loop", durationMs: 10000, label: { en: "Gallery Spotlight Pan", ar: "كشاف المعرض المتحرك" } },

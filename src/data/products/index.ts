@@ -40,7 +40,13 @@ export const categoryLabel = {
 } as const;
 
 export function getProductBySlug(products: Product[], slug: string): Product | undefined {
-  return products.find((product) => product.slug === slug || product.id === slug);
+  return products.find(
+    (product) =>
+      product.slug === slug ||
+      product.id === slug ||
+      (slug === "malika-noir" && product.slug === "vlor-noir") ||
+      (slug === "vlor-noir" && product.slug === "malika-noir")
+  );
 }
 
 export function findRelated(products: Product[], product: Product, count = 3): Product[] {

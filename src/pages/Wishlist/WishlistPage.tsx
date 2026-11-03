@@ -67,7 +67,7 @@ export function WishlistPage() {
   };
 
   const whatsappListMessage = useMemo(() => {
-    if (savedProducts.length === 0) return x("Hello MALIKA 🌿", "مرحباً مليكة 🌿");
+    if (savedProducts.length === 0) return x("Hello VLOR 🌿", "مرحباً VLOR 🌿");
     const lines = savedProducts.map((p, idx) => {
       const sz = p.sizes.find((s) => s.ml === 50) ?? p.sizes[0];
       const ml = sz?.ml ?? 50;
@@ -75,8 +75,8 @@ export function WishlistPage() {
       return `${idx + 1}. ${l(p.name)} (${ml}ml — ${pr})`;
     });
     return lang === "ar"
-      ? `مرحباً مليكة 🌿\nأرغب في الاستفسار / طلب قائمتي المفضلة:\n${lines.join("\n")}`
-      : `Hello MALIKA 🌿\nI'd love to order my saved scents:\n${lines.join("\n")}`;
+      ? `مرحباً VLOR 🌿\nأرغب في الاستفسار / طلب قائمتي المفضلة:\n${lines.join("\n")}`
+      : `Hello VLOR 🌿\nI'd love to order my saved scents:\n${lines.join("\n")}`;
   }, [savedProducts, lang, l, x]);
 
   return (
@@ -215,7 +215,7 @@ export function WishlistPage() {
                 <h2 className="mt-1.5 font-display text-2xl text-ink sm:text-4xl">
                   {savedProducts.length > 0
                     ? x("Pair with your selection", "عطور تكمّل اختياراتك")
-                    : x("Signature scents to start with", "ابدأ بأبرز عطور مليكة")}
+                    : x("Signature scents to start with", "ابدأ بأبرز عطور VLOR")}
                 </h2>
               </div>
               <Link
