@@ -129,12 +129,10 @@ export function ContentEditor() {
         >
           {(
             [
-              ["marquee", ar ? "الشريط المتحرك" : "Moving strip"],
               ["runwayLookbook", ar ? "منصّة العرض العميق (Runway)" : "Runway depth lookbook"],
               ["showcase", ar ? "كارت الصور" : "Image card"],
               ["featured", ar ? "المنتجات المميزة" : "Featured products"],
               ["perfume3d", ar ? "تجربة الزجاجة ثلاثية الأبعاد" : "3D bottle experience"],
-              ["scentFinder", ar ? "اكتشف عطرك" : "Scent finder"],
               ["story", ar ? "حكايتنا" : "Our story"],
               ["pillars", ar ? "الوعود الثلاثة" : "The three promises"],
               ["testimonials", ar ? "آراء العملاء" : "Testimonials"],
@@ -277,9 +275,9 @@ export function ContentEditor() {
 
         {/* ---------------- moving strips ---------------- */}
         <Section
-          title={ar ? "الشرائط المتحركة (الثلاثة)" : "Moving strips (all three)"}
-          description={ar ? "الشريط العلوي وشريط الهيرو وشريط النوتات: العناصر والسرعة والاتجاه لكل واحد." : "Announcement bar, hero strip and notes strip: items, speed and direction for each."}
-          badge="3"
+          title={ar ? "الشريط العلوي (الإعلانات)" : "Announcement strip"}
+          description={ar ? "الشريط المتحرك أعلى الموقع: الرسائل والسرعة والاتجاه." : "Top announcement bar: messages, speed and direction."}
+          badge={`${draft.announcements.length}`}
           defaultOpen
         >
           <StripsEditor draft={draft} edit={edit} ar={ar} />
@@ -329,7 +327,6 @@ export function ContentEditor() {
         {(
           [
             ["featured", ar ? "قسم المنتجات المميزة" : "Featured section"],
-            ["finder", ar ? "قسم اكتشف عطرك" : "Scent finder section"],
             ["cta", ar ? "قسم دعوة التواصل" : "Contact CTA section"],
           ] as const
         ).map(([key, label]) => (
@@ -419,34 +416,12 @@ export function ContentEditor() {
           title={ar ? "تجربة الزجاجة ثلاثية الأبعاد" : "3D bottle experience"}
           description={ar ? "النصوص التي تظهر أثناء تفكيك الزجاجة وتجميعها." : "The words that appear while the bottle comes apart and back together."}
         >
-          <label className="mb-3 block">
-            <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{ar ? "العطر الظاهر في الختام" : "Scent shown at the end"}</span>
-            <select
-              value={draft.perfume3d.productSlug}
-              onChange={(event) => edit((n) => { n.perfume3d.productSlug = event.target.value; })}
-              className="field"
-            >
-              {products.map((product) => (
-                <option key={product.id} value={product.slug}>{product.name[lang]}</option>
-              ))}
-            </select>
-          </label>
           <BilingualField label={ar ? "اسم المجموعة" : "Collection"} value={draft.perfume3d.collection} onChange={(v) => edit((n) => { n.perfume3d.collection = v; })} />
           <BilingualField label={ar ? "الاسم" : "Name"} value={draft.perfume3d.name} onChange={(v) => edit((n) => { n.perfume3d.name = v; })} />
           <BilingualField label={ar ? "الشعار" : "Tagline"} value={draft.perfume3d.tagline} onChange={(v) => edit((n) => { n.perfume3d.tagline = v; })} />
           <BilingualField label={ar ? "سطر التركيز" : "Concentration line"} value={draft.perfume3d.heroLine} onChange={(v) => edit((n) => { n.perfume3d.heroLine = v; })} />
           <BilingualField label={ar ? "عنوان الحرفية" : "Craft title"} value={draft.perfume3d.craftTitle} onChange={(v) => edit((n) => { n.perfume3d.craftTitle = v; })} />
           <BilingualField label={ar ? "نص الحرفية" : "Craft text"} value={draft.perfume3d.craftBody} onChange={(v) => edit((n) => { n.perfume3d.craftBody = v; })} multiline rows={4} />
-          <BilingualField label={ar ? "سطر الختام" : "Closing line"} value={draft.perfume3d.finalLine} onChange={(v) => edit((n) => { n.perfume3d.finalLine = v; })} />
-          <p className="mb-2 mt-4 text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{ar ? "النوتات" : "Notes"}</p>
-          {draft.perfume3d.notes.map((note, index) => (
-            <RepeatableItem key={index} index={index} onRemove={() => edit((n) => { n.perfume3d.notes.splice(index, 1); })}>
-              <BilingualField label={ar ? "سطر النوتات" : "Notes line"} value={note} onChange={(v) => edit((n) => { n.perfume3d.notes[index] = v; })} />
-            </RepeatableItem>
-          ))}
-          {draft.perfume3d.notes.length < 5 && (
-            <AddButton label={ar ? "إضافة سطر" : "Add line"} onClick={() => edit((n) => { n.perfume3d.notes.push({ ...emptyLocalized }); })} />
-          )}
         </Section>
 
         {/* ---------------- brand ---------------- */}

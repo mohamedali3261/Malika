@@ -1,6 +1,5 @@
 import { Gallery } from "@/pages/Product/Gallery";
 import { ProductDetails } from "@/pages/Product/ProductDetails";
-import { ProductNotes } from "@/pages/Product/ProductNotes";
 import { PurchaseBar } from "@/pages/Product/PurchaseBar";
 import { PurchasePanel } from "@/pages/Product/PurchasePanel";
 import { RelatedScents } from "@/pages/Product/RelatedScents";
@@ -59,9 +58,7 @@ export function ProductPage() {
       </section>
 
       <section className="pb-12 lg:pb-16">
-        <div className="mx-auto max-w-[1400px] space-y-6 px-4 sm:px-6 lg:px-10">
-          <ProductNotes product={product} />
-
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Reveal>
             <div className="rounded-[1.8rem] border border-ink/10 bg-white/40 p-6 sm:p-8">
               <ProductDetails product={product} />

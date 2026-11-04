@@ -30,7 +30,7 @@ export function createDefaultContent(): SiteContent {
     },
 
     marquee: {
-      enabled: true,
+      enabled: false,
       speed: 58,
       direction: "left",
       items: [
@@ -231,7 +231,7 @@ export function createDefaultContent(): SiteContent {
     strips: {
       announcement: { enabled: true, speed: 44, direction: "left" },
       hero: {
-        enabled: true,
+        enabled: false,
         speed: 38,
         direction: "right",
         items: [
@@ -284,12 +284,12 @@ export function createDefaultContent(): SiteContent {
     },
 
     sections: {
-      marquee: true,
+      marquee: false,
       runwayLookbook: true,
       showcase: true,
       featured: true,
       perfume3d: true,
-      scentFinder: true,
+      scentFinder: false,
       story: true,
       pillars: true,
       testimonials: true,

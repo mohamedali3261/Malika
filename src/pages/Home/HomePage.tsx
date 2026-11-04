@@ -1,10 +1,8 @@
 import { ContactCTA } from "@/pages/Home/ContactCTA";
 import { Featured } from "@/pages/Home/Featured";
 import { Hero } from "@/pages/Home/Hero";
-import { NotesMarquee } from "@/pages/Home/NotesMarquee";
 import { Pillars } from "@/pages/Home/Pillars";
 import { RunwayLookbook } from "@/pages/Home/RunwayLookbook";
-import { ScentFinder } from "@/pages/Home/ScentFinder";
 import { Showcase } from "@/pages/Home/Showcase";
 import { StorySection } from "@/pages/Home/StorySection";
 import { Testimonials } from "@/pages/Home/Testimonials";
@@ -21,7 +19,6 @@ export function HomePage() {
   return (
     <div key="home" className="anim-page">
       <Hero />
-      {c.sections.marquee && <NotesMarquee />}
       {c.sections.runwayLookbook && <RunwayLookbook />}
       {c.sections.showcase && <Showcase />}
       {c.sections.featured && <Featured />}
@@ -30,7 +27,6 @@ export function HomePage() {
           <PerfumeExperience />
         </Suspense>
       )}
-      {c.sections.scentFinder && <ScentFinder />}
       {c.sections.story && <StorySection />}
       {c.sections.pillars && <Pillars />}
       {c.sections.testimonials && <Testimonials />}
