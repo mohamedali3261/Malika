@@ -18,7 +18,7 @@ export function Featured() {
   const edit = useMemo(() => {
     const featured = products.filter((product) => product.featured);
     const rest = products.filter((product) => !product.featured);
-    return [...featured, ...rest].slice(0, 8);
+    return [...featured, ...rest].slice(0, 6);
   }, [products]);
 
   return (
@@ -36,17 +36,17 @@ export function Featured() {
             lead={lc(c.featured.lead)}
             align="between"
             action={
-              <Button to="/shop" variant="outline" size="sm" icon={<ArrowUpRight className="h-4 w-4" />}>
+              <Button to="/shop" variant="outline" icon={<ArrowUpRight className="h-4 w-4" />}>
                 {t("featured.all")}
               </Button>
             }
           />
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-3 lg:mt-11 lg:grid-cols-4 lg:gap-4.5">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
           {edit.map((product, index) => (
-            <Reveal key={product.id} variant={pickCardRevealVariant(index)} delay={index * 45}>
-              <ProductCard product={product} priority={index < 4} />
+            <Reveal key={product.id} variant={pickCardRevealVariant(index)} delay={index * 55}>
+              <ProductCard product={product} priority={index < 3} />
             </Reveal>
           ))}
         </div>

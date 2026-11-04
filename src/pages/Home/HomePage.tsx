@@ -8,7 +8,6 @@ import { ScentFinder } from "@/pages/Home/ScentFinder";
 import { Showcase } from "@/pages/Home/Showcase";
 import { StorySection } from "@/pages/Home/StorySection";
 import { Testimonials } from "@/pages/Home/Testimonials";
-import { useStore } from "@/context/StoreContext";
 import { useContent } from "@/hooks/useContent";
 import { Suspense, lazy } from "react";
 
@@ -17,16 +16,11 @@ const PerfumeExperience = lazy(() =>
 );
 
 export function HomePage() {
-  const { products } = useStore();
   const { c } = useContent();
-  const signature =
-    products.find((product) => product.slug === "vlor-noir" || product.slug === "malika-noir") ??
-    products.find((product) => product.featured) ??
-    products[0];
 
   return (
     <div key="home" className="anim-page">
-      <Hero signature={signature} />
+      <Hero />
       {c.sections.marquee && <NotesMarquee />}
       {c.sections.runwayLookbook && <RunwayLookbook />}
       {c.sections.showcase && <Showcase />}
