@@ -148,9 +148,9 @@ const stageShiftKeys: readonly (readonly [number, number])[] = [
   [0, 0.13],
   [0.4, 0.08],
   [0.6, 0.08],
-  [0.84, 0.08],
-  [0.93, -0.17],
-  [1, -0.17],
+  [0.84, 0.04],
+  [0.93, 0],
+  [1, 0],
 ];
 
 export function mobileStageShift(progress: number): number {

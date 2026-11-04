@@ -102,7 +102,7 @@ let pendingInit: Promise<void> | null = null;
 
 async function applyVlorBrandMigration(db: D1Database): Promise<void> {
   const rebranded = await db
-    .prepare("SELECT value FROM store_meta WHERE key='rebrand_vlor_v1'")
+    .prepare("SELECT value FROM store_meta WHERE key='rebrand_vlor_v2'")
     .first<{ value: string }>();
   if (rebranded?.value === '1') return;
 
@@ -121,19 +121,11 @@ async function applyVlorBrandMigration(db: D1Database): Promise<void> {
           parsed.slug = 'vlor-noir';
           changed = true;
         }
-        if (parsed.name?.en === 'Malika Noir') {
-          parsed.name.en = 'VLOR Noir';
-          changed = true;
-        }
-        if (parsed.name?.ar === 'مليكة نوار') {
-          parsed.name.ar = 'VLOR نوار';
-          changed = true;
-        }
       }
 
-      for (const field of ['tagline', 'description', 'story'] as const) {
+      for (const field of ['name', 'tagline', 'description', 'story'] as const) {
         if (parsed[field]?.en && /malika/i.test(parsed[field].en)) {
-          parsed[field].en = parsed[field].en.replace(/MALIKA/g, 'VLOR').replace(/Malika/g, 'VLOR');
+          parsed[field].en = parsed[field].en.replace(/MALIKA/g, 'VLOR').replace(/Malika/g, 'VLOR').replace(/malika/gi, 'VLOR');
           changed = true;
         }
         if (parsed[field]?.ar && parsed[field].ar.includes('مليكة')) {
@@ -156,7 +148,7 @@ async function applyVlorBrandMigration(db: D1Database): Promise<void> {
   }
 
   updates.push(
-    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v1', '1')")
+    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v2', '1')")
   );
   await db.batch(updates);
 }
@@ -242,7 +234,7 @@ async function initialize(db: D1Database): Promise<void> {
 
   await db.batch([
     db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('seed_v2', '1')"),
-    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v1', '1')"),
+    db.prepare("INSERT OR REPLACE INTO store_meta(key, value) VALUES ('rebrand_vlor_v2', '1')"),
   ]);
   readyDb = db;
 }

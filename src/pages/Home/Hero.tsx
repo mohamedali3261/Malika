@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/Button";
-import { Marquee } from "@/components/ui/Marquee";
 import { Reveal } from "@/components/ui/Reveal";
-import { ArrowUpRight, Sparkle, Whatsapp } from "@/components/ui/icons";
+import { ArrowUpRight, Whatsapp } from "@/components/ui/icons";
 import { useStore } from "@/context/StoreContext";
 import { useBrand } from "@/hooks/useBrand";
 import { useContent } from "@/hooks/useContent";
@@ -95,22 +94,6 @@ export function Hero() {
           </div>
         </Reveal>
       </div>
-
-      {c.strips.hero.enabled && c.strips.hero.items.length > 0 && (
-        <div className="relative border-t border-bone/10 py-3">
-          <Marquee speed={c.strips.hero.speed} direction={c.strips.hero.direction} trackClassName="items-center">
-            {c.strips.hero.items.map((note, index) => (
-              <span
-                key={`${note.en}-${index}`}
-                className="flex shrink-0 items-center gap-6 px-6 text-[10px] font-bold uppercase tracking-[0.35em] text-bone/30"
-              >
-                {lc(note)}
-                <Sparkle className="m-twinkle-star h-2.5 w-2.5 text-lilac/50" />
-              </span>
-            ))}
-          </Marquee>
-        </div>
-      )}
     </section>
   );
 }

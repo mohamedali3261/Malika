@@ -1,11 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/Button";
-import { ArrowUpRight, Sparkle, Whatsapp } from "@/components/ui/icons";
-import { useStore } from "@/context/StoreContext";
+import { Sparkle } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
 import { useContent } from "@/hooks/useContent";
-import { formatPrice } from "@/lib/format";
-import { productMessage, whatsappUrl } from "@/lib/messaging";
 import { fadeWindow } from "@/utils/perfumeTransforms";
 import type { ScrollState } from "@/hooks/usePerfumeScrollAnimation";
 
@@ -14,22 +10,14 @@ interface Props {
 }
 
 /**
- * Three copy blocks keyed to the narrative. Writes `--p-shift` rather than
- * overwriting `style.transform`, preserving desktop `-50%` vertical centering.
+ * Narrative copy blocks keyed to the 3D bottle scroll stages.
  */
 export function PerfumeProductInfo({ stateRef }: Props) {
-  const { lang, l, t, x } = useLang();
+  const { x } = useLang();
   const { c, lc } = useContent();
-  const { products, settings } = useStore();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const craftRef = useRef<HTMLDivElement>(null);
-  const finalRef = useRef<HTMLDivElement>(null);
-
-  const product =
-    products.find((item) => item.slug === c.perfume3d.productSlug) ??
-    products.find((item) => item.featured) ??
-    products[0];
 
   useEffect(() => {
     let frame = 0;
@@ -53,11 +41,9 @@ export function PerfumeProductInfo({ stateRef }: Props) {
 
       const hero = fadeWindow(progress, 0, 0.14, 0.06);
       const craft = fadeWindow(progress, 0.42, 0.6, 0.07);
-      const final = fadeWindow(progress, 0.9, 1.02, 0.06);
 
       apply(heroRef.current, hero, (1 - hero) * 24);
       apply(craftRef.current, craft, (1 - craft) * 24);
-      apply(finalRef.current, final, (1 - final) * 24);
 
       frame = window.requestAnimationFrame(tick);
     };
@@ -65,11 +51,6 @@ export function PerfumeProductInfo({ stateRef }: Props) {
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
   }, [stateRef]);
-
-  const price = product ? formatPrice(product.price, lang) : "";
-  const orderLink = product
-    ? whatsappUrl(settings.whatsapp, productMessage(product, 50, product.price, lang))
-    : "#";
 
   return (
     <div className="perfume-overlay">
@@ -92,52 +73,6 @@ export function PerfumeProductInfo({ stateRef }: Props) {
         </span>
         <h3 className="perfume-subtitle font-display">{lc(c.perfume3d.craftTitle)}</h3>
         <p className="perfume-body">{lc(c.perfume3d.craftBody)}</p>
-        <ul className="perfume-notes">
-          {c.perfume3d.notes.map((note, index) => (
-            <li key={note.en}>
-              <span className="perfume-notes__index">0{index + 1}</span>
-              {l(note)}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* STAGE 5 — final reveal */}
-      <div ref={finalRef} className="perfume-block perfume-block--final" style={{ opacity: 0 }}>
-        <span className="perfume-eyebrow">
-          <span className="perfume-eyebrow__dot" />
-          {lc(c.perfume3d.finalLine)}
-        </span>
-        <h3 className="perfume-subtitle font-display">
-          {product ? l(product.name) : lc(c.perfume3d.name)}
-        </h3>
-        <p className="perfume-body perfume-body--tight">
-          {product ? l(product.description) : lc(c.perfume3d.craftBody)}
-        </p>
-        <div className="perfume-price-row">
-          <span className="perfume-price">{price}</span>
-          <span className="perfume-price__unit">{x("/ 50 ml", "/ ٥٠ مل")}</span>
-        </div>
-        <div className="perfume-cta">
-          <Button
-            to={product ? `/product/${product.slug}` : "/shop"}
-            variant="acid"
-            size="lg"
-            icon={<ArrowUpRight className="h-4 w-4" />}
-          >
-            {x("Discover the fragrance", "اكتشف العطر")}
-          </Button>
-          <Button
-            href={orderLink}
-            variant="dark"
-            size="lg"
-            className="border-bone/25"
-            icon={<Whatsapp className="h-4 w-4" />}
-            iconPosition="start"
-          >
-            {t("product.buyWhatsapp")}
-          </Button>
-        </div>
       </div>
     </div>
   );
