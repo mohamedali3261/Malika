@@ -126,7 +126,7 @@ export function Navbar() {
               )}
             </Link>
             <a
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink transition hover:border-ink/40 hover:bg-[#25D366]/15 md:grid"
@@ -228,7 +228,7 @@ export function Navbar() {
             <Button
               variant="acid"
               full
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
               icon={<Whatsapp className="h-4 w-4" />}
               iconPosition="start"
             >

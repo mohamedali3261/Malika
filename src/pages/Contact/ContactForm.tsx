@@ -94,7 +94,7 @@ export function ContactForm() {
           <Reveal delay={100} className="relative min-h-[340px] bg-ink p-6 text-bone sm:p-9">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(201,181,247,0.25),transparent_55%)]" />
             <div className="relative flex h-full flex-col">
-              <SmartImage src={IMG.atelier} alt={x("VLOR atelier", "ورشة VLOR")} className="aspect-[5/3] w-full rounded-[1.3rem] border border-bone/10" />
+              <SmartImage src={IMG.atelier} alt={x("VLOR atelier", "ورشة فلور")} className="aspect-[5/3] w-full rounded-[1.3rem] border border-bone/10" />
               <div className="mt-5">
                 <h3 className="font-display text-2xl">{t("contact.hours.title")}</h3>
                 <ul className="mt-4 space-y-3 text-[11.5px] text-bone/65">
@@ -111,7 +111,7 @@ export function ContactForm() {
                 </ul>
               </div>
               <a
-                href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd like to book a scent consultation", "مرحباً VLOR، أريد حجز استشارة عطرية"))}
+                href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd like to book a scent consultation", "مرحباً فلور، أريد حجز استشارة عطرية"))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group mt-6 flex items-center justify-between rounded-full border border-bone/20 px-4 py-3 text-[11px] font-bold transition hover:border-acid hover:bg-acid hover:text-ink"

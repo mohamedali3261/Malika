@@ -15,7 +15,7 @@ export function Hero() {
   const { wordmark } = useBrand();
   const magneticCta = useMagnetic<HTMLDivElement>(6);
 
-  const greeting = x("Hello VLOR, help me find my scent", "مرحباً VLOR، أرغب في مساعدتي لاختيار عطر");
+  const greeting = x("Hello VLOR, help me find my scent", "مرحباً فلور، أرغب في مساعدتي لاختيار عطر");
 
   return (
     <section className="grain relative overflow-hidden bg-ink text-bone">

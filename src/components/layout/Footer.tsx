@@ -59,7 +59,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone/55">{t("brand.tagline")}</p>
             <div className="mt-6 flex gap-2">
               {[
-                { href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿")), icon: Whatsapp, label: "WhatsApp" },
+                { href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿")), icon: Whatsapp, label: "WhatsApp" },
                 { href: messengerUrl(settings.messenger), icon: Messenger, label: "Messenger" },
                 { href: instagramUrl(settings.instagram), icon: Instagram, label: "Instagram" },
                 { href: `mailto:${settings.email}`, icon: Mail, label: "Email" },
@@ -102,7 +102,7 @@ export function Footer() {
                 <Link to="/contact" className="transition hover:text-acid">{t("footer.shipping")}</Link>
               </li>
               <li>
-                <a href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I need help with an order", "مرحباً VLOR، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
+                <a href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I need help with an order", "مرحباً فلور، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
                   {t("footer.contact")}
                 </a>
               </li>
