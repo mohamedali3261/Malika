@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Badge, Stars } from "@/components/ui/Primitives";
-import { Check, Gift, Heart, Leaf, Messenger, Minus, Plus, Share, Shield, Truck, Whatsapp } from "@/components/ui/icons";
+import { Check, Heart, Messenger, Minus, Plus, Share, Whatsapp } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
@@ -14,7 +14,7 @@ import { cn } from "@/utils/cn";
 import { useState } from "react";
 
 export function PurchasePanel({ product }: { product: Product }) {
-  const { t, lang, l, x } = useLang();
+  const { t, lang, l } = useLang();
   const { add, open } = useCart();
   const { settings, toggleWishlist, isWished } = useStore();
   const { push } = useToast();
@@ -83,13 +83,11 @@ export function PurchasePanel({ product }: { product: Product }) {
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <Stars value={product.rating} reviews={product.reviews} size={13} />
-        <span className="h-3 w-px bg-ink/15" />
-        <span className="text-[10px] font-semibold text-mist">{t("product.inStock")}</span>
       </div>
 
-      <p className="mt-5 max-w-lg text-[13px] leading-relaxed text-ink/70">{l(product.description)}</p>
+      <p className="mt-4 max-w-lg text-[13px] leading-relaxed text-ink/70">{l(product.description)}</p>
 
-      <div className="mt-6 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+      <div className="mt-5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
         <p className="font-display whitespace-nowrap text-[1.9rem] leading-none sm:text-[2.1rem]">
           {formatPrice(selected?.price ?? product.price, lang)}
         </p>
@@ -101,11 +99,8 @@ export function PurchasePanel({ product }: { product: Product }) {
         </span>
       </div>
 
-      <div className="mt-5">
-        <div className="flex items-center justify-between">
-          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-mist">{t("product.size")}</p>
-          <p className="text-[9px] text-mist">{x("extrait · 30% concentration", "إكستريه · ٣٠٪ تركيز")}</p>
-        </div>
+      <div className="mt-4">
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-mist">{t("product.size")}</p>
         <div className="mt-2 grid grid-cols-3 gap-2">
           {product.sizes.map((size) => (
             <button
@@ -172,31 +167,14 @@ export function PurchasePanel({ product }: { product: Product }) {
         </Button>
       </div>
 
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[10.5px] text-mist">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-3.5 text-[10.5px] text-mist">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+          <span>{t("product.longevity")}: <strong className="text-ink">{product.longevity}</strong></span>
+          <span>{t("product.sillage")}: <strong className="text-ink">{l(product.sillage)}</strong></span>
+        </div>
         <button onClick={share} className="inline-flex min-h-8 items-center gap-1.5 font-semibold transition hover:text-ink">
           <Share className="h-3.5 w-3.5" /> {t("product.share")}
         </button>
-        <span className="inline-flex items-center gap-1.5">
-          <Gift className="h-3.5 w-3.5 text-plum" /> {t("product.giftNote")}
-        </span>
-      </div>
-
-      <div className="mt-4 grid grid-cols-3 divide-x divide-ink/10 rounded-2xl border border-ink/10 bg-white/35 py-3.5 rtl:divide-x-reverse">
-        {[
-          { icon: Truck, label: x("1–4 day delivery", "توصيل ١–٤ أيام") },
-          { icon: Shield, label: x("cash on delivery", "دفع عند الاستلام") },
-          { icon: Leaf, label: x("cruelty-free", "خالٍ من القسوة") },
-        ].map(({ icon: Icon, label }) => (
-          <div key={label} className="flex flex-col items-center gap-1.5 px-2 text-center">
-            <Icon className="h-4 w-4 text-plum" />
-            <span className="text-[8.5px] font-semibold uppercase leading-tight tracking-[0.08em] text-mist">{label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] text-mist">
-        <span>{t("product.longevity")}: <strong className="text-ink">{product.longevity}</strong></span>
-        <span>{t("product.sillage")}: <strong className="text-ink">{l(product.sillage)}</strong></span>
       </div>
     </div>
   );

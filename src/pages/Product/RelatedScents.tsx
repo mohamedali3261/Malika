@@ -12,7 +12,7 @@ import type { Product } from "@/types";
 export function RelatedScents({ product }: { product: Product }) {
   const { t } = useLang();
   const { products } = useStore();
-  const related = findRelated(products, product, 4);
+  const related = findRelated(products, product, 3);
 
   if (related.length === 0) return null;
 
@@ -31,9 +31,9 @@ export function RelatedScents({ product }: { product: Product }) {
             }
           />
         </Reveal>
-        <div className="mt-6 grid grid-cols-2 gap-2.5 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-4.5">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
           {related.map((item, index) => (
-            <Reveal key={item.id} variant={pickCardRevealVariant(index)} delay={index * 55}>
+            <Reveal key={item.id} variant={pickCardRevealVariant(index)} delay={index * 65}>
               <ProductCard product={item} />
             </Reveal>
           ))}
