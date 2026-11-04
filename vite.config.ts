@@ -22,9 +22,6 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return undefined;
-          if (id.includes("@react-three")) return "vendor-r3f";
-          if (id.includes("three")) return "vendor-three";
-          if (id.includes("gsap")) return "vendor-gsap";
           if (id.includes("react")) return "vendor-react";
           return undefined;
         },

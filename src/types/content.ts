@@ -77,16 +77,6 @@ export interface ShopFiltersContent {
   savedOnly: boolean;
 }
 
-export interface Perfume3dContent {
-  productSlug: string;
-  collection: Localized;
-  name: Localized;
-  tagline: Localized;
-  heroLine: Localized;
-  craftTitle: Localized;
-  craftBody: Localized;
-}
-
 export interface BrandContent {
   wordmark: Localized;
   descriptor: Localized;
@@ -106,7 +96,6 @@ export interface SectionToggles {
   runwayLookbook: boolean;
   showcase: boolean;
   featured: boolean;
-  perfume3d: boolean;
   story: boolean;
   pillars: boolean;
   testimonials: boolean;
@@ -175,7 +164,6 @@ export interface SiteContent {
   shopHero: ShopHeroContent;
   shopFilters: ShopFiltersContent;
   strips: StripsContent;
-  perfume3d: Perfume3dContent;
   brand: BrandContent;
   /**
    * Edits to any piece of site text, keyed by dictionary key ("shop.title") or

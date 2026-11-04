@@ -132,7 +132,6 @@ export function ContentEditor() {
               ["runwayLookbook", ar ? "منصّة العرض العميق (Runway)" : "Runway depth lookbook"],
               ["showcase", ar ? "كارت الصور" : "Image card"],
               ["featured", ar ? "المنتجات المميزة" : "Featured products"],
-              ["perfume3d", ar ? "تجربة الزجاجة ثلاثية الأبعاد" : "3D bottle experience"],
               ["story", ar ? "حكايتنا" : "Our story"],
               ["pillars", ar ? "الوعود الثلاثة" : "The three promises"],
               ["testimonials", ar ? "آراء العملاء" : "Testimonials"],
@@ -409,19 +408,6 @@ export function ContentEditor() {
             label={ar ? "إضافة سؤال" : "Add question"}
             onClick={() => edit((n) => { n.faq.push({ id: uid(), question: { ...emptyLocalized }, answer: { ...emptyLocalized } }); })}
           />
-        </Section>
-
-        {/* ---------------- 3D bottle experience ---------------- */}
-        <Section
-          title={ar ? "تجربة الزجاجة ثلاثية الأبعاد" : "3D bottle experience"}
-          description={ar ? "النصوص التي تظهر أثناء تفكيك الزجاجة وتجميعها." : "The words that appear while the bottle comes apart and back together."}
-        >
-          <BilingualField label={ar ? "اسم المجموعة" : "Collection"} value={draft.perfume3d.collection} onChange={(v) => edit((n) => { n.perfume3d.collection = v; })} />
-          <BilingualField label={ar ? "الاسم" : "Name"} value={draft.perfume3d.name} onChange={(v) => edit((n) => { n.perfume3d.name = v; })} />
-          <BilingualField label={ar ? "الشعار" : "Tagline"} value={draft.perfume3d.tagline} onChange={(v) => edit((n) => { n.perfume3d.tagline = v; })} />
-          <BilingualField label={ar ? "سطر التركيز" : "Concentration line"} value={draft.perfume3d.heroLine} onChange={(v) => edit((n) => { n.perfume3d.heroLine = v; })} />
-          <BilingualField label={ar ? "عنوان الحرفية" : "Craft title"} value={draft.perfume3d.craftTitle} onChange={(v) => edit((n) => { n.perfume3d.craftTitle = v; })} />
-          <BilingualField label={ar ? "نص الحرفية" : "Craft text"} value={draft.perfume3d.craftBody} onChange={(v) => edit((n) => { n.perfume3d.craftBody = v; })} multiline rows={4} />
         </Section>
 
         {/* ---------------- brand ---------------- */}
