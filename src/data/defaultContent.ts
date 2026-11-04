@@ -1,4 +1,3 @@
-import { perfumeStory } from "@/config/perfumeModelConfig";
 import { clampScale } from "@/lib/scale";
 import { isValidTextId } from "@/i18n/textCatalog";
 import { MAX_SHOWCASE_IMAGES, type DeepPartial, type SiteContent } from "@/types/content";
@@ -203,16 +202,6 @@ export function createDefaultContent(): SiteContent {
       announcement: { enabled: true, speed: 44, direction: "left" },
     },
 
-    perfume3d: {
-      productSlug: perfumeStory.productSlug,
-      collection: { ...perfumeStory.collection },
-      name: { ...perfumeStory.name },
-      tagline: { ...perfumeStory.tagline },
-      heroLine: { ...perfumeStory.heroLine },
-      craftTitle: { ...perfumeStory.craft.title },
-      craftBody: { ...perfumeStory.craft.body },
-    },
-
     brand: {
       wordmark: { en: "VLOR", ar: "VLOR" },
       descriptor: { en: "Maison de parfum", ar: "دار عطور" },
@@ -241,7 +230,6 @@ export function createDefaultContent(): SiteContent {
       runwayLookbook: true,
       showcase: true,
       featured: true,
-      perfume3d: true,
       story: true,
       pillars: true,
       testimonials: true,
@@ -350,19 +338,6 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
     };
   }
 
-  if (result.perfume3d) {
-    const legacyTagline =
-      result.perfume3d.tagline?.ar === "تسعة أجزاء. حضورٌ واحد لا يُنسى." ||
-      result.perfume3d.tagline?.en === "Nine parts. One unforgettable presence.";
-    result.perfume3d = {
-      ...result.perfume3d,
-      name: replaceLegacyBrand(result.perfume3d.name) as typeof base.perfume3d.name,
-      tagline: legacyTagline ? base.perfume3d.tagline : result.perfume3d.tagline,
-      craftBody: legacyTagline
-        ? base.perfume3d.craftBody
-        : (replaceLegacyBrand(result.perfume3d.craftBody) as typeof base.perfume3d.craftBody),
-    };
-  }
   result.theme = {
     ...result.theme,
     headingScale: clampScale("headingScale", Number(result.theme.headingScale)),
