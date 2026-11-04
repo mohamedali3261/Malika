@@ -529,7 +529,7 @@ export function RunwayLookbook() {
 
           <nav className="rl-tabs rl-wide rl-wide-i18n" aria-label={x("Runway navigation", "تنقّل المنصّة")}>
             <span className="is-on">{x("Runway", "منصّة العرض")}</span>
-            <Link to="/about">{x("The Maison", "الدار")}</Link>
+            <Link to="/contact">{x("Contact", "تواصل")}</Link>
             <Link to="/wishlist">{x("Saved", "المفضلة")}</Link>
             <Link to="/shop">{x("Shop", "المتجر")}</Link>
           </nav>

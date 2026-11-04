@@ -23,18 +23,18 @@ export const dict = {
     ar: "توصيل مجاني للطلبات فوق ٢٠٠٠ ج.م",
   },
   "ann.2": { en: "2 free samples with every order", ar: "عينتان مجانيتان مع كل طلب" },
-  "ann.3": { en: "Made in small batches · Cairo", ar: "تُصنع بكميات صغيرة · القاهرة" },
+  "ann.3": { en: "Made in small batches · Online", ar: "تُصنع بكميات صغيرة · أونلاين" },
 
   // Hero
   "hero.eyebrow": { en: "Independent perfume house · Est. 2021", ar: "دار عطور مستقلة · تأسست ٢٠٢١" },
   "hero.title1": { en: "Arrive like", ar: "حضورٌ" },
   "hero.title2": { en: "royalty.", ar: "ملكي." },
   "hero.lead": {
-    en: "Extraits composed for people who are remembered before they speak. Blended slowly, in small batches, in Cairo.",
-    ar: "عطور تُركَّب لمن يُذكَرون قبل أن يتكلّموا. تُمزج ببطء، بكميات صغيرة، في القاهرة.",
+    en: "Extraits composed for people who are remembered before they speak. Blended slowly, in small batches — made with care.",
+    ar: "عطور تُركَّب لمن يُذكَرون قبل أن يتكلّموا. تُمزج ببطء، بكميات صغيرة — صُنعت بعناية.",
   },
   "hero.cta": { en: "Discover the collection", ar: "اكتشف المجموعة" },
-  "hero.cta2": { en: "Our story", ar: "حكايتنا" },
+  "hero.cta2": { en: "Contact us", ar: "تواصل معنا" },
   "hero.stamp": { en: "Extrait de parfum · 30% concentration", ar: "إكستريه دو بارفان · تركيز ٣٠٪" },
   "hero.featured": { en: "The signature", ar: "التوقيع" },
   "hero.stat1": { en: "rated by clients", ar: "تقييم عملائنا" },
@@ -89,8 +89,8 @@ export const dict = {
   "shop.eyebrow": { en: "The collection · 2026", ar: "المجموعة · ٢٠٢٦" },
   "shop.title": { en: "Twelve ways to be remembered.", ar: "اثنتا عشرة طريقة لتُذكَر." },
   "shop.lead": {
-    en: "Every bottle is blended, macerated and hand-filled in our Cairo atelier. Filter by mood, family or price — then let your skin decide.",
-    ar: "كل زجاجة تُركّب وتُعتّق وتُعبأ يدوياً في ورشتنا بالقاهرة. رشّح حسب المزاج أو العائلة العطرية أو السعر — ودع بشرتك تقرر.",
+    en: "Every bottle is blended, macerated and hand-filled with care in our atelier. Filter by mood, family or price — then let your skin decide.",
+    ar: "كل زجاجة تُركّب وتُعتّق وتُعبأ يدوياً في ورشتنا بعناية. رشّح حسب المزاج أو العائلة العطرية أو السعر — ودع بشرتك تقرر.",
   },
   "shop.search": { en: "Search a scent, a note…", ar: "ابحث عن عطر أو نوتة…" },
   "shop.category": { en: "Family", ar: "العائلة العطرية" },
@@ -126,8 +126,8 @@ export const dict = {
   "story.eyebrow": { en: "The house of VLOR", ar: "دار فلور" },
   "story.title": { en: "Built slowly. Worn quietly.", ar: "يُصنع ببطء. ويُلبَس بهدوء." },
   "story.lead": {
-    en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
-    ar: "بدأت فلور بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
+    en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and many quiet nights looking for the answer.",
+    ar: "بدأت فلور بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من الليالي الهادئة بحثاً عن الإجابة.",
   },
   "story.cta": { en: "Read our story", ar: "اقرأ حكايتنا" },
   "story.quote": {
@@ -209,7 +209,7 @@ export const dict = {
   "contact.instagram.desc": { en: "New drops & atelier days", ar: "إصدارات جديدة وأيام الورشة" },
   "contact.email.desc": { en: "For press & partnerships", ar: "للصحافة والشراكات" },
   "contact.hours.title": { en: "Atelier hours", ar: "مواعيد الورشة" },
-  "contact.hours.body": { en: "Saturday – Thursday, 11:00 – 19:00. Zeinab Khatoun St., Cairo.", ar: "السبت – الخميس، ١١:٠٠ – ١٩:٠٠. شارع زينب خاتون، القاهرة." },
+  "contact.hours.body": { en: "Online — daily 11:00 – 22:00. Shipping across Egypt.", ar: "أونلاين — يومياً ١١:٠٠ – ٢٢:٠٠. شحن لكل محافظات مصر." },
   "contact.visit": { en: "Book a scent consultation", ar: "احجز استشارة عطرية" },
   "contact.required": { en: "Please add your name and a short message.", ar: "أضف اسمك ورسالة قصيرة." },
   "faq.title": { en: "Questions, answered.", ar: "أسئلتك، والإجابات." },
@@ -235,7 +235,7 @@ export const dict = {
   },
 
   // About page
-  "about.eyebrow": { en: "Since 2021 · Cairo", ar: "منذ ٢٠٢١ · القاهرة" },
+  "about.eyebrow": { en: "Since 2021 · Online", ar: "منذ ٢٠٢١ · أونلاين" },
   "about.title1": { en: "We make scent", ar: "نصنع عطراً" },
   "about.title2": { en: "for the in-between.", ar: "للّحظات التي تبقى." },
   "about.lead": {
@@ -307,7 +307,7 @@ export const dict = {
   "footer.contact": { en: "Contact us", ar: "تواصل معنا" },
   "footer.studio": { en: "Product studio", ar: "استوديو المنتجات" },
   "footer.rights": { en: "All rights reserved.", ar: "جميع الحقوق محفوظة." },
-  "footer.made": { en: "Blended in Cairo, worn everywhere.", ar: "يُمزج في القاهرة، ويُلبَس في كل مكان." },
+  "footer.made": { en: "Blended with care, worn everywhere.", ar: "يُمزج بعناية، ويُلبَس في كل مكان." },
   "footer.lang": { en: "العربية", ar: "English" },
 
   // Admin / studio

@@ -23,8 +23,7 @@ import { useEffect, useState } from "react";
 const links = [
   { to: "/", key: "nav.home" as const, index: "01" },
   { to: "/shop", key: "nav.shop" as const, index: "02" },
-  { to: "/about", key: "nav.about" as const, index: "03" },
-  { to: "/contact", key: "nav.contact" as const, index: "04" },
+  { to: "/contact", key: "nav.contact" as const, index: "03" },
 ];
 
 export function Navbar() {
@@ -221,7 +220,7 @@ export function Navbar() {
                   </span>
                 )}
               </span>
-              <span className="font-mono text-[10px] text-mist">05</span>
+              <span className="font-mono text-[10px] text-mist">04</span>
             </Link>
           </nav>
           <div className="space-y-3 border-t border-ink/10 p-5">

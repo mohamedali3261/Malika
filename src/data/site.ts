@@ -12,7 +12,7 @@ export const BRAND = {
   descriptor: { en: "Maison de parfum", ar: "دار عطور" } as Localized,
   tagline: { en: "Presence, bottled.", ar: "حضورٌ في زجاجة." } as Localized,
   foundingYear: 2021,
-  city: { en: "Cairo, Egypt", ar: "القاهرة، مصر" } as Localized,
+  city: { en: "Online", ar: "أونلاين" } as Localized,
 } as const;
 
 export const defaultSettings: SiteSettings = {
@@ -23,12 +23,12 @@ export const defaultSettings: SiteSettings = {
   phone: "+20 123 456 7890",
   freeShippingThreshold: 2000,
   address: {
-    en: "14 Zeinab Khatoun St., Al-Muizz, Cairo",
-    ar: "١٤ شارع زينب خاتون، المعز، القاهرة",
+    en: "Online store · Shipping across Egypt",
+    ar: "متجر إلكتروني · شحن لكل محافظات مصر",
   },
   hours: {
-    en: "Sat – Thu · 11:00 – 19:00",
-    ar: "السبت – الخميس · ١١:٠٠ – ١٩:٠٠",
+    en: "Online · Daily 11:00 – 22:00",
+    ar: "أونلاين · يومياً ١١:٠٠ – ٢٢:٠٠",
   },
 };
 

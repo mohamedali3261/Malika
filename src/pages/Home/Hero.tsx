@@ -77,7 +77,7 @@ export function Hero() {
               </Button>
             </div>
             <Button
-              to="/about"
+              to="/contact"
               variant="dark"
               size="lg"
               className="min-w-[132px] border-bone/20"

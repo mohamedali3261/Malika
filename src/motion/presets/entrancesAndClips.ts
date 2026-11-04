@@ -37,7 +37,7 @@ export const CLIPS_PRESETS: readonly MotionPreset[] = [
   { index: 31, id: "m-clip-diamond", category: "clips", trigger: "enter", durationMs: 880, label: { en: "Diamond Facet Reveal", ar: "كشف ماسي" } },
   { index: 32, id: "m-clip-chevron-up", category: "clips", trigger: "enter", durationMs: 860, label: { en: "Chevron Crest Reveal", ar: "كشف سهمي صاعد" } },
   { index: 33, id: "m-clip-diagonal-slash", category: "clips", trigger: "enter", durationMs: 860, label: { en: "Couture Diagonal Slash", ar: "شق قطري" } },
-  { index: 34, id: "m-clip-arch", category: "clips", trigger: "enter", durationMs: 900, label: { en: "Cairo Arch Reveal", ar: "بوابة قوس القاهرة" } },
+  { index: 34, id: "m-clip-arch", category: "clips", trigger: "enter", durationMs: 900, label: { en: "Arch Reveal", ar: "بوابة القوس" } },
   { index: 35, id: "m-clip-capsule", category: "clips", trigger: "enter", durationMs: 840, label: { en: "Capsule Expansion", ar: "تمدد كبسولي" } },
   { index: 36, id: "m-clip-frame-in", category: "clips", trigger: "enter", durationMs: 880, label: { en: "Gallery Frame Inset", ar: "إطار معرض متسع" } },
   { index: 37, id: "m-clip-ellipse-h", category: "clips", trigger: "enter", durationMs: 860, label: { en: "Wide Ellipse Reveal", ar: "قطع ناقص أفقي" } },

@@ -63,7 +63,7 @@ export function Gallery({ product }: { product: Product }) {
           </button>
         ))}
         <div className="hidden items-center justify-center rounded-xl border border-dashed border-ink/15 p-2 text-center text-[8.5px] font-semibold uppercase leading-tight tracking-[0.1em] text-mist sm:flex">
-          {x("handmade in Cairo", "صُنع يدوياً في القاهرة")}
+          {x("handmade with care", "صُنع بعناية")}
         </div>
       </div>
     </div>
