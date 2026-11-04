@@ -20,7 +20,7 @@ export function StorySection() {
             <div className="absolute -start-6 -top-6 h-24 w-24 rounded-full border border-dashed border-ink/20" />
             <SmartImage
               src={IMG.atelier}
-              alt={x("VLOR atelier in Cairo", "ورشة VLOR في القاهرة")}
+              alt={x("VLOR atelier", "ورشة فلور")}
               className="aspect-[5/4] w-full rounded-[2rem] shadow-2xl shadow-ink/10"
             />
             <div className="absolute -bottom-10 -end-2 w-[44%] rotate-3 overflow-hidden rounded-[1.5rem] border-[6px] border-bone shadow-xl sm:-end-6">
@@ -39,7 +39,7 @@ export function StorySection() {
               </div>
             </div>
             <div className="absolute -top-4 end-4 rounded-full border border-ink/10 bg-bone px-3 py-1.5 text-[8px] font-bold uppercase tracking-[0.2em] text-ink/60 shadow-sm sm:end-10">
-              {x("Cairo · Al-Muizz", "القاهرة · المعز")}
+              {x("Online · Maison", "أونلاين · دار فلور")}
             </div>
           </div>
         </Reveal>
@@ -76,8 +76,8 @@ export function StorySection() {
             ))}
           </div>
 
-          <Button to="/about" className="mt-7" variant="primary" icon={<ArrowUpRight className="h-4 w-4" />}>
-            {t("story.cta")}
+          <Button to="/shop" className="mt-7" variant="primary" icon={<ArrowUpRight className="h-4 w-4" />}>
+            {x("Explore the collection", "استكشاف المجموعة")}
           </Button>
         </Reveal>
       </div>

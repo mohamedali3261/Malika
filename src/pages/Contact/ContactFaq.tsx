@@ -18,7 +18,7 @@ export function ContactFaq() {
         <Reveal>
           <SectionHeading eyebrow={t("footer.faq")} title={t("faq.title")} lead={x("Everything you need to know before the first spray.", "كل ما تحتاج معرفته قبل أول رشّة.")} />
           <Button
-            href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I have a question", "مرحباً VLOR، لدي سؤال"))}
+            href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I have a question", "مرحباً فلور، لدي سؤال"))}
             variant="outline"
             className="mt-6"
             icon={<Whatsapp className="h-4 w-4" />}

@@ -71,7 +71,7 @@ export function MobileTabBar() {
           {x("Saved", "المفضلة")}
         </Link>
         <a
-          href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd love help choosing a scent 🌿", "مرحباً VLOR، أريد المساعدة في اختيار عطر 🌿"))}
+          href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd love help choosing a scent 🌿", "مرحباً فلور، أريد المساعدة في اختيار عطر 🌿"))}
           target="_blank"
           rel="noopener noreferrer"
           className="flex flex-1 flex-col items-center justify-center gap-1 rounded-xl py-2 text-[11px] font-semibold text-ink/45"

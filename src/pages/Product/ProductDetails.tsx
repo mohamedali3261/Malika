@@ -8,20 +8,19 @@ export function ProductDetails({ product }: { product: Product }) {
   const items = [
     {
       title: t("product.story"),
-      body: <p>{l(product.story)}</p>,
-    },
-    {
-      title: t("product.shipping"),
-      body: (
-        <p>
-          {x(
-            "Delivery within 1–4 working days across Egypt. Free shipping above EGP 2,000, with cash on delivery available.",
-            "التوصيل خلال ١–٤ أيام عمل لكل المحافظات، مجاناً للطلبات فوق ٢٠٠٠ ج.م مع الدفع عند الاستلام."
-          )}
-        </p>
-      ),
+      body: <p className="text-[13px] leading-relaxed text-ink/70">{l(product.story)}</p>,
     },
   ];
 
-  return <Accordion items={items} defaultOpen={0} />;
+  return (
+    <div className="space-y-3">
+      <Accordion items={items} />
+      <p className="rounded-xl bg-bone-2/60 px-3.5 py-2.5 text-center text-[11px] leading-relaxed text-mist">
+        {x(
+          "Delivery 1–4 days · Free shipping over EGP 2,000 · Cash on delivery",
+          "التوصيل ١–٤ أيام · مجاناً فوق ٢٠٠٠ ج.م · الدفع عند الاستلام"
+        )}
+      </p>
+    </div>
+  );
 }

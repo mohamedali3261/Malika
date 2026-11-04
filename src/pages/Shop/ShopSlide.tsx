@@ -5,7 +5,6 @@ import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { discountPercent, formatPrice } from "@/lib/format";
 import { Link } from "@/lib/router";
-import { LongevityRing } from "@/pages/Shop/LongevityRing";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
 import { useState, type CSSProperties } from "react";
@@ -110,15 +109,12 @@ export function ShopSlide({ product, index, total, active }: Props) {
             )}
           </div>
 
-          <div
-            className={cn("mt-3 flex flex-col items-center gap-3 lg:mt-4 lg:min-h-[100px] lg:flex-row lg:gap-0", REVEAL)}
-            style={delay(2)}
-          >
-            <div className="w-full lg:w-auto">
+          <div className={cn("mt-3 space-y-3 lg:mt-4", REVEAL)} style={delay(2)}>
+            <div>
               <div className={GROUP_TITLE}>
                 {t("product.size")} · {unit}
               </div>
-              <div className="mb-2 flex flex-wrap justify-center gap-1 sm:mb-3 lg:justify-start">
+              <div className="flex flex-wrap justify-center gap-1 lg:justify-start">
                 {product.sizes.map((size) => (
                   <label key={size.ml} className="cursor-pointer">
                     <input
@@ -134,27 +130,23 @@ export function ShopSlide({ product, index, total, active }: Props) {
                   </label>
                 ))}
               </div>
-
-              {notes.length > 0 && (
-                <div className="max-sm:hidden">
-                  <div className={GROUP_TITLE}>{t("product.notesShort")}</div>
-                  <div className="flex flex-wrap justify-center gap-1.5 lg:justify-start">
-                    {notes.map((note) => (
-                      <span
-                        key={note.en}
-                        className="rounded-full border border-bone/20 px-3 py-1 text-[12px] font-medium text-bone/80"
-                      >
-                        {l(note)}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
-            <span className="h-px w-full bg-bone/15 lg:mx-8 lg:h-auto lg:w-px lg:self-stretch lg:bg-bone/25" aria-hidden="true" />
-
-            <LongevityRing longevity={product.longevity} sillage={l(product.sillage)} />
+            {notes.length > 0 && (
+              <div className="max-sm:hidden">
+                <div className={GROUP_TITLE}>{t("product.notesShort")}</div>
+                <div className="flex flex-wrap justify-center gap-1.5 lg:justify-start">
+                  {notes.map((note) => (
+                    <span
+                      key={note.en}
+                      className="rounded-full border border-bone/20 px-3 py-1 text-[12px] font-medium text-bone/80"
+                    >
+                      {l(note)}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <div

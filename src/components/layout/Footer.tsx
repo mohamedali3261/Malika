@@ -8,7 +8,6 @@ import {
   Globe,
   Instagram,
   Mail,
-  MapPin,
   Messenger,
   Whatsapp,
 } from "@/components/ui/icons";
@@ -27,7 +26,6 @@ export function Footer() {
   const explore = [
     { label: t("footer.shopAll"), to: "/shop" },
     { label: x("Saved scents", "المفضلة"), to: "/wishlist" },
-    { label: t("nav.about"), to: "/about" },
     { label: t("nav.contact"), to: "/contact" },
   ];
 
@@ -59,7 +57,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-bone/55">{t("brand.tagline")}</p>
             <div className="mt-6 flex gap-2">
               {[
-                { href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿")), icon: Whatsapp, label: "WhatsApp" },
+                { href: whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿")), icon: Whatsapp, label: "WhatsApp" },
                 { href: messengerUrl(settings.messenger), icon: Messenger, label: "Messenger" },
                 { href: instagramUrl(settings.instagram), icon: Instagram, label: "Instagram" },
                 { href: `mailto:${settings.email}`, icon: Mail, label: "Email" },
@@ -102,7 +100,7 @@ export function Footer() {
                 <Link to="/contact" className="transition hover:text-acid">{t("footer.shipping")}</Link>
               </li>
               <li>
-                <a href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I need help with an order", "مرحباً VLOR، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
+                <a href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I need help with an order", "مرحباً فلور، أحتاج مساعدة في طلب"))} target="_blank" rel="noopener noreferrer" className="transition hover:text-acid">
                   {t("footer.contact")}
                 </a>
               </li>
@@ -118,7 +116,7 @@ export function Footer() {
             <h4 className="text-[10px] font-bold uppercase tracking-[0.28em] text-bone/35">{t("footer.house")}</h4>
             <ul className="mt-5 space-y-4 text-[13px] text-bone/70">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
+                <Globe className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
                 <span>{l(settings.address)}</span>
               </li>
               <li className="flex gap-3">

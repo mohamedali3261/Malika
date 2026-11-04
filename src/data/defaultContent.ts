@@ -8,7 +8,7 @@ export function createDefaultContent(): SiteContent {
     announcements: [
       { en: "Complimentary delivery on orders over EGP 2,000", ar: "توصيل مجاني للطلبات فوق ٢٠٠٠ ج.م" },
       { en: "2 free samples with every order", ar: "عينتان مجانيتان مع كل طلب" },
-      { en: "Made in small batches · Cairo", ar: "تُصنع بكميات صغيرة · القاهرة" },
+      { en: "Made in small batches · Online", ar: "تُصنع بكميات صغيرة · أونلاين" },
     ],
 
     hero: {
@@ -16,11 +16,11 @@ export function createDefaultContent(): SiteContent {
       titleLine1: { en: "Arrive like", ar: "حضورٌ" },
       titleLine2: { en: "royalty.", ar: "ملكي." },
       lead: {
-        en: "Extraits composed for people who are remembered before they speak. Blended slowly, in small batches, in Cairo.",
-        ar: "عطور تُركَّب لمن يُذكَرون قبل أن يتكلّموا. تُمزج ببطء، بكميات صغيرة، في القاهرة.",
+        en: "Extraits composed for people who are remembered before they speak. Blended slowly, in small batches — made with care.",
+        ar: "عطور تُركَّب لمن يُذكَرون قبل أن يتكلّموا. تُمزج ببطء، بكميات صغيرة — صُنعت بعناية.",
       },
       primaryCta: { en: "Discover the collection", ar: "اكتشف المجموعة" },
-      secondaryCta: { en: "Our story", ar: "حكايتنا" },
+      secondaryCta: { en: "Contact us", ar: "تواصل معنا" },
       stats: [
         { id: "rating", value: "4.9", suffix: "/5", label: { en: "rated by clients", ar: "تقييم عملائنا" } },
         { id: "scents", value: "12", suffix: "", label: { en: "signature scents", ar: "عطراً بتوقيعنا" } },
@@ -30,7 +30,7 @@ export function createDefaultContent(): SiteContent {
 
     showcase: {
       eyebrow: { en: "Curated editions", ar: "إصدارات مختارة" },
-      title: { en: "Icons of VLOR.", ar: "أيقوناتُ VLOR." },
+      title: { en: "Icons of VLOR.", ar: "أيقوناتُ فلور." },
       lead: {
         en: "Swipe through our defining extraits — each flacon carries its own chapter.",
         ar: "تجوّل بين أبرز عطور الدار — كل زجاجة تروي فصلاً خاصاً.",
@@ -54,11 +54,11 @@ export function createDefaultContent(): SiteContent {
     },
 
     story: {
-      eyebrow: { en: "The house of VLOR", ar: "دار VLOR" },
+      eyebrow: { en: "The house of VLOR", ar: "دار فلور" },
       title: { en: "Built slowly. Worn quietly.", ar: "يُصنع ببطء. ويُلبَس بهدوء." },
       lead: {
-        en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and a lot of Cairo nights looking for the answer.",
-        ar: "بدأت VLOR بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من ليالي القاهرة بحثاً عن الإجابة.",
+        en: "VLOR began with one question: why do some scents vanish while others become part of your memory? We spent two years, 214 trials and many quiet nights looking for the answer.",
+        ar: "بدأت فلور بسؤال واحد: لماذا تختفي بعض العطور بينما تصبح أخرى جزءاً من ذاكرتك؟ قضينا عامين و٢١٤ محاولة وكثيراً من الليالي الهادئة بحثاً عن الإجابة.",
       },
       quote: {
         en: "A perfume should not announce you. It should make people lean in.",
@@ -110,7 +110,7 @@ export function createDefaultContent(): SiteContent {
           id: "nour",
           quote: {
             en: "I wore VLOR Noir to a wedding and three people followed me to the parking lot to ask what it was. It's the first perfume I've finished a full bottle of.",
-            ar: "لبست VLOR نوار في فرح، فتبعني ثلاثة أشخاص إلى الجراج يسألون عن العطر. أول برفان أُكمل زجاجته كاملة.",
+            ar: "لبست فلور نوار في فرح، فتبعني ثلاثة أشخاص إلى الجراج يسألون عن العطر. أول برفان أُكمل زجاجته كاملة.",
           },
           name: { en: "Nour El-Sayed", ar: "نور السيد" },
           city: { en: "New Cairo", ar: "القاهرة الجديدة" },
@@ -203,7 +203,7 @@ export function createDefaultContent(): SiteContent {
     },
 
     brand: {
-      wordmark: { en: "VLOR", ar: "VLOR" },
+      wordmark: { en: "VLOR", ar: "فلور" },
       descriptor: { en: "Maison de parfum", ar: "دار عطور" },
     },
 
@@ -287,7 +287,7 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
     val
       ? {
           en: (val.en ?? "").replace(/MALIKA/g, "VLOR").replace(/Malika/g, "VLOR"),
-          ar: (val.ar ?? "").replace(/مليكة/g, "VLOR"),
+          ar: (val.ar ?? "").replace(/مليكة/g, "فلور"),
         }
       : val;
 

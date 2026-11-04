@@ -4,15 +4,15 @@ import type { Product } from "@/types";
 const malikaNoir: Product = {
   id: "malika-noir",
   slug: "vlor-noir",
-  name: { en: "VLOR Noir", ar: "VLOR نوار" },
+  name: { en: "VLOR Noir", ar: "فلور نوار" },
   tagline: { en: "Incense · Oud · Smoked leather", ar: "بخور · عود · جلد مدخن" },
   description: {
     en: "A midnight extrait built around incense smoke, black pepper and a warm leather base. The one people ask about before they say hello.",
     ar: "إكستريه منتصف الليل، حوله دخان البخور والفلفل الأسود وقاعدة جلدية دافئة. العطر الذي يسألون عنه قبل أن يقولوا مرحباً.",
   },
   story: {
-    en: "Our first composition and still our most requested. Yara built it for a Cairo rooftop in December — cool air, warm company, charcoal in the corner. Ninety-one trials before the balance was right.",
-    ar: "أول تركيبة لنا وما زالت الأكثر طلباً. صممته يارا لسطح مبنى في القاهرة في ديسمبر — هواء بارد، صحبة دافئة، وفحم في الزاوية. إحدى وتسعون محاولة قبل أن يصبح التوازن صحيحاً.",
+    en: "Our first composition and still our most requested. Yara built it for a rooftop in December — cool air, warm company, charcoal in the corner. Ninety-one trials before the balance was right.",
+    ar: "أول تركيبة لنا وما زالت الأكثر طلباً. صممته يارا لسطح مبنى في ديسمبر — هواء بارد، صحبة دافئة، وفحم في الزاوية. إحدى وتسعون محاولة قبل أن يصبح التوازن صحيحاً.",
   },
   price: 2650,
   compareAt: 3100,

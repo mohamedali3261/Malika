@@ -20,7 +20,6 @@ import { Suspense, lazy, useEffect } from "react";
 const ShopPage = lazy(() => import("@/pages/Shop").then((m) => ({ default: m.ShopPage })));
 const WishlistPage = lazy(() => import("@/pages/Wishlist").then((m) => ({ default: m.WishlistPage })));
 const ProductPage = lazy(() => import("@/pages/Product").then((m) => ({ default: m.ProductPage })));
-const AboutPage = lazy(() => import("@/pages/About").then((m) => ({ default: m.AboutPage })));
 const ContactPage = lazy(() => import("@/pages/Contact").then((m) => ({ default: m.ContactPage })));
 const TrackOrder = lazy(() => import("@/pages/TrackOrder").then((m) => ({ default: m.TrackOrder })));
 const StudioGate = lazy(() => import("@/pages/Admin/StudioGate").then((m) => ({ default: m.StudioGate })));
@@ -53,7 +52,6 @@ function AppShell() {
     if (path === "/") return <HomePage />;
     if (path === "/shop") return <ShopPage />;
     if (path === "/wishlist" || path === "/favorites" || path === "/saved") return <WishlistPage />;
-    if (path === "/about") return <AboutPage />;
     if (path === "/contact") return <ContactPage />;
     if (path.startsWith("/track/")) return <TrackOrder />;
     if (path === "/studio" || path === "/admin") return <StudioGate />;

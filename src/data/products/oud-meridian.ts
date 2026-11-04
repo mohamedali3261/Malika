@@ -11,8 +11,8 @@ const oudMeridian: Product = {
     ar: "أغنى تركيباتنا. زعفران وجوزة الطيب فوق عود معتّق، يلطفه التونكا ونهاية فانيليا بطيئة. رشّة واحدة قرار.",
   },
   story: {
-    en: "We spent eleven months sourcing this oud. It is smoky rather than animalic, which makes it wearable in Cairo heat. The saffron is there to keep it golden.",
-    ar: "أمضينا أحد عشر شهراً في البحث عن هذا العود. دخاني وليس حيوانياً، مما يجعله قابلاً للاستخدام في حر القاهرة. الزعفران موجود ليبقيه ذهبياً.",
+    en: "We spent eleven months sourcing this oud. It is smoky rather than animalic, which makes it wearable in summer heat. The saffron is there to keep it golden.",
+    ar: "أمضينا أحد عشر شهراً في البحث عن هذا العود. دخاني وليس حيوانياً، مما يجعله مناسباً لحرارة الصيف. الزعفران موجود ليبقيه ذهبياً.",
   },
   price: 3250,
   compareAt: 3800,

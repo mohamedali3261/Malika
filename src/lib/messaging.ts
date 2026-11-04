@@ -36,7 +36,7 @@ export function productMessage(product: Product, ml: number, price: number, lang
   const name = product.name[lang];
   if (lang === "ar") {
     return [
-      "مرحباً VLOR 🌿",
+      "مرحباً فلور 🌿",
       `مهتم بعطر: ${name}`,
       `الحجم: ${chatNumber(ml, lang)} مل — ${chatPrice(price, lang)}`,
       "هل هو متوفر الآن؟",
@@ -72,8 +72,8 @@ export function cartMessage(
 
   if (lang === "ar") {
     const header = customer
-      ? `مرحباً VLOR 🌿 أريد تأكيد هذا الطلب:`
-      : `مرحباً VLOR 🌿 أريد الاستفسار عن هذا الطلب:`;
+      ? `مرحباً فلور 🌿 أريد تأكيد هذا الطلب:`
+      : `مرحباً فلور 🌿 أريد الاستفسار عن هذا الطلب:`;
     const items = lines.map(
       (line, index) =>
         `${chatNumber(index + 1, lang)}. ${line.name.ar} — ${chatNumber(line.ml, lang)} مل × ${chatNumber(
@@ -165,7 +165,7 @@ export function contactMessage(payload: {
   const { name, phone, subject, message, lang } = payload;
   if (lang === "ar") {
     return [
-      "مرحباً فريق VLOR،",
+      "مرحباً فريق فلور،",
       `الاسم: ${name}`,
       `الهاتف: ${phone}`,
       `الموضوع: ${subject}`,

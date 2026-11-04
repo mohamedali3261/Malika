@@ -514,7 +514,7 @@ export function RunwayLookbook() {
       ref={sectionRef}
       id="runway-lookbook"
       className="rl-section"
-      aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور VLOR")}
+      aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور فلور")}
     >
       {/* Editorial Runway Header */}
       <div className="rl-header">
@@ -529,7 +529,7 @@ export function RunwayLookbook() {
 
           <nav className="rl-tabs rl-wide rl-wide-i18n" aria-label={x("Runway navigation", "تنقّل المنصّة")}>
             <span className="is-on">{x("Runway", "منصّة العرض")}</span>
-            <Link to="/about">{x("The Maison", "الدار")}</Link>
+            <Link to="/contact">{x("Contact", "تواصل")}</Link>
             <Link to="/wishlist">{x("Saved", "المفضلة")}</Link>
             <Link to="/shop">{x("Shop", "المتجر")}</Link>
           </nav>
@@ -636,10 +636,7 @@ export function RunwayLookbook() {
               {x("Signature Collection", "مجموعة التوقيع الملكية")}
             </h2>
             <p>
-              {x(
-                "A study in sillage and presence. Six signature extraits from VLOR stand in one receding line — drag, scroll or tap any flacon in the distance to bring its story forward.",
-                "دراسة في الثبات والحضور. ستّ قوارير من إكستريه VLOR تقف في صفٍّ يمتدّ في العمق — اسحب أو مرّر أو اضغط على أي قارورة لتتقدّم بتفاصيلها إلى الواجهة."
-              )}
+              {x("A study in sillage and presence. Six signature extraits from VLOR stand in one receding line — drag, scroll or tap any flacon in the distance to bring its story forward.", "دراسة في الثبات والحضور. ستّ قوارير من إكستريه فلور تقف في صفٍّ يمتدّ في العمق — اسحب أو مرّر أو اضغط على أي قارورة لتتقدّم بتفاصيلها إلى الواجهة.")}
             </p>
           </div>
 

@@ -23,8 +23,7 @@ import { useEffect, useState } from "react";
 const links = [
   { to: "/", key: "nav.home" as const, index: "01" },
   { to: "/shop", key: "nav.shop" as const, index: "02" },
-  { to: "/about", key: "nav.about" as const, index: "03" },
-  { to: "/contact", key: "nav.contact" as const, index: "04" },
+  { to: "/contact", key: "nav.contact" as const, index: "03" },
 ];
 
 export function Navbar() {
@@ -126,7 +125,7 @@ export function Navbar() {
               )}
             </Link>
             <a
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink transition hover:border-ink/40 hover:bg-[#25D366]/15 md:grid"
@@ -221,14 +220,14 @@ export function Navbar() {
                   </span>
                 )}
               </span>
-              <span className="font-mono text-[10px] text-mist">05</span>
+              <span className="font-mono text-[10px] text-mist">04</span>
             </Link>
           </nav>
           <div className="space-y-3 border-t border-ink/10 p-5">
             <Button
               variant="acid"
               full
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً VLOR 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
               icon={<Whatsapp className="h-4 w-4" />}
               iconPosition="start"
             >

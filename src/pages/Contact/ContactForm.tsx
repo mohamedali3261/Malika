@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { SmartImage } from "@/components/ui/Primitives";
-import { ArrowUpRight, Clock, MapPin, Phone, Send, Whatsapp } from "@/components/ui/icons";
+import { ArrowUpRight, Clock, Globe, Phone, Send, Whatsapp } from "@/components/ui/icons";
 import { IMG } from "@/data/images";
 import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
@@ -34,30 +34,30 @@ export function ContactForm() {
   return (
     <section className="bg-bone pb-14 lg:pb-20">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <div className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-white/40 lg:grid-cols-[1.1fr_0.9fr]">
-          <Reveal className="p-6 sm:p-9 lg:p-11">
+        <div className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_24px_80px_rgba(16,16,16,0.07)] lg:grid-cols-[1.15fr_0.85fr]">
+          <Reveal className="p-6 sm:p-8 lg:p-10">
             <span className="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.24em] text-mist">
               <span className="h-1.5 w-1.5 rounded-full bg-plum" /> {t("contact.eyebrow")}
             </span>
-            <h2 className="hd-sub font-display mt-3 leading-tight">{t("contact.form.title")}</h2>
-            <p className="mt-2 text-[12px] leading-relaxed text-mist">{t("contact.form.lead")}</p>
+            <h2 className="hd-sub font-display mt-3 leading-[1.05] tracking-tight">{t("contact.form.title")}</h2>
+            <p className="mt-2.5 max-w-lg text-[12.5px] leading-relaxed text-mist">{t("contact.form.lead")}</p>
 
-            <form onSubmit={submit} className="mt-6 space-y-3">
-              <div className="grid gap-3 sm:grid-cols-2">
+            <form onSubmit={submit} className="mt-7 space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.name")} *</span>
-                  <input value={name} onChange={(event) => setName(event.target.value)} className="field" placeholder={x("e.g. Nour", "مثال: نور")} required />
+                  <input value={name} onChange={(event) => setName(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none" placeholder={x("e.g. Nour", "مثال: نور")} required />
                 </label>
                 <label className="block">
                   <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.phone")}</span>
-                  <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field" placeholder="+20 1XX XXX XXXX" inputMode="tel" dir="ltr" />
+                  <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none" placeholder="+20 1XX XXX XXXX" inputMode="tel" dir="ltr" />
                 </label>
               </div>
 
               <label className="block">
                 <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.subject")}</span>
                 <div className="relative">
-                  <select value={subject} onChange={(event) => setSubject(event.target.value)} className="field appearance-none pe-10">
+                  <select value={subject} onChange={(event) => setSubject(event.target.value)} className="field h-11 w-full appearance-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 pe-10 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none">
                     {subjects.map((item) => (
                       <option key={item} value={item}>{item}</option>
                     ))}
@@ -74,53 +74,72 @@ export function ContactForm() {
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
                   rows={4}
-                  className="field resize-none"
+                  className="field min-h-[120px] resize-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 py-3 text-[13px] leading-relaxed transition focus:border-plum focus:bg-white focus:outline-none"
                   placeholder={x("Tell us about the scents you love, or the occasion…", "أخبرنا عن العطور التي تحبها، أو عن المناسبة…")}
                   required
                 />
               </label>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                <Button type="submit" variant="acid" icon={<Whatsapp className="h-4 w-4" />} iconPosition="start">
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
+                <Button type="submit" variant="acid" size="lg" className="w-full sm:w-auto" icon={<Whatsapp className="h-4.5 w-4.5" />} iconPosition="start">
                   {t("contact.send")}
                 </Button>
-                <span className="text-[9px] leading-snug text-mist">
-                  {x("We won't use your details for anything else.", "لن نستخدم بياناتك لأي غرض آخر.")}
+                <span className="text-center text-[10px] leading-snug text-mist sm:text-start">
+                  {x("We reply on WhatsApp within minutes — no spam.", "نرد عبر واتساب خلال دقائق — بلا إزعاج.")}
                 </span>
               </div>
             </form>
           </Reveal>
 
-          <Reveal delay={100} className="relative min-h-[340px] bg-ink p-6 text-bone sm:p-9">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_0%,rgba(201,181,247,0.25),transparent_55%)]" />
+          <Reveal delay={110} className="relative flex flex-col bg-ink p-6 text-bone sm:p-8">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_0%,rgba(201,181,247,0.22),transparent_52%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_90%,rgba(213,255,74,0.08),transparent_40%)]" />
             <div className="relative flex h-full flex-col">
-              <SmartImage src={IMG.atelier} alt={x("VLOR atelier", "ورشة VLOR")} className="aspect-[5/3] w-full rounded-[1.3rem] border border-bone/10" />
-              <div className="mt-5">
-                <h3 className="font-display text-2xl">{t("contact.hours.title")}</h3>
-                <ul className="mt-4 space-y-3 text-[11.5px] text-bone/65">
-                  <li className="flex items-start gap-2.5">
-                    <Clock className="mt-0.5 h-4 w-4 shrink-0 text-acid" /> {l(settings.hours)}
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-acid" /> {l(settings.address)}
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
-                    <a href={`tel:${settings.phone}`} dir="ltr" className="transition hover:text-acid">{settings.phone}</a>
-                  </li>
-                </ul>
+              <div className="overflow-hidden rounded-[1.4rem] border border-bone/10">
+                <SmartImage src={IMG.atelier} alt={x("VLOR — online atelier", "فلور — ورشة أونلاين")} className="aspect-[16/10] w-full" />
               </div>
+              <div className="mt-6 space-y-1">
+                <h3 className="font-display text-[26px] leading-none">{x("We’re online", "نحن أونلاين")}</h3>
+                <p className="text-[11px] leading-relaxed text-bone/60">{x("No storefront — we ship across Egypt and reply fast on WhatsApp.", "لا يوجد متجر فعلي — نشحن لكل محافظات مصر ونرد بسرعة على واتساب.")}</p>
+              </div>
+              <ul className="mt-5 space-y-3 text-[12px]">
+                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
+                  <Globe className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Availability", "التواجد")}</p>
+                    <p className="mt-0.5 font-medium leading-snug text-bone">{l(settings.address)}</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Hours", "المواعيد")}</p>
+                    <p className="mt-0.5 font-medium leading-snug text-bone">{l(settings.hours)}</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Phone", "الهاتف")}</p>
+                    <a href={`tel:${settings.phone}`} dir="ltr" className="mt-0.5 block font-medium text-bone transition hover:text-acid">{settings.phone}</a>
+                  </div>
+                </li>
+              </ul>
               <a
-                href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd like to book a scent consultation", "مرحباً VLOR، أريد حجز استشارة عطرية"))}
+                href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd like a scent consultation", "مرحباً فلور، أريد استشارة عطرية"))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-6 flex items-center justify-between rounded-full border border-bone/20 px-4 py-3 text-[11px] font-bold transition hover:border-acid hover:bg-acid hover:text-ink"
+                className="group mt-6 flex items-center justify-between rounded-full border border-bone/15 bg-bone/8 px-4 py-3.5 text-[12px] font-bold backdrop-blur transition hover:border-acid hover:bg-acid hover:text-ink"
               >
-                <span className="flex items-center gap-2">
-                  <Send className="h-3.5 w-3.5" /> {t("contact.visit")}
+                <span className="flex items-center gap-2.5">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-acid text-ink group-hover:bg-ink group-hover:text-acid">
+                    <Send className="h-3.5 w-3.5" />
+                  </span>
+                  {t("contact.visit")}
                 </span>
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <ArrowUpRight className="h-4 w-4 opacity-60 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
               </a>
+              <p className="mt-3 text-center text-[10px] text-bone/40">{x("Average reply: < 1 hour", "متوسط الرد: أقل من ساعة")}</p>
             </div>
           </Reveal>
         </div>

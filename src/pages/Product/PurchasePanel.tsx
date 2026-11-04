@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/Button";
 import { Badge, Stars } from "@/components/ui/Primitives";
-import { Check, Heart, Messenger, Minus, Plus, Share, Whatsapp } from "@/components/ui/icons";
+import { Check, Heart, Minus, Plus, Whatsapp } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { discountPercent, formatPrice } from "@/lib/format";
-import { copyText, messengerUrl, openChannel, productMessage, whatsappUrl } from "@/lib/messaging";
+import { productMessage, whatsappUrl } from "@/lib/messaging";
 import { Link } from "@/lib/router";
 import { emitBagPulse } from "@/motion";
 import type { Product } from "@/types";
@@ -34,72 +34,48 @@ export function PurchasePanel({ product }: { product: Product }) {
     open();
   };
 
-  const share = async () => {
-    const url = `${window.location.origin}${window.location.pathname}#/product/${product.slug}`;
-    const text =
-      lang === "ar"
-        ? `${l(product.name)} من VLOR — ${l(product.tagline)}`
-        : `${product.name.en} by VLOR — ${product.tagline.en}`;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: l(product.name), text, url });
-        return;
-      } catch {
-        // user cancelled or unsupported — fall back to clipboard
-      }
-    }
-    const ok = await copyText(`${text}\n${url}`);
-    push(ok ? t("product.linkCopied") : t("product.share"), ok ? "success" : "error");
-  };
-
   const handleSave = () => {
     const saved = toggleWishlist(product.id);
     push(saved ? t("product.saved") : t("product.unsaved"), saved ? "success" : "info");
   };
 
   return (
-    <div>
+    <div className="space-y-4">
       <nav className="hidden items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.16em] text-mist lg:flex" aria-label="Breadcrumb">
         <Link to="/" className="transition hover:text-ink">{t("nav.home")}</Link>
         <span>/</span>
         <Link to="/shop" className="transition hover:text-ink">{t("nav.shop")}</Link>
         <span>/</span>
-        <span className="truncate text-ink/60">{l(product.name)}</span>
+        <span className="truncate text-ink/50">{l(product.name)}</span>
       </nav>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-1.5">
         {product.isNew && <Badge tone="ink">{t("product.new")}</Badge>}
         {product.bestseller && <Badge tone="acid">{t("product.bestseller")}</Badge>}
-        {discount && <Badge tone="lilac"><span dir="ltr">−{discount}%</span> {t("product.sale")}</Badge>}
-        <span className="text-[9px] font-bold uppercase tracking-[0.18em] text-mist">
-          {t(`shop.${product.category}`)} · {t(`shop.${product.gender}`)}
-        </span>
+        {discount && <Badge tone="lilac"><span dir="ltr">−{discount}%</span></Badge>}
       </div>
 
-      <h1 className="hd-page font-display mt-3 leading-[0.98] tracking-tight">
-        {l(product.name)}
-      </h1>
-      <p className="mt-2 text-[13px] text-mist">{l(product.tagline)}</p>
-
-      <div className="mt-3 flex flex-wrap items-center gap-3">
-        <Stars value={product.rating} reviews={product.reviews} size={13} />
+      <div>
+        <h1 className="hd-page font-display leading-[0.98] tracking-tight">
+          {l(product.name)}
+        </h1>
+        <p className="mt-1.5 text-[13px] leading-snug text-mist">{l(product.tagline)}</p>
+        <div className="mt-2.5">
+          <Stars value={product.rating} reviews={product.reviews} size={13} />
+        </div>
       </div>
 
-      <p className="mt-4 max-w-lg text-[13px] leading-relaxed text-ink/70">{l(product.description)}</p>
-
-      <div className="mt-5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-        <p className="font-display whitespace-nowrap text-[1.9rem] leading-none sm:text-[2.1rem]">
+      <div className="flex flex-wrap items-baseline gap-2">
+        <p className="font-display text-[1.9rem] leading-none sm:text-[2rem]">
           {formatPrice(selected?.price ?? product.price, lang)}
         </p>
         {product.compareAt && (
-          <p className="whitespace-nowrap text-[12px] text-mist line-through">{formatPrice(product.compareAt, lang)}</p>
+          <p className="text-[11px] text-mist line-through">{formatPrice(product.compareAt, lang)}</p>
         )}
-        <span className="whitespace-nowrap text-[10px] font-medium text-mist">
-          / {selected?.ml ?? 50} ml
-        </span>
+        <span className="text-[10px] font-medium text-mist">/ {selected?.ml ?? 50} ml</span>
       </div>
 
-      <div className="mt-4">
+      <div>
         <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-mist">{t("product.size")}</p>
         <div className="mt-2 grid grid-cols-3 gap-2">
           {product.sizes.map((size) => (
@@ -107,15 +83,15 @@ export function PurchasePanel({ product }: { product: Product }) {
               key={size.ml}
               onClick={() => setMl(size.ml)}
               className={cn(
-                "group relative flex flex-col items-start gap-0.5 rounded-xl border px-3 py-2.5 text-start transition-all duration-300",
+                "relative flex flex-col items-start gap-0.5 rounded-xl border px-3 py-2.5 text-start transition",
                 ml === size.ml
-                  ? "border-ink bg-ink text-bone shadow-md"
-                  : "border-ink/12 bg-white/40 text-ink hover:border-ink/40"
+                  ? "border-ink bg-ink text-bone shadow-sm"
+                  : "border-ink/10 bg-white/60 text-ink hover:border-ink/30"
               )}
             >
               <span className="text-[12px] font-bold">{size.ml} ml</span>
-              <span className={cn("text-[9.5px]", ml === size.ml ? "text-bone/55" : "text-mist")}>
-                <span className="whitespace-nowrap">{formatPrice(size.price, lang)}</span>
+              <span className={cn("text-[10px]", ml === size.ml ? "text-bone/60" : "text-mist")}>
+                {formatPrice(size.price, lang)}
               </span>
               {ml === size.ml && <Check className="absolute end-2 top-2 h-3 w-3 text-acid" />}
             </button>
@@ -123,59 +99,45 @@ export function PurchasePanel({ product }: { product: Product }) {
         </div>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-2.5">
-        <div className="flex h-12 items-center rounded-full border border-ink/15 bg-white/40">
-          <button onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-11 w-10 place-items-center rounded-full transition hover:bg-ink/5" aria-label="decrease">
+      <div className="flex items-center gap-2.5 pt-1">
+        <div className="flex h-11 items-center rounded-full border border-ink/12 bg-white">
+          <button onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-9 w-9 place-items-center rounded-full hover:bg-ink/5" aria-label="decrease">
             <Minus className="h-3.5 w-3.5" />
           </button>
-          <span className="w-6 text-center text-[12px] font-bold">{qty}</span>
-          <button onClick={() => setQty(Math.min(20, qty + 1))} className="grid h-11 w-10 place-items-center rounded-full transition hover:bg-ink/5" aria-label="increase">
+          <span className="w-7 text-center text-[12px] font-bold">{qty}</span>
+          <button onClick={() => setQty(Math.min(20, qty + 1))} className="grid h-9 w-9 place-items-center rounded-full hover:bg-ink/5" aria-label="increase">
             <Plus className="h-3.5 w-3.5" />
           </button>
         </div>
-        <Button variant="primary" size="lg" className="flex-1" onClick={handleAdd} icon={<Plus className="h-4 w-4" />} iconPosition="start">
+        <Button variant="primary" size="lg" className="flex-1" onClick={handleAdd}>
           {t("product.addToBag")}
         </Button>
         <button
           onClick={handleSave}
           aria-label={wished ? t("product.removeWishlist") : t("product.wishlist")}
           className={cn(
-            "grid h-12 w-12 place-items-center rounded-full border transition-all",
-            wished ? "border-ink bg-ink text-acid" : "border-ink/15 bg-white/40 text-ink hover:border-ink"
+            "grid h-11 w-11 place-items-center rounded-full border transition",
+            wished ? "border-ink bg-ink text-acid" : "border-ink/12 bg-white text-ink hover:border-ink/30"
           )}
         >
           <Heart className="h-4 w-4" fill={wished ? "currentColor" : "none"} />
         </button>
       </div>
 
-      <div className="mt-2.5 grid gap-2 sm:grid-cols-2">
-        <Button
-          variant="acid"
-          href={whatsappUrl(settings.whatsapp, productMessage(product, selected?.ml ?? 50, selected?.price ?? product.price, lang))}
-          icon={<Whatsapp className="h-4 w-4" />}
-          iconPosition="start"
-        >
-          {t("product.buyWhatsapp")}
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => openChannel(messengerUrl(settings.messenger))}
-          icon={<Messenger className="h-4 w-4" />}
-          iconPosition="start"
-        >
-          {t("product.orderMessenger")}
-        </Button>
-      </div>
+      <Button
+        variant="outline"
+        full
+        href={whatsappUrl(settings.whatsapp, productMessage(product, selected?.ml ?? 50, selected?.price ?? product.price, lang))}
+        icon={<Whatsapp className="h-4 w-4" />}
+        iconPosition="start"
+        className="border-ink/12"
+      >
+        {t("product.buyWhatsapp")}
+      </Button>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-3.5 text-[10.5px] text-mist">
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-          <span>{t("product.longevity")}: <strong className="text-ink">{product.longevity}</strong></span>
-          <span>{t("product.sillage")}: <strong className="text-ink">{l(product.sillage)}</strong></span>
-        </div>
-        <button onClick={share} className="inline-flex min-h-8 items-center gap-1.5 font-semibold transition hover:text-ink">
-          <Share className="h-3.5 w-3.5" /> {t("product.share")}
-        </button>
-      </div>
+      <p className="text-center text-[10px] leading-relaxed text-mist">
+        {lang === "ar" ? "الدفع عند الاستلام · توصيل لكل المحافظات" : "Cash on delivery · Delivery across Egypt"}
+      </p>
     </div>
   );
 }
