@@ -554,8 +554,8 @@ export const dict = {
   "shop.collectionEyebrow": { en: "The collection", ar: "المجموعة" },
   "shop.collectionTitle": { en: "Find the one that is yours.", ar: "اعثر على ما يشبهك." },
   "shop.collectionLead": {
-    en: "Filter by family, mood or budget — every bottle is hand-filled in Cairo.",
-    ar: "رشّح حسب العائلة العطرية أو المزاج أو الميزانية — وكل زجاجة تُعبأ يدوياً في القاهرة.",
+    en: "Distinctive extraits, crafted to linger — memorable from the first spray.",
+    ar: "إكستريه مميز، مصمم ليثبت ويبقى في الذاكرة من أول رشة.",
   },
   "shop.trust1": { en: "Free delivery over EGP 2,000", ar: "توصيل مجاني فوق ٢٠٠٠ ج.م" },
   "shop.trust2": { en: "Cash on delivery", ar: "الدفع عند الاستلام" },

@@ -7,22 +7,31 @@ import { Sparkle } from "@/components/ui/icons";
 
 export function Gallery({ product }: { product: Product }) {
   const { l, x } = useLang();
-  const images = product.images.length > 0 ? product.images : [];
+  const images = product.images.length > 0 ? product.images : product.cutout ? [product.cutout] : [];
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     setActive(0);
   }, [product.id]);
 
+  // Auto-rotate every 3.5s, pause on hover
+  useEffect(() => {
+    if (images.length <= 1 || paused) return;
+    const id = window.setInterval(() => {
+      setActive((prev) => (prev + 1) % images.length);
+    }, 3500);
+    return () => window.clearInterval(id);
+  }, [images.length, paused]);
+
   return (
-    <div className="relative">
+    <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div
         className="relative overflow-hidden rounded-[1.8rem] border border-ink/8 p-3 sm:rounded-[2.2rem] sm:p-4"
         style={{ background: `linear-gradient(150deg, ${product.accent}55, #efe9dd)` }}
       >
         <SmartImage
-          key={images[active]}
-          src={images[active] ?? ""}
+          src={images[active] ?? product.cutout ?? ""}
           fallbackSrc={product.cutout}
           alt={l(product.name)}
           priority
