@@ -44,7 +44,12 @@ function Connectors({
     [lineGeo, dotGeo]
   );
 
+  const lastRig = useRef(-1);
+  const frame = useRef(0);
+
   useFrame(() => {
+    frame.current += 1;
+    if (frame.current % 2 !== 0) return;
     const lines = linesRef.current;
     const dots = dotsRef.current;
     const anchors = anchorsRef.current;
@@ -52,6 +57,8 @@ function Connectors({
 
     const progress = stateRef.current?.progress ?? 0;
     const rig = explosionFactor(progress);
+    if (Math.abs(rig - lastRig.current) < 0.008) return;
+    lastRig.current = rig;
     const lineMat = lines.material as THREE.LineBasicMaterial;
     const dotMat = dots.material as THREE.PointsMaterial;
 
@@ -124,11 +131,18 @@ function TechnicalLabels({
   const groupRefs = useRef<Record<string, THREE.Group | null>>({});
   const wrapperRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
+  const lastLabelRig = useRef(-1);
+  const labelFrame = useRef(0);
+
   useFrame(() => {
+    labelFrame.current += 1;
+    if (labelFrame.current % 2 !== 0) return;
     const anchors = anchorsRef.current;
     if (!anchors) return;
     const progress = stateRef.current?.progress ?? 0;
     const rig = explosionFactor(progress);
+    if (Math.abs(rig - lastLabelRig.current) < 0.01) return;
+    lastLabelRig.current = rig;
     const visibility = Math.max(0, Math.min(1, (rig - 0.56) / 0.25));
 
     labelParts.forEach((part) => {

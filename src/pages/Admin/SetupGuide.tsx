@@ -55,16 +55,16 @@ export function SetupGuide() {
         <pre className="mt-3 overflow-x-auto rounded-xl bg-black/25 p-3 text-[9.5px] leading-relaxed text-bone/70" dir="ltr">
 {`src/
  ├ pages/
- │  ├ Home/      Hero, Featured, ScentFinder…
+ │  ├ Home/      Hero, Featured, Runway…
  │  ├ Shop/      FilterBar, ProductGrid…
  │  ├ Product/   Gallery, PurchasePanel…
  │  ├ About/  Contact/
- │  └ Admin/     ProductForm, GithubPanel…
+ │  └ Admin/     ProductForm, ContentEditor…
  ├ data/products/   ← one file per scent
  ├ components/      layout · product · ui
  ├ context/         store · cart · toast
  ├ i18n/            ar + en dictionary
- └ lib/             router · github · messaging`}
+ └ lib/             router · messaging`}
         </pre>
         <p className="mt-3 text-[10px] leading-relaxed text-bone/50">
           {lang === "ar"

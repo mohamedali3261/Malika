@@ -97,7 +97,10 @@ function ScentMistHalo({ stateRef }: { stateRef: React.RefObject<ScrollState> })
 
   useEffect(() => () => geometry.dispose(), [geometry]);
 
+  const frameCounter = useRef(0);
   useFrame(({ clock }) => {
+    frameCounter.current += 1;
+    if (frameCounter.current % 2 !== 0) return;
     const mat = matRef.current;
     if (!mat) return;
     const progress = stateRef.current?.progress ?? 0;
@@ -135,12 +138,19 @@ function ScentMistHalo({ stateRef }: { stateRef: React.RefObject<ScrollState> })
 /** Stage 5 highlight: a specular sweep travelling across the glass. */
 function HighlightSweep({ stateRef }: { stateRef: React.RefObject<ScrollState> }) {
   const lightRef = useRef<THREE.PointLight>(null);
+  const lastSweep = useRef(-1);
+  const frame = useRef(0);
 
   useFrame(({ clock }) => {
+    frame.current += 1;
+    if (frame.current % 2 !== 0) return;
     const light = lightRef.current;
     if (!light) return;
+
     const progress = stateRef.current?.progress ?? 0;
     const sweep = subProgress(progress, 0.86, 1);
+    if (Math.abs(sweep - lastSweep.current) < 0.004 && sweep !== 0 && sweep !== 1) return;
+    lastSweep.current = sweep;
     const travel = Math.sin(sweep * Math.PI);
 
     light.position.set(-2.6 + sweep * 5.2, 0.9 + Math.sin(clock.elapsedTime * 0.4) * 0.1, 2.3);
@@ -161,10 +171,13 @@ function LightingRig({
   const keyRef = useRef<THREE.DirectionalLight>(null);
   const rimRef = useRef<THREE.SpotLight>(null);
   const fillRef = useRef<THREE.PointLight>(null);
+  const lastRig = useRef(-1);
 
   useFrame(() => {
     const progress = stateRef.current?.progress ?? 0;
     const rig = explosionFactor(progress);
+    if (Math.abs(rig - lastRig.current) < 0.008) return;
+    lastRig.current = rig;
     if (keyRef.current) keyRef.current.intensity = 3.2 + rig * 1.2;
     if (rimRef.current) rimRef.current.intensity = 14 - rig * 4.5;
     if (fillRef.current) fillRef.current.intensity = 7.5 + rig * 5.5;
@@ -200,7 +213,7 @@ function LightingRig({
         decay={2}
       />
       <pointLight position={[0, 0.2, -2.6]} intensity={5.5} color="#f5bd6e" distance={7} decay={2} />
-      <HighlightSweep stateRef={stateRef} />
+      {quality.transmission && <HighlightSweep stateRef={stateRef} />}
     </>
   );
 }
@@ -290,18 +303,23 @@ export function PerfumeScene({
     Object.fromEntries(partsConfig.map((part) => [part.id, new THREE.Vector3()]))
   );
 
+  // Demand rendering when not actively scrolled saves GPU on idle
+  const frameloopMode = active ? "always" : "demand";
+
   return (
     <Canvas
       className="perfume-canvas"
       dpr={quality.dpr}
-      frameloop={active ? "always" : "never"}
+      frameloop={frameloopMode}
       shadows={quality.contactShadows && quality.shadowFrames === 0}
       resize={{ scroll: false, debounce: { scroll: 50, resize: 200 } }}
       gl={{
-        antialias: true,
+        antialias: quality.transmission,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: quality.transmission ? "high-performance" : "low-power",
         preserveDrawingBuffer: false,
+        stencil: false,
+        depth: true,
       }}
       camera={{ position: [0, 0.3, 4.95], fov: 32, near: 0.1, far: 50 }}
       onCreated={({ gl }) => {
@@ -325,7 +343,7 @@ export function PerfumeScene({
             anchorsRef={anchorsRef}
             userYawRef={userYawRef}
           />
-          <ScentMistHalo stateRef={stateRef} />
+          {quality.transmission && <ScentMistHalo stateRef={stateRef} />}
         </group>
 
         {/* Rendered at scene root so world-space `anchorsRef` coordinates align 1:1 */}

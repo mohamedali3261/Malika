@@ -32,6 +32,10 @@ export function PerfumeScrollProgress({
     let lastProgress = -1;
 
     const tick = () => {
+      if (document.hidden) {
+        frame = window.requestAnimationFrame(tick);
+        return;
+      }
       const progress = stateRef.current?.progress ?? 0;
       if (progress === lastProgress) {
         frame = window.requestAnimationFrame(tick);

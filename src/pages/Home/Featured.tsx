@@ -63,7 +63,7 @@ export function Featured() {
             to="/shop"
             className="link-underline group inline-flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink"
           >
-            {t("finder.shopAll")}
+            {t("featured.all")}
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </Reveal>

@@ -500,12 +500,18 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }
     []
   );
 
+  // Throttle work on low quality: only every other frame
+  const frameCounter = useRef(0);
   useFrame((frameState, delta) => {
+    frameCounter.current += 1;
+    if (!quality.transmission && frameCounter.current % 2 === 0) return;
+
     const progress = stateRef.current?.progress ?? 0;
     const velocity = stateRef.current?.velocity ?? 0;
     const group = groupRef.current;
     if (!group) return;
 
+    const clampedDelta = Math.min(delta, 0.05);
     const time = frameState.clock.elapsedTime;
     const rig = explosionFactor(progress);
     const hero = stageProgress(progress, "heroReveal");
@@ -515,7 +521,7 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }
     let extraYaw = 0;
     if (userYawRef) {
       userYawRef.current.current +=
-        (userYawRef.current.target - userYawRef.current.current) * Math.min(1, delta * 9);
+        (userYawRef.current.target - userYawRef.current.current) * Math.min(1, clampedDelta * 9);
       extraYaw = userYawRef.current.current;
     }
 
@@ -523,7 +529,7 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }
     if (meniscusRef.current) {
       const slosh = THREE.MathUtils.clamp((velocity / 2800) * 0.08, -0.07, 0.07);
       meniscusRef.current.rotation.z +=
-        (slosh - meniscusRef.current.rotation.z) * Math.min(1, delta * 6);
+        (slosh - meniscusRef.current.rotation.z) * Math.min(1, clampedDelta * 6);
     }
 
     // Idle presentation motion + scroll choreography + user spin
@@ -533,9 +539,9 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }
     const desiredPosY = Math.sin(time * 0.56) * 0.03 * calm;
     const desiredRotZ = Math.sin(time * 0.34) * 0.011 * calm;
 
-    group.rotation.y += (desiredRotY - group.rotation.y) * Math.min(1, delta * 10);
-    group.position.y += (desiredPosY - group.position.y) * Math.min(1, delta * 10);
-    group.rotation.z += (desiredRotZ - group.rotation.z) * Math.min(1, delta * 10);
+    group.rotation.y += (desiredRotY - group.rotation.y) * Math.min(1, clampedDelta * 10);
+    group.position.y += (desiredPosY - group.position.y) * Math.min(1, clampedDelta * 10);
+    group.rotation.z += (desiredRotZ - group.rotation.z) * Math.min(1, clampedDelta * 10);
 
     const scale = 1 + hero * 0.02 + settle * 0.03;
     group.scale.setScalar(scale);
@@ -568,7 +574,7 @@ export function PerfumeBottleModel({ stateRef, quality, anchorsRef, userYawRef }
         const anchor = anchorsRef.current[part.id];
         if (anchor) {
           node.getWorldPosition(scratch.world);
-          anchor.lerp(scratch.world, Math.min(1, delta * 16));
+          anchor.lerp(scratch.world, Math.min(1, clampedDelta * 16));
         }
       }
     }

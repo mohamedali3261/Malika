@@ -42,9 +42,6 @@ export const dict = {
   "hero.stat3": { en: "hours to your door", ar: "ساعة حتى بابك" },
   "hero.scroll": { en: "Scroll to explore", ar: "مرّر للاستكشاف" },
 
-  // Marquee
-  "marquee.note": { en: "Scent is the last thing they remember.", ar: "العطر آخر ما يبقى في الذاكرة." },
-
   // Featured / shop
   "featured.eyebrow": { en: "The signature edit", ar: "مختارات التوقيع" },
   "featured.title": { en: "Scents that stay in the room.", ar: "عطورٌ تبقى بعد أن تغادر." },
@@ -53,17 +50,6 @@ export const dict = {
     ar: "ست تركيبات نعود إليها دائماً. اختر ما يشبهك — أو ما يشبه النسخة التي تصبح عليها.",
   },
   "featured.all": { en: "View the full collection", ar: "شاهد المجموعة كاملة" },
-
-  // Scent finder
-  "finder.eyebrow": { en: "Scent finder", ar: "اكتشف عطرك" },
-  "finder.title": { en: "What's your frequency?", ar: "ما هو تردّدك؟" },
-  "finder.lead": { en: "Choose a mood. We'll narrow twelve scents down to three.", ar: "اختر المزاج. سنختار لك ثلاثة من بين اثني عشر عطراً." },
-  "finder.fresh": { en: "Fresh", ar: "منعش" },
-  "finder.warm": { en: "Warm", ar: "دافئ" },
-  "finder.bold": { en: "Bold", ar: "جريء" },
-  "finder.floral": { en: "Floral", ar: "زهري" },
-  "finder.result": { en: "Three bottles that fit", ar: "ثلاث زجاجات تناسبك" },
-  "finder.shopAll": { en: "Browse all scents", ar: "تصفّح كل العطور" },
 
   // Product card / common
   "product.new": { en: "New", ar: "جديد" },
