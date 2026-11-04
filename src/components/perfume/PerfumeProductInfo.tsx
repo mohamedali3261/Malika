@@ -32,6 +32,10 @@ export function PerfumeProductInfo({ stateRef }: Props) {
 
     let last = -1;
     const tick = () => {
+      if (document.hidden) {
+        frame = window.requestAnimationFrame(tick);
+        return;
+      }
       const progress = stateRef.current?.progress ?? 0;
       if (progress === last) {
         frame = window.requestAnimationFrame(tick);

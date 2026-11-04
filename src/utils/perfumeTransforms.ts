@@ -111,16 +111,21 @@ export function detectQuality(): "high" | "medium" | "low" {
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) return "low";
 
+  // Respect data-saver and low-battery where available
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+  if (saveData) return "low";
+
   const cores = navigator.hardwareConcurrency ?? 4;
   const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 4;
   const coarse = window.matchMedia("(pointer: coarse)").matches;
   const narrow = window.innerWidth < 768;
+  const shortH = window.innerHeight < 700;
 
-  // Phones always get the lightweight profile. Real-time refraction renders
-  // the scene twice per frame, which no phone sustains at 60 fps.
-  if (narrow) return "low";
-  if (coarse) return cores >= 6 && memory >= 4 ? "medium" : "low";
-  if (cores <= 4 || memory <= 4) return "medium";
+  // Phones and constrained devices always get lightweight to keep 60fps
+  if (narrow || shortH) return "low";
+  if (coarse) return cores >= 8 && memory >= 6 ? "medium" : "low";
+  if (cores <= 4 || memory <= 4) return "low";
+  if (cores <= 6 || memory <= 6) return "medium";
   return "high";
 }
 

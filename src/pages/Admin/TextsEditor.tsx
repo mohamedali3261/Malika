@@ -35,7 +35,7 @@ const AREAS: { id: AreaId; en: string; ar: string }[] = [
 const keyArea = (key: string): AreaId => {
   const group = key.split(".")[0];
   if (["nav", "brand", "lang", "common", "footer", "news", "ann"].includes(group)) return "layout";
-  if (["hero", "marquee", "featured", "finder", "story", "stat", "pillars", "testi", "cta"].includes(group)) return "home";
+  if (["hero", "featured", "story", "stat", "pillars", "testi", "cta"].includes(group)) return "home";
   if (group === "shop") return "shop";
   if (group === "product") return "product";
   if (group === "about") return "about";

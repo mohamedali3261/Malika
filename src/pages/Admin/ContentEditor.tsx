@@ -27,7 +27,7 @@ const emptyLocalized: Localized = { en: "", ar: "" };
 const uid = () => Math.random().toString(36).slice(2, 8);
 
 /**
- * Full control over every piece of storefront copy, the marquee, section
+ * Full control over every piece of storefront copy, section
  * visibility and the theme. Edits are held locally until "Save", then written
  * to the store (and flagged for GitHub publishing).
  */

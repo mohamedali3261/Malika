@@ -29,25 +29,6 @@ export function createDefaultContent(): SiteContent {
       ],
     },
 
-    marquee: {
-      enabled: false,
-      speed: 58,
-      direction: "left",
-      items: [
-        { en: "Saffron", ar: "زعفران" },
-        { en: "Egyptian Jasmine", ar: "ياسمين مصري" },
-        { en: "Smoked Cedar", ar: "أرز مدخن" },
-        { en: "Iris", ar: "سوسن" },
-        { en: "Black Fig", ar: "تين أسود" },
-        { en: "Ambergris", ar: "عنبر" },
-        { en: "Neroli", ar: "نيرولي" },
-        { en: "Oud", ar: "عود" },
-        { en: "Tonka", ar: "تونكا" },
-        { en: "Sea Salt", ar: "ملح البحر" },
-      ],
-      caption: { en: "Scent is the last thing they remember.", ar: "العطر آخر ما يبقى في الذاكرة." },
-    },
-
     showcase: {
       eyebrow: { en: "Curated editions", ar: "إصدارات مختارة" },
       title: { en: "Icons of VLOR.", ar: "أيقوناتُ VLOR." },
@@ -70,15 +51,6 @@ export function createDefaultContent(): SiteContent {
       lead: {
         en: "Six compositions we return to again and again. Find the one that feels like you — or like the version of you you're becoming.",
         ar: "ست تركيبات نعود إليها دائماً. اختر ما يشبهك — أو ما يشبه النسخة التي تصبح عليها.",
-      },
-    },
-
-    finder: {
-      eyebrow: { en: "Scent finder", ar: "اكتشف عطرك" },
-      title: { en: "What's your frequency?", ar: "ما هو تردّدك؟" },
-      lead: {
-        en: "Choose a mood. We'll narrow twelve scents down to three.",
-        ar: "اختر المزاج. سنختار لك ثلاثة من بين اثني عشر عطراً.",
       },
     },
 
@@ -227,24 +199,8 @@ export function createDefaultContent(): SiteContent {
       savedOnly: true,
     },
 
-    // Three strips on the home page. Neighbours travel in opposite directions.
     strips: {
       announcement: { enabled: true, speed: 44, direction: "left" },
-      hero: {
-        enabled: false,
-        speed: 38,
-        direction: "right",
-        items: [
-          { en: "Oud", ar: "عود" },
-          { en: "Iris", ar: "سوسن" },
-          { en: "Fig", ar: "تين" },
-          { en: "Saffron", ar: "زعفران" },
-          { en: "Ambergris", ar: "عنبر" },
-          { en: "Neroli", ar: "نيرولي" },
-          { en: "Cedar", ar: "أرز" },
-          { en: "Jasmine", ar: "ياسمين" },
-        ],
-      },
     },
 
     perfume3d: {
@@ -255,8 +211,6 @@ export function createDefaultContent(): SiteContent {
       heroLine: { ...perfumeStory.heroLine },
       craftTitle: { ...perfumeStory.craft.title },
       craftBody: { ...perfumeStory.craft.body },
-      notes: perfumeStory.notes.map((note) => ({ ...note })),
-      finalLine: { ...perfumeStory.finalLine },
     },
 
     brand: {
@@ -284,12 +238,10 @@ export function createDefaultContent(): SiteContent {
     },
 
     sections: {
-      marquee: false,
       runwayLookbook: true,
       showcase: true,
       featured: true,
       perfume3d: true,
-      scentFinder: false,
       story: true,
       pillars: true,
       testimonials: true,
@@ -424,9 +376,7 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
   });
   result.strips = {
     announcement: strip(result.strips.announcement, base.strips.announcement),
-    hero: { ...strip(result.strips.hero, base.strips.hero), items: Array.isArray(result.strips.hero?.items) ? result.strips.hero.items : base.strips.hero.items },
   };
-  result.marquee = { ...result.marquee, ...strip(result.marquee, base.marquee) };
 
   const filters = result.shopFilters as unknown as Record<string, unknown>;
   const baseFilters = base.shopFilters as unknown as Record<string, unknown>;

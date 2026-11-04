@@ -16,8 +16,6 @@ export const NAVIGATION_PRESETS: readonly MotionPreset[] = [
   { index: 173, id: "m-search-focus-glow", category: "navigation", trigger: "active", durationMs: 300, label: { en: "Search Focus Halo", ar: "إضاءة حقل البحث" } },
   { index: 174, id: "m-whatsapp-float-in", category: "navigation", trigger: "enter", durationMs: 550, label: { en: "Concierge Pill Entrance", ar: "ظهور زر واتساب" } },
   { index: 175, id: "m-scroll-progress-glow", category: "navigation", trigger: "loop", durationMs: 3500, label: { en: "Reading Progress Glow", ar: "توهج شريط التصفح" } },
-  { index: 176, id: "m-marquee-ltr", category: "navigation", trigger: "loop", durationMs: 34000, label: { en: "Notes Ribbon Marquee", ar: "شريط النوتات المتحرك" } },
-  { index: 177, id: "m-marquee-rtl", category: "navigation", trigger: "loop", durationMs: 34000, label: { en: "Reverse Ribbon Marquee", ar: "شريط النوتات العكسي" } },
   { index: 178, id: "m-step-dot-pulse", category: "navigation", trigger: "loop", durationMs: 2200, label: { en: "Order Tracking Step Pulse", ar: "نبض حالة الطلب" } },
   { index: 179, id: "m-tooltip-pop", category: "navigation", trigger: "enter", durationMs: 220, label: { en: "Micro-Tooltip Pop", ar: "ظهور تلميح النوتة" } },
   { index: 180, id: "m-arrow-launch", category: "navigation", trigger: "hover", durationMs: 450, label: { en: "Diagonal Arrow Launch", ar: "انطلاق السهم القطري" } },

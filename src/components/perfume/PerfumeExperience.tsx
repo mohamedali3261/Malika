@@ -62,7 +62,12 @@ export function PerfumeExperience() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!supportsWebGL() || reduced) {
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+    const cores = navigator.hardwareConcurrency ?? 8;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const narrow = window.innerWidth < 768;
+    if (!supportsWebGL() || reduced || saveData || (coarse && narrow && (mem <= 4 || cores <= 4))) {
       setCapability("fallback");
       return;
     }
@@ -105,18 +110,32 @@ export function PerfumeExperience() {
   }, []);
 
   useEffect(() => {
+    let timer = 0;
     const measure = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        const width = window.innerWidth;
+        const landscapePhone = window.innerHeight < 520;
+        if (width < 768 || landscapePhone) setLength(scrollLength.mobile);
+        else if (width < 1280) setLength(scrollLength.tablet);
+        else setLength(scrollLength.desktop);
+        const nextQuality = detectQuality();
+        setQuality((prev) => (prev === nextQuality ? prev : nextQuality));
+      }, 180);
+    };
+    // Initial sync
+    {
       const width = window.innerWidth;
       const landscapePhone = window.innerHeight < 520;
       if (width < 768 || landscapePhone) setLength(scrollLength.mobile);
       else if (width < 1280) setLength(scrollLength.tablet);
       else setLength(scrollLength.desktop);
       setQuality(detectQuality());
-    };
-    measure();
+    }
     window.addEventListener("resize", measure);
     window.addEventListener("orientationchange", measure);
     return () => {
+      window.clearTimeout(timer);
       window.removeEventListener("resize", measure);
       window.removeEventListener("orientationchange", measure);
     };
@@ -135,6 +154,11 @@ export function PerfumeExperience() {
     };
 
     const tick = () => {
+      // Pause when off-screen or tab hidden — saves battery/CPU
+      if (!inViewport || document.hidden) {
+        frame = window.requestAnimationFrame(tick);
+        return;
+      }
       const progress = stateRef.current?.progress ?? 0;
       if (progress !== lastProgress) {
         lastProgress = progress;
@@ -156,7 +180,7 @@ export function PerfumeExperience() {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("resize", measure);
     };
-  }, []);
+  }, [inViewport]);
 
   usePerfumeScrollAnimation({
     pinRef,
@@ -168,7 +192,8 @@ export function PerfumeExperience() {
   });
 
   const profile = useMemo(() => qualityProfiles[quality], [quality]);
-  const liveLoop = active || inViewport || warm;
+  // Only keep GPU busy while pinned or during warm-up; pause entirely when off-screen
+  const liveLoop = (active && inViewport) || warm;
 
   const onPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement | null;

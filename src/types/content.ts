@@ -42,15 +42,6 @@ export interface SectionCopy {
   lead: Localized;
 }
 
-export interface MarqueeContent {
-  enabled: boolean;
-  /** Pixels per second — identical perceived speed on every screen. */
-  speed: number;
-  direction: "left" | "right";
-  items: Localized[];
-  caption: Localized;
-}
-
 export interface ThemeContent {
   ink: string;
   bone: string;
@@ -72,14 +63,9 @@ export interface StripSettings {
   direction: "left" | "right";
 }
 
-export interface HeroStripContent extends StripSettings {
-  items: Localized[];
-}
-
-/** The announcement bar and the hero strip. The notes strip lives in `marquee`. */
+/** The announcement bar at the top of the site. */
 export interface StripsContent {
   announcement: StripSettings;
-  hero: HeroStripContent;
 }
 
 export interface ShopFiltersContent {
@@ -99,8 +85,6 @@ export interface Perfume3dContent {
   heroLine: Localized;
   craftTitle: Localized;
   craftBody: Localized;
-  notes: Localized[];
-  finalLine: Localized;
 }
 
 export interface BrandContent {
@@ -119,12 +103,10 @@ export interface ShopHeroContent {
 }
 
 export interface SectionToggles {
-  marquee: boolean;
   runwayLookbook: boolean;
   showcase: boolean;
   featured: boolean;
   perfume3d: boolean;
-  scentFinder: boolean;
   story: boolean;
   pillars: boolean;
   testimonials: boolean;
@@ -164,10 +146,8 @@ export interface SiteContent {
     secondaryCta: Localized;
     stats: HeroStat[];
   };
-  marquee: MarqueeContent;
   showcase: ShowcaseContent;
   featured: SectionCopy;
-  finder: SectionCopy;
   story: {
     eyebrow: Localized;
     title: Localized;

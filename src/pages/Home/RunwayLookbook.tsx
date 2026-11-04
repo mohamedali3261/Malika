@@ -217,6 +217,8 @@ export function RunwayLookbook() {
     const s = animRef.current;
     const N = LOOK_COUNT;
     if (s.W === 0 || s.H === 0) return;
+    // Disable expensive blur on coarse pointers / narrow screens for 60fps
+    const disableBlur = s.side || s.W < 820;
 
     for (let i = 0; i < N; i++) {
       const el = modelRefs.current[i];
@@ -239,9 +241,11 @@ export function RunwayLookbook() {
 
       el.style.transform = `translate3d(${px.toFixed(1)}px,${py.toFixed(1)}px,0) scale(${scale.toFixed(4)})`;
 
-      const blurVal = mix(KB) / Math.max(0.05, scale);
-      const filterStr = blurVal < 0.2 ? "none" : `blur(${blurVal.toFixed(1)}px)`;
       const opacityStr = mix(KO).toFixed(3);
+      const filterStr = disableBlur ? "none" : (() => {
+        const blurVal = mix(KB) / Math.max(0.05, scale);
+        return blurVal < 0.2 ? "none" : `blur(${blurVal.toFixed(1)}px)`;
+      })();
 
       if (filterStr !== s.filterCache[i]) {
         s.filterCache[i] = filterStr;
@@ -289,6 +293,7 @@ export function RunwayLookbook() {
     s.calm = mq.matches;
     const onMq = () => {
       s.calm = mq.matches;
+      if (s.calm) paint();
     };
     mq.addEventListener("change", onMq);
 
@@ -302,47 +307,80 @@ export function RunwayLookbook() {
       ro.observe(sectionRef.current);
     }
 
+    let raf = 0;
+    let stopped = false;
+    const schedule = () => {
+      if (stopped || raf) return;
+      raf = window.requestAnimationFrame(loop);
+    };
+    const loop = (now: number) => {
+      raf = 0;
+      if (!s.inView || document.hidden) {
+        stopped = true;
+        return;
+      }
+      const dt = Math.min(50, now - s.last) || 16;
+      s.last = now;
+      const was = s.p;
+      if (s.calm) s.p = s.target;
+      else s.p += (s.target - s.p) * (1 - Math.exp(-dt * 0.0072));
+      if (Math.abs(s.target - s.p) < 0.0004) s.p = s.target;
+      if (s.p !== was || s.dirty) {
+        s.dirty = false;
+        paint();
+      }
+      s.cx += (s.mx - s.cx) * 0.32;
+      s.cy += (s.my - s.cy) * 0.32;
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${s.cx.toFixed(1)}px,${s.cy.toFixed(1)}px,0)`;
+      }
+      raf = window.requestAnimationFrame(loop);
+    };
+    // Initial start
+    raf = window.requestAnimationFrame(loop);
+
     let io: IntersectionObserver | null = null;
     if (typeof IntersectionObserver !== "undefined" && sectionRef.current) {
       io = new IntersectionObserver(
         (entries) => {
-          s.inView = entries.some((e) => e.isIntersecting);
+          const nowIn = entries.some((e) => e.isIntersecting);
+          s.inView = nowIn;
+          if (nowIn && stopped && !s.calm) {
+            stopped = false;
+            s.last = performance.now();
+            schedule();
+          } else if (nowIn && s.calm) {
+            // Reduced motion: just paint once, no loop
+            paint();
+          } else if (!nowIn) {
+            // Pause loop when out of view
+            if (raf) {
+              window.cancelAnimationFrame(raf);
+              raf = 0;
+            }
+            stopped = true;
+          }
         },
         { rootMargin: "200px 0px" }
       );
       io.observe(sectionRef.current);
     }
 
-    let raf = 0;
-    const loop = (now: number) => {
-      if (s.inView) {
-        const dt = Math.min(50, now - s.last) || 16;
-        s.last = now;
-        const was = s.p;
-        if (s.calm) s.p = s.target;
-        else s.p += (s.target - s.p) * (1 - Math.exp(-dt * 0.0072));
-        if (Math.abs(s.target - s.p) < 0.0004) s.p = s.target;
-        if (s.p !== was || s.dirty) {
-          s.dirty = false;
-          paint();
-        }
-        s.cx += (s.mx - s.cx) * 0.32;
-        s.cy += (s.my - s.cy) * 0.32;
-        if (ringRef.current) {
-          ringRef.current.style.transform = `translate3d(${s.cx.toFixed(1)}px,${s.cy.toFixed(1)}px,0)`;
-        }
-      } else {
-        s.last = now;
+    const onVisibility = () => {
+      if (!document.hidden && s.inView && stopped) {
+        stopped = false;
+        s.last = performance.now();
+        schedule();
       }
-      raf = window.requestAnimationFrame(loop);
     };
-    raf = window.requestAnimationFrame(loop);
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       window.cancelAnimationFrame(raf);
       window.clearTimeout(s.wheelTimer);
       window.removeEventListener("resize", measure);
       mq.removeEventListener("change", onMq);
+      document.removeEventListener("visibilitychange", onVisibility);
       ro?.disconnect();
       io?.disconnect();
     };

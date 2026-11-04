@@ -261,22 +261,10 @@ export interface QualityProfile {
 
 export const qualityProfiles: Record<"high" | "medium" | "low", QualityProfile> = {
   high: {
-    dpr: [1, 1.95],
+    dpr: [1, 1.6],
     transmission: true,
     contactShadows: true,
     shadowFrames: 0,
-    connectors: true,
-    labels: true,
-    glassSamples: 6,
-    glassResolution: 512,
-    reflectiveFloor: true,
-    segments: 96,
-  },
-  medium: {
-    dpr: [1, 1.65],
-    transmission: true,
-    contactShadows: true,
-    shadowFrames: 1,
     connectors: true,
     labels: true,
     glassSamples: 4,
@@ -284,17 +272,29 @@ export const qualityProfiles: Record<"high" | "medium" | "low", QualityProfile> 
     reflectiveFloor: false,
     segments: 64,
   },
-  low: {
-    dpr: [1, 1.65],
+  medium: {
+    dpr: [1, 1.35],
     transmission: false,
-    contactShadows: true,
+    contactShadows: false,
     shadowFrames: 1,
-    connectors: true,
+    connectors: false,
     labels: false,
     glassSamples: 0,
     glassResolution: 128,
     reflectiveFloor: false,
-    segments: 56,
+    segments: 48,
+  },
+  low: {
+    dpr: [1, 1.2],
+    transmission: false,
+    contactShadows: false,
+    shadowFrames: 1,
+    connectors: false,
+    labels: false,
+    glassSamples: 0,
+    glassResolution: 128,
+    reflectiveFloor: false,
+    segments: 32,
   },
 };
 
@@ -324,14 +324,5 @@ export const perfumeStory = {
       en: "Every VLOR bottle is assembled by hand: heavy hand-blown crystal, a weighted plinth, a hermetic pump and a brass collar machined to a tenth of a millimetre. Scroll to take it apart, or drag to rotate.",
       ar: "كل زجاجة من VLOR تُجمَّع يدوياً: كريستال سميك منفوخ يدوياً، قاعدة موزونة، مضخة محكمة وطوق نحاسي مخرَّط بدقة عُشر المليمتر. مرّر لتفكيكها أو اسحب لتدويرها.",
     },
-  },
-  notes: [
-    { en: "Black pepper · Bergamot", ar: "فلفل أسود · برجموت" },
-    { en: "Frankincense · Smoked cedar", ar: "لبان · أرز مدخن" },
-    { en: "Laotian oud · Leather", ar: "عود لاوسي · جلد" },
-  ],
-  finalLine: {
-    en: "Assembled, numbered and sealed in Cairo.",
-    ar: "تُجمَّع وتُرقَّم وتُختَم في القاهرة.",
   },
 } as const;
