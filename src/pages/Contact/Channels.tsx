@@ -52,7 +52,7 @@ export function Channels() {
               href={channel.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`m-hover-lift-md group flex h-full min-h-[112px] flex-col justify-between rounded-[1.25rem] border border-ink/10 bg-white/50 p-4 transition-colors duration-300 ${channel.tone}`}
+              className={`m-hover-lift-md group flex h-full min-h-[112px] flex-col justify-between rounded-[1.25rem] border border-ink/10 bg-surface/50 p-4 transition-colors duration-300 ${channel.tone}`}
             >
               <div className="flex items-start justify-between">
                 <span className="flex items-center gap-2">

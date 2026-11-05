@@ -72,7 +72,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-1 rounded-full border border-ink/10 bg-white/40 p-1.5 lg:flex">
+          <nav className="hidden items-center gap-1 rounded-full border border-ink/10 bg-surface/40 p-1.5 lg:flex">
             {links.map((link) => {
               const active = path === link.to;
               return (

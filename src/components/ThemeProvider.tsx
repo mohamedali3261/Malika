@@ -38,9 +38,13 @@ export function ThemeProvider() {
       // Dark mode — deep ink background, bone text, slightly dark as requested
       const darkBone = shade(theme.ink, 0.06); // #1d1a24-ish, slightly lighter than pure ink
       const darkBone2 = shade(theme.ink, 0.1);
+      const darkSurface = shade(theme.ink, 0.14);
+      const darkSurface2 = shade(theme.ink, 0.10);
       set("--color-ink", theme.bone);
       set("--color-bone", darkBone);
       set("--color-bone-2", darkBone2);
+      set("--color-surface", darkSurface);
+      set("--color-surface-2", darkSurface2);
       set("--color-line", shade(theme.ink, 0.18));
       set("--color-acid", theme.accent);
       set("--color-acid-deep", shade(theme.accent, -0.12));
@@ -56,6 +60,8 @@ export function ThemeProvider() {
       set("--color-ink", theme.ink);
       set("--color-bone", lightBone);
       set("--color-bone-2", shade(lightBone, -0.06));
+      set("--color-surface", "#ffffff");
+      set("--color-surface-2", "#faf8f4");
       set("--color-line", shade(lightBone, -0.13));
       set("--color-acid", theme.accent);
       set("--color-acid-deep", shade(theme.accent, -0.12));

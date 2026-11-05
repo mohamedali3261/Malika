@@ -53,7 +53,7 @@ export function StoreSettingsForm({
 
   return (
     <div className="max-w-3xl">
-      <div className="rounded-2xl border border-ink/10 bg-white/40 p-5">
+      <div className="rounded-2xl border border-ink/10 bg-surface/40 p-5">
         <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-mist">{t("admin.contactSection")}</p>
         <p className="mt-1 text-[11px] leading-relaxed text-mist">
           {lang === "ar"
@@ -82,7 +82,7 @@ export function StoreSettingsForm({
         </div>
       </div>
 
-      <div className="mt-4 rounded-2xl border border-ink/10 bg-white/40 p-5">
+      <div className="mt-4 rounded-2xl border border-ink/10 bg-surface/40 p-5">
         <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-mist">{t("admin.brandSection")}</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <Field label="Address (English)">

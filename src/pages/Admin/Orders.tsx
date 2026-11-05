@@ -90,13 +90,13 @@ export function Orders() {
           <p className="mt-1 text-xs text-mist">{ar?'تابع حالة الطلبات وابحث برقم الهاتف — التحديث فوري.' : 'Track and update order status — search by phone or ID.'}</p>
         </div>
         {typeof Notification !== 'undefined' && Notification.permission !== 'granted' && (
-          <button className="rounded-full border border-ink/10 bg-white px-3 py-1.5 text-xs font-bold hover:border-ink/20" onClick={()=>void Notification.requestPermission()}>{ar?'تفعيل الإشعارات':'Enable notifications'}</button>
+          <button className="rounded-full border border-ink/10 bg-surface px-3 py-1.5 text-xs font-bold hover:border-ink/20" onClick={()=>void Notification.requestPermission()}>{ar?'تفعيل الإشعارات':'Enable notifications'}</button>
         )}
       </div>
 
       {notice && <p role="status" className="rounded-xl bg-amber-100 px-4 py-2 text-sm font-medium text-amber-800">{notice}</p>}
 
-      <div className="flex flex-wrap gap-2 rounded-2xl border border-ink/10 bg-white p-3">
+      <div className="flex flex-wrap gap-2 rounded-2xl border border-ink/10 bg-surface p-3">
         <input aria-label={ar?'بحث برقم الطلب أو الهاتف':'Search by order ID or phone'} className="field h-10 max-w-xs flex-1 text-sm" placeholder={ar?'رقم الطلب أو الهاتف':'Order ID or phone'} value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}}/>
         <select aria-label={ar?'تصفية حسب الحالة':'Filter by status'} className="field h-10 max-w-[180px] text-sm" value={status} onChange={e=>{setStatus(e.target.value);setPage(1);}}>
           <option value="">{ar?'كل الحالات':'All statuses'}</option>
@@ -113,7 +113,7 @@ export function Orders() {
           const orderItems=items.filter(i=>i.order_id===o.id);
           const total=o.subtotal - o.discount + o.shipping;
           return (
-            <article key={o.id} className="overflow-hidden rounded-2xl border border-ink/10 bg-white">
+            <article key={o.id} className="overflow-hidden rounded-2xl border border-ink/10 bg-surface">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-ink/5 bg-bone-2/40 px-4 py-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-sm font-bold">{o.customer_name}</p>
@@ -155,9 +155,9 @@ export function Orders() {
       </div>
 
       <div className="flex items-center justify-center gap-3 pt-2">
-        <button disabled={page===1} onClick={()=>setPage(p=>p-1)} className="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold disabled:opacity-40 hover:border-ink/20">{ar?'السابق':'Previous'}</button>
+        <button disabled={page===1} onClick={()=>setPage(p=>p-1)} className="rounded-full border border-ink/10 bg-surface px-4 py-2 text-sm font-bold disabled:opacity-40 hover:border-ink/20">{ar?'السابق':'Previous'}</button>
         <span className="rounded-full bg-ink px-3 py-1 text-xs font-bold text-bone">{page}</span>
-        <button disabled={!hasMore} onClick={()=>setPage(p=>p+1)} className="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold disabled:opacity-40 hover:border-ink/20">{ar?'التالي':'Next'}</button>
+        <button disabled={!hasMore} onClick={()=>setPage(p=>p+1)} className="rounded-full border border-ink/10 bg-surface px-4 py-2 text-sm font-bold disabled:opacity-40 hover:border-ink/20">{ar?'التالي':'Next'}</button>
       </div>
     </div>
   );

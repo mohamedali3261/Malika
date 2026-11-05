@@ -33,7 +33,7 @@ export function GithubPanel({ products, settings, content }: { products: Product
   return (
     <div className="space-y-4">
       {/* status */}
-      <div className={cn("rounded-2xl border p-4", p.ready ? (dirty || p.pendingDrafts > 0 ? "border-amber-200 bg-amber-50" : "border-emerald-200 bg-emerald-50") : "border-ink/10 bg-white/50")}>
+      <div className={cn("rounded-2xl border p-4", p.ready ? (dirty || p.pendingDrafts > 0 ? "border-amber-200 bg-amber-50" : "border-emerald-200 bg-emerald-50") : "border-ink/10 bg-surface/50")}>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex min-w-0 items-start gap-3">
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ink text-bone">
@@ -80,7 +80,7 @@ export function GithubPanel({ products, settings, content }: { products: Product
         </div>
       </div>
 
-      <details open={!p.ready} className="group rounded-2xl border border-ink/10 bg-white/40">
+      <details open={!p.ready} className="group rounded-2xl border border-ink/10 bg-surface/40">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3.5 text-[13px] font-bold">
           {p.ready ? x("Change repository or token", "تغيير المستودع أو التوكن") : x("Connect a repository", "ربط مستودع")}
           <span className="text-mist transition-transform group-open:rotate-45">＋</span>
@@ -92,7 +92,7 @@ export function GithubPanel({ products, settings, content }: { products: Product
         </div>
       </details>
 
-      <details className="group rounded-2xl border border-ink/10 bg-white/40">
+      <details className="group rounded-2xl border border-ink/10 bg-surface/40">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-4 py-3.5 text-[13px] font-bold">
           {x("Advanced", "إعدادات متقدمة")}
           <span className="text-mist transition-transform group-open:rotate-45">＋</span>

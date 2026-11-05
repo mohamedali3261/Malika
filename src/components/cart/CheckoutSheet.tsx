@@ -185,7 +185,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
           >
             <p className="text-[12px] leading-relaxed text-mist">{t("cart.detailsLead")}</p>
 
-            <div className="mt-4 flex items-center justify-between rounded-xl border border-ink/10 bg-white/50 px-3 py-2.5">
+            <div className="mt-4 flex items-center justify-between rounded-xl border border-ink/10 bg-surface/50 px-3 py-2.5">
               <div className="flex items-center gap-2">
                 <span className="flex -space-x-2 rtl:space-x-reverse">
                   {lines.slice(0, 3).map((line) => (
@@ -278,7 +278,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
               {activeQuote.prices.map(p=><p key={`${p.productId}:${p.ml}`}>{lines.find(x=>x.productId===p.productId && x.ml===p.ml)?.name[lang]} · {p.ml} ml: {formatPrice(p.price,lang)}</p>)}
               <p>{lang === 'ar' ? 'المنتجات' : 'Subtotal'}: {formatPrice(activeQuote.subtotal,lang)}</p><p>{lang === 'ar' ? 'الخصم' : 'Discount'}: {formatPrice(activeQuote.discount,lang)}</p><p>{lang === 'ar' ? 'الشحن' : 'Shipping'}: {formatPrice(activeQuote.shipping,lang)}</p><strong>{lang === 'ar' ? 'الإجمالي' : 'Total'}: {formatPrice(activeQuote.total,lang)}</strong>
             </div>}
-            <div className="mt-4 rounded-xl border border-ink/10 bg-white/40 p-3">
+            <div className="mt-4 rounded-xl border border-ink/10 bg-surface/40 p-3">
               <div className="flex items-center justify-between text-[12px]">
                 <span className="text-mist">{t("cart.subtotal")}</span>
                 <span className="font-display text-xl">{formatPrice(displayedSubtotal, lang)}</span>

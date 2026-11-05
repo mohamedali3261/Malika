@@ -113,7 +113,7 @@ export function Images() {
         {images.map((i) => {
           const url = `/api/images/${i.key}`;
           return (
-            <div key={i.key} className="rounded-xl border border-ink/10 bg-white/60 p-2.5">
+            <div key={i.key} className="rounded-xl border border-ink/10 bg-surface/60 p-2.5">
               <img src={url} alt="" className="h-32 w-full object-contain" />
               <p className="mt-1.5 text-[11px] break-all text-ink/80" dir="ltr">
                 {i.key}

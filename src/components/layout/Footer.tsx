@@ -30,7 +30,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden bg-ink text-bone">
+    <footer className="relative overflow-hidden bg-ink text-bone" style={{ ['--color-ink' as string]: '#141019', ['--color-bone' as string]: '#f3efe7', ['--color-bone-2' as string]: '#e9e2d5', ['--color-line' as string]: 'rgba(243,239,231,0.12)', backgroundColor: '#141019', color: '#f3efe7' } as any}>
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="pointer-events-none absolute -top-40 end-0 h-[420px] w-[420px] rounded-full bg-plum/70 blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 start-1/4 h-64 w-64 rounded-full bg-lilac/15 blur-[90px]" />

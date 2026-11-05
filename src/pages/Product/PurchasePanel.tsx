@@ -86,7 +86,7 @@ export function PurchasePanel({ product }: { product: Product }) {
                 "relative flex flex-col items-start gap-0.5 rounded-xl border px-3 py-2.5 text-start transition",
                 ml === size.ml
                   ? "border-ink bg-ink text-bone shadow-sm"
-                  : "border-ink/10 bg-white/60 text-ink hover:border-ink/30"
+                  : "border-ink/10 bg-surface/60 text-ink hover:border-ink/30"
               )}
             >
               <span className="text-[12px] font-bold">{size.ml} ml</span>
@@ -100,7 +100,7 @@ export function PurchasePanel({ product }: { product: Product }) {
       </div>
 
       <div className="flex items-center gap-2.5 pt-1">
-        <div className="flex h-11 items-center rounded-full border border-ink/12 bg-white">
+        <div className="flex h-11 items-center rounded-full border border-ink/12 bg-surface">
           <button onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-9 w-9 place-items-center rounded-full hover:bg-ink/5" aria-label="decrease">
             <Minus className="h-3.5 w-3.5" />
           </button>
@@ -117,7 +117,7 @@ export function PurchasePanel({ product }: { product: Product }) {
           aria-label={wished ? t("product.removeWishlist") : t("product.wishlist")}
           className={cn(
             "grid h-11 w-11 place-items-center rounded-full border transition",
-            wished ? "border-ink bg-ink text-acid" : "border-ink/12 bg-white text-ink hover:border-ink/30"
+            wished ? "border-ink bg-ink text-acid" : "border-ink/12 bg-surface text-ink hover:border-ink/30"
           )}
         >
           <Heart className="h-4 w-4" fill={wished ? "currentColor" : "none"} />

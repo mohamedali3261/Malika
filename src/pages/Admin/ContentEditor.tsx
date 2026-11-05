@@ -72,7 +72,7 @@ export function ContentEditor() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-ink/10 bg-white p-5">
+      <div className="rounded-2xl border border-ink/10 bg-surface p-5">
         <h3 className="text-sm font-bold">{ar ? "إظهار / إخفاء أقسام الصفحة الرئيسية" : "Show / hide home sections"}</h3>
         <p className="mt-1 text-xs leading-relaxed text-mist">{ar ? "اضغط لإخفاء أي قسم فوراً. لا توجد إعدادات أخرى هنا — كل شيء أصبح أبسط." : "Tap to hide any section instantly. No other settings here — everything is simpler."}</p>
 

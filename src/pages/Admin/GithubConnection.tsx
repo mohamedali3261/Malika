@@ -100,7 +100,7 @@ export function GithubConnection({
   return (
     <div className="space-y-4">
       {/* Connection status */}
-      <div className="rounded-2xl border border-ink/10 bg-white/40 p-5">
+      <div className="rounded-2xl border border-ink/10 bg-surface/40 p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h3 className="flex items-center gap-2 text-[13px] font-bold">

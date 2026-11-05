@@ -29,7 +29,7 @@ export function SetupGuide() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <div className="rounded-2xl border border-ink/10 bg-white/40 p-5">
+      <div className="rounded-2xl border border-ink/10 bg-surface/40 p-5">
         <div className="flex items-center gap-2">
           <Database className="h-4 w-4 text-plum" />
           <h3 className="text-[12px] font-bold">{lang === "ar" ? "أين تُحفظ البيانات؟" : "Where data lives"}</h3>

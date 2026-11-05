@@ -60,7 +60,7 @@ export function FilterBar(props: FilterBarProps) {
   if (!show.search && !show.sort && !hasMore) return null;
 
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white/60 p-2.5 sm:p-3">
+    <div className="rounded-2xl border border-ink/10 bg-surface/60 p-2.5 sm:p-3">
       <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:gap-3">
         {show.search && (
           <label className="relative block lg:w-72 lg:shrink-0 xl:w-80">
@@ -96,7 +96,7 @@ export function FilterBar(props: FilterBarProps) {
                   value={sort}
                   onChange={(event) => setSort(event.target.value as SortKey)}
                   aria-label={t("shop.sort")}
-                  className="h-10 w-full appearance-none rounded-full border border-ink/12 bg-white/60 pe-8 ps-3.5 text-[12px] font-semibold text-ink outline-none focus:border-ink"
+                  className="h-10 w-full appearance-none rounded-full border border-ink/12 bg-surface/60 pe-8 ps-3.5 text-[12px] font-semibold text-ink outline-none focus:border-ink"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.key} value={option.key}>

@@ -90,7 +90,7 @@ export function ConnectionForm({
         <input value={branch} onChange={(event) => setBranch(event.target.value)} className="field" dir="ltr" placeholder="main1" autoComplete="off" />
       </label>
 
-      <details open={autoOpenSteps && !session} className="group rounded-2xl border border-ink/10 bg-white/50">
+      <details open={autoOpenSteps && !session} className="group rounded-2xl border border-ink/10 bg-surface/50">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-2 px-3.5 py-3 text-[12px] font-bold">
           {x("Need a token? 2 minutes, once.", "تحتاج توكن؟ دقيقتان وتتم مرة واحدة.")}
           <span className="text-mist transition-transform group-open:rotate-45">＋</span>

@@ -82,7 +82,7 @@ export function CartDrawer() {
         {lines.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-6 px-8 py-12 text-center">
             <div className="relative">
-              <span className="grid h-24 w-24 place-items-center rounded-[1.5rem] bg-white shadow-[0_12px_32px_-16px_rgba(20,16,25,0.18)] ring-1 ring-ink/5">
+              <span className="grid h-24 w-24 place-items-center rounded-[1.5rem] bg-surface shadow-[0_12px_32px_-16px_rgba(20,16,25,0.18)] ring-1 ring-ink/5">
                 <Bag className="h-9 w-9 text-ink/30" />
               </span>
               <span className="absolute -end-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-ink text-[10px] text-bone">0</span>
@@ -101,7 +101,7 @@ export function CartDrawer() {
         ) : (
           <>
             {/* Free shipping progress */}
-            <div className="border-b border-ink/5 bg-white px-5 py-3">
+            <div className="border-b border-ink/5 bg-surface px-5 py-3">
               {subtotal >= freeThreshold ? (
                 <p className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
                   <Check className="h-3.5 w-3.5" /> {lang === "ar" ? "مبروك — توصيل مجاني!" : "You’ve unlocked free shipping!"}
@@ -122,7 +122,7 @@ export function CartDrawer() {
 
             <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-bone-2/40 p-3">
               {lines.map((line) => (
-                <div key={line.key} className="flex gap-3 rounded-2xl border border-ink/6 bg-white p-3 shadow-[0_8px_24px_-16px_rgba(20,16,25,0.15)]">
+                <div key={line.key} className="flex gap-3 rounded-2xl border border-ink/6 bg-surface p-3 shadow-[0_8px_24px_-16px_rgba(20,16,25,0.15)]">
                   <Link to={`/product/${line.slug}`} onClick={close} className="w-[84px] shrink-0 overflow-hidden rounded-xl bg-bone-2/60">
                     <SmartImage src={line.image} alt={line.name[lang]} className="aspect-[3/4] w-full" />
                   </Link>
@@ -138,11 +138,11 @@ export function CartDrawer() {
                     <p className="mt-0.5 text-[11px] text-mist">{line.ml} ml · <span dir="ltr">{formatPrice(line.price, lang)}</span></p>
                     <div className="mt-auto flex items-center justify-between pt-3">
                       <div className="flex items-center rounded-full border border-ink/10 bg-bone-2/50 p-0.5">
-                        <button onClick={() => setQty(line.key, line.qty - 1)} className="grid h-7 w-7 place-items-center rounded-full bg-white shadow-sm transition hover:bg-ink hover:text-bone">
+                        <button onClick={() => setQty(line.key, line.qty - 1)} className="grid h-7 w-7 place-items-center rounded-full bg-surface shadow-sm transition hover:bg-ink hover:text-bone">
                           <Minus className="h-3 w-3" />
                         </button>
                         <span className="w-8 text-center text-[12px] font-bold">{line.qty}</span>
-                        <button onClick={() => setQty(line.key, line.qty + 1)} className="grid h-7 w-7 place-items-center rounded-full bg-white shadow-sm transition hover:bg-ink hover:text-bone">
+                        <button onClick={() => setQty(line.key, line.qty + 1)} className="grid h-7 w-7 place-items-center rounded-full bg-surface shadow-sm transition hover:bg-ink hover:text-bone">
                           <Plus className="h-3 w-3" />
                         </button>
                       </div>
@@ -153,7 +153,7 @@ export function CartDrawer() {
               ))}
             </div>
 
-            <div className="safe-bottom border-t border-ink/10 bg-white px-4 py-4 sm:px-5">
+            <div className="safe-bottom border-t border-ink/10 bg-surface px-4 py-4 sm:px-5">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-mist">{t("cart.subtotal")}</span>
                 <span className="font-display text-2xl">{formatPrice(subtotal, lang)}</span>
@@ -167,7 +167,7 @@ export function CartDrawer() {
                 href={whatsappUrl(settings.whatsapp, quickMessage)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2.5 flex h-11 items-center justify-center gap-2 rounded-full border border-ink/12 bg-white text-[11px] font-bold text-ink/70 transition hover:border-ink/30 hover:text-ink"
+                className="mt-2.5 flex h-11 items-center justify-center gap-2 rounded-full border border-ink/12 bg-surface text-[11px] font-bold text-ink/70 transition hover:border-ink/30 hover:text-ink"
               >
                 <Whatsapp className="h-4 w-4" /> {t("cart.quickSend")}
               </a>

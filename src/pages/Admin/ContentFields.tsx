@@ -22,12 +22,12 @@ export function Section({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-ink/10 bg-white/40">
+    <div className="overflow-hidden rounded-2xl border border-ink/10 bg-surface/40">
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-start transition hover:bg-white/60"
+        className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-start transition hover:bg-surface/60"
       >
         <span className="min-w-0">
           <span className="flex items-center gap-2">
@@ -203,7 +203,7 @@ export function ColorField({
           type="color"
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="h-10 w-14 cursor-pointer rounded-lg border border-ink/15 bg-white p-1"
+          className="h-10 w-14 cursor-pointer rounded-lg border border-ink/15 bg-surface p-1"
         />
         <input value={value} onChange={(event) => onChange(event.target.value)} className="field" dir="ltr" />
       </div>
@@ -228,7 +228,7 @@ export function Toggle({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="mb-2 flex w-full items-center justify-between gap-3 rounded-xl border border-ink/10 bg-white/50 px-3.5 py-3 text-start transition hover:border-ink/25"
+      className="mb-2 flex w-full items-center justify-between gap-3 rounded-xl border border-ink/10 bg-surface/50 px-3.5 py-3 text-start transition hover:border-ink/25"
     >
       <span className="min-w-0">
         <span className="block text-[12px] font-bold">{label}</span>
@@ -243,7 +243,7 @@ export function Toggle({
         <span
           className={cn(
             "absolute top-1 h-4 w-4 rounded-full transition-all duration-300",
-            checked ? "start-6 bg-acid" : "start-1 bg-white"
+            checked ? "start-6 bg-acid" : "start-1 bg-surface"
           )}
         />
       </span>
@@ -291,7 +291,7 @@ export function AddButton({ onClick, label }: { onClick: () => void; label: stri
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-ink/25 px-3.5 py-2 text-[11px] font-bold text-plum transition hover:border-ink/50 hover:bg-white/60"
+      className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-ink/25 px-3.5 py-2 text-[11px] font-bold text-plum transition hover:border-ink/50 hover:bg-surface/60"
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
       <Plus className="h-3.5 w-3.5" /> {label}

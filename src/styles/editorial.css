@@ -60,7 +60,7 @@
     width: 100%;
     border-radius: 0.9rem;
     border: 1px solid var(--color-line);
-    background: #fbf9f4;
+    background: var(--color-surface);
     padding: 0.8rem 1rem;
     font-size: 0.9rem;
     color: var(--color-ink);
@@ -70,13 +70,26 @@
       background-color 0.25s ease;
   }
   .field::placeholder {
-    color: #a49c92;
+    color: var(--color-mist);
+    opacity: 0.7;
   }
   .field:focus {
     outline: none;
     border-color: var(--color-plum);
-    background: #fff;
+    background: var(--color-surface);
     box-shadow: 0 0 0 4px rgba(201, 181, 247, 0.28);
+  }
+  html[data-theme="dark"] .field {
+    background: var(--color-surface);
+    border-color: rgba(255,255,255,0.12);
+    color: var(--color-ink);
+  }
+  html[data-theme="dark"] .field::placeholder {
+    color: var(--color-mist);
+  }
+  html[data-theme="dark"] .field:focus {
+    background: color-mix(in srgb, var(--color-surface) 96%, white 4%);
+    border-color: var(--color-lilac);
   }
   .field-dark {
     background: rgba(243, 239, 231, 0.06);

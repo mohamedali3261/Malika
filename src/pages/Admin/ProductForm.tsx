@@ -259,7 +259,7 @@ export function ProductForm({
 
         <form onSubmit={submit} className="flex-1 overflow-y-auto px-5 py-5">
           {/* preview */}
-          <div className="mb-5 flex items-center gap-4 rounded-2xl border border-ink/10 bg-white/40 p-3">
+          <div className="mb-5 flex items-center gap-4 rounded-2xl border border-ink/10 bg-surface/40 p-3">
             <SmartImage src={preview.images[0] ?? ""} alt={l(preview.name)} className="h-24 w-20 shrink-0 rounded-xl" />
             <div className="min-w-0">
               <p className="truncate text-sm font-bold">{l(preview.name)}</p>
@@ -317,7 +317,7 @@ export function ProductForm({
               <p className="mb-2 text-[10px] leading-relaxed text-mist">{lang === "ar" ? "حدد الكمية الأولية لكل حجم. للمنتج الجديد تُضاف الكمية بعد الإنشاء. عند التعديل يتم تعديل الكمية للوصول للقيمة المطلوبة." : "Set initial quantity per size. For new products quantity is added after creation. When editing, stock is adjusted to reach the desired value."}</p>
               <div className="space-y-2">
                 {draft.sizes.map((size, index) => (
-                  <div key={index} className="flex flex-wrap items-center gap-2 rounded-xl border border-ink/10 bg-white/40 p-2">
+                  <div key={index} className="flex flex-wrap items-center gap-2 rounded-xl border border-ink/10 bg-surface/40 p-2">
                     <div className="flex items-center gap-1.5">
                       <input type="number" min={1} value={size.ml} onChange={(event) => setSize(index, "ml", Number(event.target.value))} className="field h-10 w-20 text-center" aria-label="ml" />
                       <span className="text-[10px] font-bold text-mist">ml</span>
@@ -426,7 +426,7 @@ export function ProductForm({
 
             <Field label={lang === "ar" ? "لون البطاقة" : "Card accent"}>
               <div className="flex items-center gap-2">
-                <input type="color" value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="h-10 w-12 cursor-pointer rounded-lg border border-ink/15 bg-white p-1" />
+                <input type="color" value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="h-10 w-12 cursor-pointer rounded-lg border border-ink/15 bg-surface p-1" />
                 <input value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="field" dir="ltr" />
               </div>
             </Field>

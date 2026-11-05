@@ -117,7 +117,7 @@ export function Inventory() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2 text-[11px]">
-          <span className="rounded-full border border-ink/10 bg-white px-3 py-1.5 font-bold">
+          <span className="rounded-full border border-ink/10 bg-surface px-3 py-1.5 font-bold">
             {ar ? 'إجمالي الوحدات' : 'Total units'}: <b className="text-ink">{totalUnits}</b>
           </span>
           <span className={`rounded-full px-3 py-1.5 font-bold ${lowCount > 0 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}`}>
@@ -136,11 +136,11 @@ export function Inventory() {
           onChange={(e) => setFilter(e.target.value)}
           className="field h-10 max-w-xs flex-1 text-sm"
         />
-        <label className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-3 py-2 text-sm font-medium cursor-pointer">
+        <label className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-surface px-3 py-2 text-sm font-medium cursor-pointer">
           <input type="checkbox" checked={lowOnly} onChange={(e) => setLowOnly(e.target.checked)} className="h-4 w-4" />
           {ar ? 'المنخفض فقط (≤5)' : 'Low only (≤5)'}
         </label>
-        <button onClick={() => void load()} className="rounded-full border border-ink/15 bg-white px-4 py-2 text-sm font-bold hover:border-ink/30">
+        <button onClick={() => void load()} className="rounded-full border border-ink/15 bg-surface px-4 py-2 text-sm font-bold hover:border-ink/30">
           {ar ? 'تحديث' : 'Refresh'}
         </button>
       </div>
@@ -166,7 +166,7 @@ export function Inventory() {
               <div
                 key={key}
                 className={`flex flex-col gap-3 rounded-2xl border p-4 transition sm:flex-row sm:items-center sm:justify-between ${
-                  out ? 'border-rose-200 bg-rose-50' : low ? 'border-amber-200 bg-amber-50' : 'border-ink/10 bg-white'
+                  out ? 'border-rose-200 bg-rose-50' : low ? 'border-amber-200 bg-amber-50' : 'border-ink/10 bg-surface'
                 }`}
               >
                 <div className="min-w-0 flex-1">
@@ -227,7 +227,7 @@ export function Inventory() {
                       <button
                         type="button"
                         onClick={() => quickAdd(row, -5)}
-                        className="flex-1 rounded-full border border-ink/10 bg-white px-1 py-1 text-xs font-bold text-mist hover:text-rose-600"
+                        className="flex-1 rounded-full border border-ink/10 bg-surface px-1 py-1 text-xs font-bold text-mist hover:text-rose-600"
                       >
                         -5
                       </button>

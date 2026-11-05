@@ -249,7 +249,7 @@ export function ShowcaseEditor({ value, products, onChange }: Props) {
         disabled={full}
         className={cn(
           "inline-flex items-center gap-1.5 rounded-full border border-dashed px-3.5 py-2 text-[11px] font-bold transition",
-          full ? "cursor-not-allowed border-ink/10 text-mist/60" : "border-ink/25 text-plum hover:border-ink/50 hover:bg-white/60"
+          full ? "cursor-not-allowed border-ink/10 text-mist/60" : "border-ink/25 text-plum hover:border-ink/50 hover:bg-surface/60"
         )}
       >
         <Plus className="h-3.5 w-3.5" />
