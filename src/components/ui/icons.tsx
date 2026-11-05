@@ -291,3 +291,21 @@ export const GridCompact = (p: IconProps) => (
     <rect x="16.5" y="16.5" width="4.5" height="3.5" rx="1" />
   </Base>
 );
+export const Sun = (p: IconProps) => (
+  <Base {...p}>
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+  </Base>
+);
+export const Moon = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+  </Base>
+);
+export const Sparkles = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M12 3l1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2L12 3Z" />
+    <path d="M19 11l0.9 1.9L22 14l-2.1 0.9L19 17l-.9-2.1L16 14l2.1-0.9L19 11Z" />
+    <path d="M6 14l0.9 1.9L9 17l-2.1 0.9L6 20l-.9-2.1L3 17l2.1-0.9L6 14Z" />
+  </Base>
+);

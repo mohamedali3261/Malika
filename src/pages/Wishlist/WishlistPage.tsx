@@ -58,7 +58,7 @@ export function WishlistPage() {
   };
 
   const whatsappListMessage = useMemo(() => {
-    if (savedProducts.length === 0) return x("Hello VLOR 🌿", "مرحباً فلور 🌿");
+    if (savedProducts.length === 0) return x("Hello VLOR 🌿", "مرحباً ڨلور 🌿");
     const lines = savedProducts.map((p, idx) => {
       const sz = p.sizes.find((s) => s.ml === 50) ?? p.sizes[0];
       const ml = sz?.ml ?? 50;
@@ -66,7 +66,7 @@ export function WishlistPage() {
       return `${idx + 1}. ${l(p.name)} (${ml}ml — ${pr})`;
     });
     return lang === "ar"
-      ? `مرحباً فلور 🌿\nأرغب في الاستفسار / طلب قائمتي المفضلة:\n${lines.join("\n")}`
+      ? `مرحباً ڨلور 🌿\nأرغب في الاستفسار / طلب قائمتي المفضلة:\n${lines.join("\n")}`
       : `Hello VLOR 🌿\nI'd love to order my saved scents:\n${lines.join("\n")}`;
   }, [savedProducts, lang, l, x]);
 

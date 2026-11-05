@@ -10,6 +10,7 @@ import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { useSecretKeyword } from "@/components/layout/SecretEntry";
 import { CartProvider, useCart } from "@/context/CartContext";
 import { StoreProvider } from "@/context/StoreContext";
+import { ThemeModeProvider } from "@/context/ThemeModeContext";
 import { ToastProvider } from "@/context/ToastContext";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import { useRoute } from "@/lib/router";
@@ -97,13 +98,15 @@ function CheckoutSheetHost() {
 export default function App() {
   return (
     <StoreProvider>
-      <LanguageProvider>
-        <ToastProvider>
-          <CartProvider>
-            <AppShell />
-          </CartProvider>
-        </ToastProvider>
-      </LanguageProvider>
+      <ThemeModeProvider>
+        <LanguageProvider>
+          <ToastProvider>
+            <CartProvider>
+              <AppShell />
+            </CartProvider>
+          </ToastProvider>
+        </LanguageProvider>
+      </ThemeModeProvider>
     </StoreProvider>
   );
 }

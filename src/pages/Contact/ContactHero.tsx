@@ -35,7 +35,7 @@ export function ContactHero() {
           <div className="relative overflow-hidden rounded-[1.6rem] border border-ink/10 bg-white/70 p-4 shadow-[0_20px_60px_rgba(16,16,16,0.08)] backdrop-blur sm:p-5">
             <div className="absolute inset-0 bg-gradient-to-br from-lilac/10 via-transparent to-acid/10" />
             <div className="relative flex gap-4">
-              <SmartImage src={IMG.glass} alt={x("VLOR — online boutique", "فلور — متجر أونلاين")} className="h-28 w-24 shrink-0 rounded-2xl border border-ink/5 sm:h-32 sm:w-28" />
+              <SmartImage src={IMG.glass} alt={x("VLOR — online boutique", "ڨلور — متجر أونلاين")} className="h-28 w-24 shrink-0 rounded-2xl border border-ink/5 sm:h-32 sm:w-28" />
               <div className="flex flex-1 flex-col justify-center gap-3">
                 <div className="flex items-start gap-2.5 rounded-xl bg-bone-2/60 px-3 py-2.5">
                   <Globe className="mt-0.5 h-4 w-4 shrink-0 text-plum" />

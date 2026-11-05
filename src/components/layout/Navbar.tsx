@@ -10,6 +10,7 @@ import {
   Whatsapp,
   X,
 } from "@/components/ui/icons";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useBodyLock, useScrolled } from "@/hooks/useUi";
@@ -98,6 +99,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
+            <ThemeToggle />
             <button
               onClick={toggle}
               className="hidden h-10 items-center gap-1.5 rounded-full border border-ink/12 px-3 text-[11px] font-bold uppercase tracking-widest text-ink transition hover:border-ink/40 sm:flex"
@@ -125,7 +127,7 @@ export function Navbar() {
               )}
             </Link>
             <a
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً ڨلور 🌿"))}
               target="_blank"
               rel="noopener noreferrer"
               className="hidden h-10 w-10 place-items-center rounded-full border border-ink/12 text-ink transition hover:border-ink/40 hover:bg-[#25D366]/15 md:grid"
@@ -227,7 +229,7 @@ export function Navbar() {
             <Button
               variant="acid"
               full
-              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً فلور 🌿"))}
+              href={whatsappUrl(settings.whatsapp, x("Hello VLOR 🌿", "مرحباً ڨلور 🌿"))}
               icon={<Whatsapp className="h-4 w-4" />}
               iconPosition="start"
             >
@@ -240,6 +242,9 @@ export function Navbar() {
               <Button variant="outline" size="sm" onClick={toggle} icon={<Globe className="h-3.5 w-3.5" />} iconPosition="start">
                 {(lang === "ar" ? "English" : "العربية")}
               </Button>
+            </div>
+            <div className="flex justify-center pt-1">
+              <ThemeToggle className="sm:hidden" />
             </div>
           </div>
         </div>
