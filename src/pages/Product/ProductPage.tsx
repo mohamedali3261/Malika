@@ -60,7 +60,7 @@ export function ProductPage() {
       <section className="pb-12 lg:pb-16">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Reveal>
-            <div className="rounded-[1.8rem] border border-ink/10 bg-white/40 p-6 sm:p-8">
+            <div className="rounded-[1.8rem] border border-ink/10 bg-surface/40 p-6 sm:p-8">
               <ProductDetails product={product} />
             </div>
           </Reveal>

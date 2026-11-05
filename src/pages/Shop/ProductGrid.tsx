@@ -22,7 +22,7 @@ export function ProductGrid({ products, total, visible, onMore, onReset, emptySa
 
   if (products.length === 0) {
     return (
-      <div className="m-spring-soft mt-8 flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-ink/20 bg-white/30 px-6 py-20 text-center">
+      <div className="m-spring-soft mt-8 flex flex-col items-center justify-center rounded-[2rem] border border-dashed border-ink/20 bg-surface/30 px-6 py-20 text-center">
         <span className="m-float-feather grid h-16 w-16 place-items-center rounded-full bg-lilac-soft">
           <Sparkle className="h-6 w-6 text-plum" />
         </span>

@@ -73,7 +73,7 @@ export function WishlistPage() {
   return (
     <div className="anim-page bg-bone">
       {/* Light editorial header */}
-      <section className="border-b border-ink/5 bg-white py-10 sm:py-12">
+      <section className="border-b border-ink/5 bg-surface py-10 sm:py-12">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-ink px-3 py-1 text-[9px] font-bold uppercase tracking-[0.2em] text-bone">
@@ -129,7 +129,7 @@ export function WishlistPage() {
             ))}
           </div>
         ) : (
-          <div className="mx-auto max-w-lg rounded-[2rem] border border-ink/8 bg-white p-8 text-center shadow-sm sm:p-10">
+          <div className="mx-auto max-w-lg rounded-[2rem] border border-ink/8 bg-surface p-8 text-center shadow-sm sm:p-10">
             <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-bone-2/80 text-ink">
               <Heart className="h-7 w-7" />
             </div>

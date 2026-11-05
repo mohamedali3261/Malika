@@ -43,7 +43,7 @@ export function ProductTable({
       {filtered.length === 0 ? (
         <p className="mt-6 rounded-2xl border border-dashed border-ink/15 py-10 text-center text-[12px] text-mist">{t("admin.noProducts")}</p>
       ) : (
-        <div className="mt-3 overflow-hidden rounded-2xl border border-ink/10 bg-white/40">
+        <div className="mt-3 overflow-hidden rounded-2xl border border-ink/10 bg-surface/40">
           <div className="hidden grid-cols-[2.6fr_0.9fr_0.9fr_0.7fr] gap-3 border-b border-ink/10 bg-bone-2/50 px-4 py-2.5 text-[8.5px] font-bold uppercase tracking-[0.14em] text-mist md:grid">
             <span>{t("admin.tab.products")}</span>
             <span>{t("shop.gender")}</span>
@@ -51,7 +51,7 @@ export function ProductTable({
             <span className="text-end">{t("admin.edit")}</span>
           </div>
           {filtered.map((product) => (
-            <div key={product.id} className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-ink/8 px-3 py-3 last:border-0 hover:bg-white/60 md:grid-cols-[2.6fr_0.9fr_0.9fr_0.7fr] md:px-4">
+            <div key={product.id} className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-ink/8 px-3 py-3 last:border-0 hover:bg-surface/60 md:grid-cols-[2.6fr_0.9fr_0.9fr_0.7fr] md:px-4">
               <div className="flex min-w-0 items-center gap-3">
                 <SmartImage src={product.images[0] ?? ""} alt={l(product.name)} className="h-12 w-10 shrink-0 rounded-lg" />
                 <div className="min-w-0">

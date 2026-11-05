@@ -53,7 +53,7 @@ export function ThemeToggle({ variant = "navbar", className }: Props) {
         aria-label={label}
         title={label}
         className={cn(
-          "grid h-10 w-10 place-items-center rounded-full border border-ink/12 bg-white/80 text-ink backdrop-blur transition hover:border-ink/30 hover:bg-white",
+          "grid h-10 w-10 place-items-center rounded-full border border-ink/12 bg-surface/80 text-ink backdrop-blur transition hover:border-ink/30 hover:bg-surface",
           isDark && "border-bone/20 bg-ink text-bone hover:bg-plum",
           className
         )}

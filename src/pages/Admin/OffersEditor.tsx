@@ -101,7 +101,7 @@ export function OffersEditor({ value, onChange, products }: Props) {
             </div>
 
             {/* preview prices */}
-            <div className="rounded-lg bg-white/60 p-2 text-[11px]">
+            <div className="rounded-lg bg-surface/60 p-2 text-[11px]">
               <p className="font-bold text-ink">{ar ? "معاينة الأسعار:" : "Price preview:"}</p>
               {bundle.productSlugs.map((slug) => {
                 const prod = products.find((p) => p.slug === slug);

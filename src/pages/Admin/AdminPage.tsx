@@ -137,7 +137,7 @@ export function AdminPage() {
           <Link to="/" className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-mist transition hover:text-ink">
             <span className="rtl:rotate-180">←</span> {lang === "ar" ? "العودة للمتجر" : "Back to storefront"}
           </Link>
-          <span className="rounded-full border border-ink/10 bg-white/50 px-3 py-1 text-[8.5px] font-bold uppercase tracking-[0.16em] text-mist">
+          <span className="rounded-full border border-ink/10 bg-surface/50 px-3 py-1 text-[8.5px] font-bold uppercase tracking-[0.16em] text-mist">
             v2.0 · local-first
           </span>
         </div>

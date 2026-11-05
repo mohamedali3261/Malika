@@ -34,7 +34,7 @@ export function ContactForm() {
   return (
     <section className="bg-bone pb-14 lg:pb-20">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <div className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-white shadow-[0_24px_80px_rgba(16,16,16,0.07)] lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-surface shadow-[0_24px_80px_rgba(16,16,16,0.07)] lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal className="p-6 sm:p-8 lg:p-10">
             <span className="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.24em] text-mist">
               <span className="h-1.5 w-1.5 rounded-full bg-plum" /> {t("contact.eyebrow")}
@@ -46,18 +46,18 @@ export function ContactForm() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block">
                   <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.name")} *</span>
-                  <input value={name} onChange={(event) => setName(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none" placeholder={x("e.g. Nour", "مثال: نور")} required />
+                  <input value={name} onChange={(event) => setName(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-surface focus:outline-none" placeholder={x("e.g. Nour", "مثال: نور")} required />
                 </label>
                 <label className="block">
                   <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.phone")}</span>
-                  <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none" placeholder="+20 1XX XXX XXXX" inputMode="tel" dir="ltr" />
+                  <input value={phone} onChange={(event) => setPhone(event.target.value)} className="field h-11 rounded-xl border border-ink/12 bg-bone-2/40 px-4 text-[13px] transition focus:border-plum focus:bg-surface focus:outline-none" placeholder="+20 1XX XXX XXXX" inputMode="tel" dir="ltr" />
                 </label>
               </div>
 
               <label className="block">
                 <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.subject")}</span>
                 <div className="relative">
-                  <select value={subject} onChange={(event) => setSubject(event.target.value)} className="field h-11 w-full appearance-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 pe-10 text-[13px] transition focus:border-plum focus:bg-white focus:outline-none">
+                  <select value={subject} onChange={(event) => setSubject(event.target.value)} className="field h-11 w-full appearance-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 pe-10 text-[13px] transition focus:border-plum focus:bg-surface focus:outline-none">
                     {subjects.map((item) => (
                       <option key={item} value={item}>{item}</option>
                     ))}
@@ -74,7 +74,7 @@ export function ContactForm() {
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
                   rows={4}
-                  className="field min-h-[120px] resize-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 py-3 text-[13px] leading-relaxed transition focus:border-plum focus:bg-white focus:outline-none"
+                  className="field min-h-[120px] resize-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 py-3 text-[13px] leading-relaxed transition focus:border-plum focus:bg-surface focus:outline-none"
                   placeholder={x("Tell us about the scents you love, or the occasion…", "أخبرنا عن العطور التي تحبها، أو عن المناسبة…")}
                   required
                 />

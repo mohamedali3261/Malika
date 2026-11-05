@@ -65,7 +65,7 @@ export function BundleOffers() {
 
             return (
               <Reveal key={bundle.id} delay={idx * 90} className="h-full">
-                <div className="group relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-ink/10 bg-white shadow-[0_16px_40px_-20px_rgba(20,16,25,0.18)] transition-all duration-300 hover:shadow-[0_20px_50px_-16px_rgba(20,16,25,0.22)] hover:-translate-y-1">
+                <div className="group relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-ink/10 bg-surface shadow-[0_16px_40px_-20px_rgba(20,16,25,0.18)] transition-all duration-300 hover:shadow-[0_20px_50px_-16px_rgba(20,16,25,0.22)] hover:-translate-y-1">
                   {/* badge */}
                   <div className="absolute start-3 top-3 z-10 flex items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-acid px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-ink">
@@ -176,7 +176,7 @@ export function BundleOffers() {
         </div>
 
         <Reveal delay={180}>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-ink/15 bg-white/50 px-4 py-3 text-center">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-dashed border-ink/15 bg-surface/50 px-4 py-3 text-center">
             <p className="text-[12px] font-medium text-mist">
               {x(
                 "Need a custom bundle? Chat with our perfumer on WhatsApp and we'll craft a set with a special price.",

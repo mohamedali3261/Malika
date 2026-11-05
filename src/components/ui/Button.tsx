@@ -20,7 +20,7 @@ const variants: Record<Variant, string> = {
   acid: "bg-acid text-ink hover:bg-acid-deep shadow-lg shadow-acid/25",
   outline: "border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-bone",
   ghost: "text-ink hover:bg-ink/[0.06]",
-  light: "bg-bone text-ink hover:bg-white shadow-lg shadow-black/10",
+  light: "bg-bone text-ink hover:bg-surface shadow-lg shadow-black/10",
   dark: "bg-plum text-bone hover:bg-plum-2 border border-white/10",
   lilac: "bg-lilac text-ink hover:bg-lilac-soft",
 };
