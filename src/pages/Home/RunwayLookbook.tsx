@@ -584,10 +584,7 @@ export function RunwayLookbook() {
 
         <nav className="rl-r2 rl-wide rl-wide-i18n" aria-label={x("Fragrance families", "العائلات العطرية")}>
           <Link to="/shop">{x("All Extraits", "كل الإصدارات")}</Link>
-          <Link to="/shop?category=woody">{t("shop.woody")}</Link>
-          <Link to="/shop?category=oriental">{t("shop.oriental")}</Link>
-          <Link to="/shop?category=floral">{t("shop.floral")}</Link>
-          <Link to="/shop?category=fresh">{t("shop.fresh")}</Link>
+          <Link to="/shop">{t("shop.all")}</Link>
           <Link to="/wishlist">{x("Saved List", "قائمة المفضلة")}</Link>
         </nav>
       </div>

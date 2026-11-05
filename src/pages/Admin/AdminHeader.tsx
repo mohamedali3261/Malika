@@ -1,9 +1,9 @@
-import { Check, Github, Lock, Pencil, Sparkle } from "@/components/ui/icons";
+import { Check, Lock, Pencil, Sparkle } from "@/components/ui/icons";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/utils/cn";
 
-export type AdminTab = "products" | "orders" | "inventory" | "delivery" | "images" | "security" | "content" | "settings" | "github" | "guide";
+export type AdminTab = "products" | "orders" | "delivery" | "security" | "content" | "settings";
 
 export function AdminHeader({
   tab,
@@ -21,14 +21,10 @@ export function AdminHeader({
   const tabs: { key: AdminTab; label: string }[] = [
     { key: "products", label: t("admin.tab.products") },
     { key: "orders", label: lang === "ar" ? "الطلبات" : "Orders" },
-    { key: "inventory", label: lang === "ar" ? "المخزون" : "Inventory" },
-    { key: "delivery", label: lang === "ar" ? "الشحن والخصومات" : "Delivery & discounts" },
-    { key: "images", label: lang === "ar" ? "الصور" : "Images" },
+    { key: "delivery", label: lang === "ar" ? "الشحن" : "Delivery" },
     { key: "security", label: lang === "ar" ? "الأمان" : "Security" },
     { key: "content", label: t("admin.tab.content") },
     { key: "settings", label: t("admin.tab.settings") },
-    { key: "github", label: t("admin.tab.github") },
-    { key: "guide", label: t("admin.tab.guide") },
   ];
 
   return (
@@ -67,7 +63,6 @@ export function AdminHeader({
                 tab === item.key ? "bg-acid text-ink" : "text-bone/55 hover:bg-bone/10 hover:text-bone"
               )}
             >
-              {item.key === "github" && <Github className="h-3.5 w-3.5" />}
               {item.key === "products" && <Sparkle className="h-3.5 w-3.5" />}
               {item.key === "content" && <Pencil className="h-3.5 w-3.5" />}
               {item.label}
@@ -75,18 +70,10 @@ export function AdminHeader({
           ))}
           <div className="ms-auto flex items-center gap-2">
             <ThemeToggle variant="admin" />
-            <button
-              onClick={() => setTab("github")}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em] transition",
-                dirty
-                  ? "bg-amber-300/15 text-amber-200 hover:bg-amber-300/25"
-                  : "bg-bone/10 text-bone/45 hover:text-bone/70"
-              )}
-            >
+            <span className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em]", dirty ? "bg-amber-300/15 text-amber-200" : "bg-bone/10 text-bone/45")}>
               {dirty ? <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-300" /> : <Check className="h-3 w-3" />}
               {dirty ? t("gh.dirty") : t("gh.allPublished")}
-            </button>
+            </span>
           </div>
         </div>
       </div>

@@ -155,6 +155,17 @@ app.put('/api/admin/inventory/:id/:size', async c => {
   await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'),'stock_updated',`${c.req.param('id')}:${size}`).run();
   return c.json({ok:true});
 });
+app.post('/api/admin/inventory/:id/:size/add', async c => {
+  const parsed=z.object({amount:z.number().int().min(-1000000).max(1000000).refine(v=>v!==0,{message:'Amount cannot be zero'})}).safeParse(await jsonBody(c));
+  const size=Number(c.req.param('size'));
+  if (!parsed.success || !Number.isInteger(size) || size <= 0) return c.json({error:'Invalid increment'},400);
+  const amount=parsed.data.amount;
+  const result=await c.env.DB.prepare("UPDATE inventory SET quantity=quantity+? WHERE product_id=? AND size=? AND quantity+? BETWEEN 0 AND 1000000 AND EXISTS (SELECT 1 FROM products p, json_each(p.data,'$.sizes') s WHERE p.id=inventory.product_id AND p.archived=0 AND json_extract(s.value,'$.ml')=inventory.size)").bind(amount,c.req.param('id'),size,amount,amount).run();
+  if (!result.meta.changes) return c.json({error:'Product unavailable or quantity would be out of range (0-1000000)'},409);
+  await c.env.DB.prepare('INSERT INTO audit_log(id,admin_id,action,target_id) VALUES(?,?,?,?)').bind(crypto.randomUUID(),c.get('adminId'), amount>0 ? 'stock_added' : 'stock_removed', `${c.req.param('id')}:${size}:${amount}`).run();
+  const updated=await c.env.DB.prepare('SELECT quantity FROM inventory WHERE product_id=? AND size=?').bind(c.req.param('id'),size).first<{quantity:number}>();
+  return c.json({ok:true, quantity: updated?.quantity ?? 0});
+});
 const shippingSchema = z.object({city:text(100),amount:z.number().int().min(0).max(10000000),freeThreshold:z.number().int().min(0).max(500000000).nullable()});
 app.get('/api/admin/shipping', async c => c.json((await c.env.DB.prepare('SELECT city,amount,free_threshold FROM shipping_rates ORDER BY city').all()).results));
 app.put('/api/admin/shipping', async c => {

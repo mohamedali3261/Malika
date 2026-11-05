@@ -54,7 +54,6 @@ export function findRelated(products: Product[], product: Product, count = 3): P
     .filter((item) => item.id !== product.id)
     .map((item) => {
       let score = 0;
-      if (item.category === product.category) score += 3;
       if (item.gender === product.gender) score += 1;
       score += item.moods.filter((mood) => product.moods.includes(mood)).length * 2;
       return { item, score };

@@ -1,7 +1,7 @@
 import { ChevronDown, Heart, Search, Sliders, X } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
-import { formatNumber, formatPrice } from "@/lib/format";
-import type { Category, Gender, SortKey } from "@/types";
+import { formatPrice } from "@/lib/format";
+import type { Gender, SortKey } from "@/types";
 import type { ShopFiltersContent } from "@/types/content";
 import { cn } from "@/utils/cn";
 import { useState, type CSSProperties } from "react";
@@ -9,8 +9,6 @@ import { useState, type CSSProperties } from "react";
 interface FilterBarProps {
   query: string;
   setQuery: (value: string) => void;
-  category: Category | "all";
-  setCategory: (value: Category | "all") => void;
   gender: Gender | "all";
   setGender: (value: Gender | "all") => void;
   sort: SortKey;
@@ -22,13 +20,9 @@ interface FilterBarProps {
   setSavedOnly: (value: boolean) => void;
   isFiltered: boolean;
   reset: () => void;
-  /** Products per family, over the whole catalogue. */
-  counts: Record<Category | "all", number>;
-  /** Which filters the owner has switched on (Studio → Shop filters). */
   show: ShopFiltersContent;
 }
 
-const categoryKeys: (Category | "all")[] = ["all", "fresh", "floral", "woody", "oriental"];
 const genderKeys: (Gender | "all")[] = ["all", "women", "men", "unisex"];
 const sortOptions = [
   { key: "featured", label: "shop.sortFeatured" },
@@ -38,14 +32,6 @@ const sortOptions = [
   { key: "rating", label: "shop.sortRating" },
 ] as const;
 
-const categoryLabel = {
-  all: "shop.all",
-  fresh: "shop.fresh",
-  floral: "shop.floral",
-  woody: "shop.woody",
-  oriental: "shop.oriental",
-} as const;
-
 const genderLabel = {
   all: "shop.all",
   women: "shop.women",
@@ -54,16 +40,14 @@ const genderLabel = {
 } as const;
 
 /**
- * One line on desktop, three short rows on a phone:
- *   search · scent families · sort · [More]
- * Everything secondary (gender, price, saved) hides behind a single "More"
- * button, which wears a badge while any of it is active.
+ * Clean filter bar without fragrance families.
+ * Search · sort · [More] (gender, price, saved)
  */
 export function FilterBar(props: FilterBarProps) {
   const { t, x, lang } = useLang();
   const {
-    query, setQuery, category, setCategory, gender, setGender, sort, setSort,
-    maxPrice, priceCeiling, setMaxPrice, savedOnly, setSavedOnly, isFiltered, reset, counts, show,
+    query, setQuery, gender, setGender, sort, setSort,
+    maxPrice, priceCeiling, setMaxPrice, savedOnly, setSavedOnly, isFiltered, reset, show,
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -73,13 +57,13 @@ export function FilterBar(props: FilterBarProps) {
     Number(show.gender && gender !== "all") + Number(show.price && maxPrice < priceCeiling) + Number(show.savedOnly && savedOnly);
   const percent = ((maxPrice - 1000) / Math.max(priceCeiling - 1000, 1)) * 100;
 
-  if (!show.search && !show.family && !show.sort && !hasMore) return null;
+  if (!show.search && !show.sort && !hasMore) return null;
 
   return (
     <div className="rounded-2xl border border-ink/10 bg-white/60 p-2.5 sm:p-3">
       <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:gap-3">
         {show.search && (
-          <label className="relative block lg:w-64 lg:shrink-0 xl:w-72">
+          <label className="relative block lg:w-72 lg:shrink-0 xl:w-80">
             <Search className="pointer-events-none absolute start-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-mist" />
             <input
               value={query}
@@ -102,28 +86,7 @@ export function FilterBar(props: FilterBarProps) {
           </label>
         )}
 
-        {show.family && (
-          <div className="no-scrollbar -mx-0.5 flex flex-1 items-center gap-1.5 overflow-x-auto px-0.5 py-0.5">
-            {categoryKeys.map((key) => (
-              <button
-                key={key}
-                onClick={() => setCategory(key)}
-                aria-pressed={category === key}
-                className={cn(
-                  "flex h-9 shrink-0 items-center rounded-full border px-3.5 text-[12px] font-bold transition-colors duration-300",
-                  category === key
-                    ? "border-ink bg-ink text-bone"
-                    : "border-ink/12 bg-white/50 text-ink/65 hover:border-ink/30 hover:text-ink"
-                )}
-              >
-                {key === "all" ? t("shop.all") : t(categoryLabel[key])}
-                <span className={cn("ms-1.5 text-[10px] font-extrabold tabular-nums", category === key ? "text-bone/55" : "text-ink/35")}>
-                  {formatNumber(counts[key] ?? 0, lang)}
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="flex-1" />
 
         {(show.sort || hasMore || isFiltered) && (
           <div className="flex items-center gap-2 lg:ms-auto lg:shrink-0">

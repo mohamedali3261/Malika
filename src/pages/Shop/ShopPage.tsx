@@ -7,7 +7,7 @@ import { useStore } from "@/context/StoreContext";
 import { useContent } from "@/hooks/useContent";
 import { useLang } from "@/i18n/LanguageContext";
 import { useRoute } from "@/lib/router";
-import type { Category, Gender, Product, SortKey } from "@/types";
+import type { Gender, Product, SortKey } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 
 const PAGE_SIZE = 8;
@@ -33,11 +33,9 @@ export function ShopPage() {
     [products]
   );
 
-  const initialCategory = (routeQuery.get("category") as Category | null) ?? "all";
   const initialGender = (routeQuery.get("gender") as Gender | null) ?? "all";
 
   const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<Category | "all">(initialCategory);
   const [gender, setGender] = useState<Gender | "all">(initialGender);
   const [sort, setSort] = useState<SortKey>("featured");
   const [maxPrice, setMaxPrice] = useState(priceCeiling);
@@ -45,28 +43,21 @@ export function ShopPage() {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [priceTouched, setPriceTouched] = useState(false);
 
-  // The ceiling depends on the catalogue, which hydrates from storage after
-  // first paint. Without this the slider stays pinned to a stale maximum and
-  // silently filters out every newly added product.
   useEffect(() => {
     if (!priceTouched) setMaxPrice(priceCeiling);
     else setMaxPrice((value) => Math.min(value, priceCeiling));
   }, [priceCeiling, priceTouched]);
 
   useEffect(() => {
-    setCategory((routeQuery.get("category") as Category | null) ?? "all");
     setGender((routeQuery.get("gender") as Gender | null) ?? "all");
     if (routeQuery.get("saved") === "1") setSavedOnly(true);
   }, [routeQuery]);
 
   useEffect(() => {
     setVisible(PAGE_SIZE);
-  }, [query, category, gender, sort, maxPrice, savedOnly]);
+  }, [query, gender, sort, maxPrice, savedOnly]);
 
-  // A filter the owner has hidden must not keep filtering invisibly — for
-  // example a leftover ?category= in the address — so it counts as "off".
   const eQuery = show.search ? query : "";
-  const eCategory = show.family ? category : "all";
   const eGender = show.gender ? gender : "all";
   const eMax = show.price ? maxPrice : priceCeiling;
   const eSaved = show.savedOnly ? savedOnly : false;
@@ -75,11 +66,8 @@ export function ShopPage() {
   const filtered = useMemo(() => {
     const term = eQuery.trim().toLowerCase();
     const list = products.filter((product) => {
-      if (eCategory !== "all" && product.category !== eCategory) return false;
       if (eGender !== "all" && product.gender !== eGender) return false;
       if (eSaved && !wishlist.includes(product.id)) return false;
-      // A 100 ml bottle may exceed the budget while the 30 ml fits — judge
-      // the product by its cheapest available size.
       const cheapest = Math.min(product.price, ...product.sizes.map((size) => size.price));
       if (cheapest > eMax) return false;
       if (term && !searchable(product).includes(term)) return false;
@@ -101,19 +89,12 @@ export function ShopPage() {
           return Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || b.rating - a.rating;
       }
     });
-  }, [products, eCategory, eGender, eSaved, wishlist, eMax, eQuery, eSort]);
+  }, [products, eGender, eSaved, wishlist, eMax, eQuery, eSort]);
 
-  const counts = useMemo(() => {
-    const result: Record<Category | "all", number> = { all: products.length, fresh: 0, floral: 0, woody: 0, oriental: 0 };
-    for (const product of products) result[product.category] += 1;
-    return result;
-  }, [products]);
-
-  const isFiltered = eQuery !== "" || eCategory !== "all" || eGender !== "all" || eSaved || eMax < priceCeiling;
+  const isFiltered = eQuery !== "" || eGender !== "all" || eSaved || eMax < priceCeiling;
 
   const reset = () => {
     setQuery("");
-    setCategory("all");
     setGender("all");
     setSavedOnly(false);
     setPriceTouched(false);
@@ -123,8 +104,6 @@ export function ShopPage() {
 
   return (
     <div className="anim-page">
-      {/* The slider replaces the old page header, so the page title is kept for
-          screen readers and search engines. */}
       <h1 className="sr-only">{t("shop.title")}</h1>
       <ShopHeroSlider />
       <ShopIntro count={products.length} />
@@ -133,8 +112,6 @@ export function ShopPage() {
           <FilterBar
             query={query}
             setQuery={setQuery}
-            category={category}
-            setCategory={setCategory}
             gender={gender}
             setGender={setGender}
             sort={sort}
@@ -147,7 +124,6 @@ export function ShopPage() {
             }}
             savedOnly={savedOnly}
             setSavedOnly={setSavedOnly}
-            counts={counts}
             show={show}
             isFiltered={isFiltered}
             reset={reset}
