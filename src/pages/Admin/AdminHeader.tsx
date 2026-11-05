@@ -29,7 +29,7 @@ export function AdminHeader({
 
   return (
     <div>
-      <div className="relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8" style={{ ['--color-ink' as string]: '#141019', ['--color-bone' as string]: '#f3efe7', ['--color-bone-2' as string]: '#e9e2d5', backgroundColor: '#141019', color: '#f3efe7' } as any}>
+      <div className="relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8">
         <div className="pointer-events-none absolute -end-10 -top-10 h-56 w-56 rounded-full bg-lilac/20 blur-[70px]" />
         <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div>

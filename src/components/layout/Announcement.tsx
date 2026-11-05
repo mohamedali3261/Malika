@@ -10,7 +10,7 @@ export function Announcement() {
   if (!strip.enabled || messages.length === 0) return null;
 
   return (
-    <div className="relative overflow-hidden bg-ink text-bone" style={{ ['--color-ink' as string]: '#141019', ['--color-bone' as string]: '#f3efe7', ['--color-bone-2' as string]: '#e9e2d5', backgroundColor: '#141019', color: '#f3efe7' } as any}>
+    <div className="relative overflow-hidden bg-ink text-bone">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_120%,rgba(201,181,247,0.22),transparent_55%)]" />
       <Marquee
         speed={strip.speed}
