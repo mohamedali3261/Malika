@@ -645,3 +645,71 @@ html[lang="ar"] .rl-wide-i18n {
     height: 26px;
   }
 }
+
+/* Dark mode overrides — make runway adapt to theme */
+html[data-theme="dark"] .rl-section {
+  --rl-ink: #f3efe7;
+  --rl-mid: #a69eb0;
+  --rl-dim: #8a8490;
+  --rl-line: rgba(243, 239, 231, 0.10);
+  --rl-ice: #2a252e;
+  background: var(--color-bone);
+  color: var(--rl-ink);
+  border-color: var(--rl-line);
+}
+html[data-theme="dark"] .rl-header {
+  background: var(--color-surface);
+  border-bottom-color: rgba(243, 239, 231, 0.06);
+}
+html[data-theme="dark"] .rl-stage {
+  background:
+    linear-gradient(transparent 60%, rgba(29, 26, 36, 0.72) 100%),
+    linear-gradient(90deg, #1d1a24 0%, #252131 38%, #2a252e 62%, #1d1a24 100%);
+}
+html[data-theme="dark"] .rl-rail {
+  background: #252131;
+  border-left-color: rgba(243, 239, 231, 0.06);
+}
+html[data-theme="dark"] .rl-card {
+  background: #252131;
+}
+html[data-theme="dark"] .rl-card.is-alt {
+  background: var(--color-surface);
+}
+html[data-theme="dark"] .rl-wait {
+  background: var(--color-bone);
+}
+html[data-theme="dark"] .rl-brand,
+html[data-theme="dark"] .rl-acct,
+html[data-theme="dark"] .rl-r2,
+html[data-theme="dark"] .rl-intro h2,
+html[data-theme="dark"] .rl-look,
+html[data-theme="dark"] .rl-active-name,
+html[data-theme="dark"] .rl-shop {
+  color: var(--rl-ink);
+}
+html[data-theme="dark"] .rl-intro p,
+html[data-theme="dark"] .rl-active-notes,
+html[data-theme="dark"] .rl-meta-sub {
+  color: var(--rl-mid);
+}
+html[data-theme="dark"] .rl-acct-badge {
+  background: var(--color-acid);
+  color: #141019;
+}
+html[data-theme="dark"] .rl-step-btn {
+  border-color: rgba(243, 239, 231, 0.18);
+  background: rgba(243, 239, 231, 0.08);
+  color: var(--rl-ink);
+}
+html[data-theme="dark"] .rl-step-btn:hover {
+  background: var(--rl-ink);
+  color: var(--color-bone);
+}
+html[data-theme="dark"] .rl-ring {
+  border-color: #f3efe7;
+}
+html[data-theme="dark"] .rl-add::before,
+html[data-theme="dark"] .rl-add::after {
+  background: var(--rl-ink);
+}
