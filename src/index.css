@@ -32,3 +32,74 @@
   --radius-4xl: 2rem;
   --radius-5xl: 2.75rem;
 }
+
+/* Studio/Admin dark mode — keep header dark and cards readable (was light in dark via ink/bone swap) */
+html[data-theme="dark"] .admin-studio-header {
+  background: #1e1c24 !important;
+  color: #f3efe7 !important;
+  border: 1px solid rgba(243, 239, 231, 0.08);
+}
+html[data-theme="dark"] .admin-studio-header .text-bone\/50,
+html[data-theme="dark"] .admin-studio-header .text-bone\/55,
+html[data-theme="dark"] .admin-studio-header .text-bone\/40,
+html[data-theme="dark"] .admin-studio-header .text-bone\/45 {
+  color: rgba(243, 239, 231, 0.55) !important;
+}
+html[data-theme="dark"] .admin-studio-header .border-bone\/15,
+html[data-theme="dark"] .admin-studio-header .border-bone\/12 {
+  border-color: rgba(243, 239, 231, 0.12) !important;
+}
+html[data-theme="dark"] .admin-studio-header .bg-bone\/10 {
+  background-color: rgba(243, 239, 231, 0.08) !important;
+}
+html[data-theme="dark"] .admin-studio-header .bg-bone\/\[0\.04\] {
+  background-color: rgba(243, 239, 231, 0.04) !important;
+}
+html[data-theme="dark"] .admin-studio-header .text-acid {
+  color: #ddf25c !important;
+}
+
+/* Admin light pill overrides for dark mode — prevent white pills on dark background */
+html[data-theme="dark"] .bg-amber-100,
+html[data-theme="dark"] .bg-amber-50 {
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  border-color: rgba(245, 158, 11, 0.25) !important;
+}
+html[data-theme="dark"] .text-amber-800,
+html[data-theme="dark"] .text-amber-700,
+html[data-theme="dark"] .text-amber-900 {
+  color: #fcd34d !important;
+}
+html[data-theme="dark"] .bg-emerald-100,
+html[data-theme="dark"] .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.14) !important;
+  border-color: rgba(16, 185, 129, 0.24) !important;
+}
+html[data-theme="dark"] .text-emerald-800,
+html[data-theme="dark"] .text-emerald-700,
+html[data-theme="dark"] .text-emerald-900 {
+  color: #6ee7b7 !important;
+}
+html[data-theme="dark"] .bg-rose-100,
+html[data-theme="dark"] .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.14) !important;
+  border-color: rgba(244, 63, 94, 0.22) !important;
+}
+html[data-theme="dark"] .text-rose-800,
+html[data-theme="dark"] .text-rose-700,
+html[data-theme="dark"] .text-rose-900 {
+  color: #fda4af !important;
+}
+html[data-theme="dark"] .border-amber-200 {
+  border-color: rgba(245, 158, 11, 0.25) !important;
+}
+html[data-theme="dark"] .border-emerald-200 {
+  border-color: rgba(16, 185, 129, 0.24) !important;
+}
+html[data-theme="dark"] .border-rose-200 {
+  border-color: rgba(244, 63, 94, 0.22) !important;
+}
+/* Wishlist/cart empty states etc — ensure surface cards are dark */
+html[data-theme="dark"] .bg-surface {
+  background-color: var(--color-surface) !important;
+}

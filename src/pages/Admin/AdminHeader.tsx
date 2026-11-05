@@ -29,7 +29,7 @@ export function AdminHeader({
 
   return (
     <div>
-      <div className="relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8">
+      <div className="admin-studio-header relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8">
         <div className="pointer-events-none absolute -end-10 -top-10 h-56 w-56 rounded-full bg-lilac/20 blur-[70px]" />
         <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div>

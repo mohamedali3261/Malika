@@ -50,8 +50,9 @@ export function ThemeProvider() {
       set("--color-acid-deep", shade(theme.accent, -0.12));
       set("--color-lilac", theme.lilac);
       set("--color-lilac-soft", shade(theme.lilac, 0.2));
-      set("--color-plum", shade(theme.bone, -0.15));
-      set("--color-plum-2", shade(theme.bone, -0.25));
+      // Keep product cards dark in dark mode (same ink-based plum as light, slightly lighter for contrast on dark background)
+      set("--color-plum", shade(theme.ink, 0.16));
+      set("--color-plum-2", shade(theme.ink, 0.24));
       set("--color-mist", "#a69eb0");
       html.setAttribute("data-theme", "dark");
     } else {

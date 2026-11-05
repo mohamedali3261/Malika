@@ -18,19 +18,6 @@ export interface ProductCardProps {
   className?: string;
 }
 
-/* Lighten / darken a hex colour — used to derive the three note swatches. */
-function shade(hex: string, amount: number): string {
-  const clean = hex.replace("#", "");
-  if (clean.length !== 6) return hex;
-  const num = Number.parseInt(clean, 16);
-  const channel = (shift: number) => {
-    const base = (num >> shift) & 0xff;
-    const next = Math.round(base + (amount < 0 ? base : 255 - base) * amount);
-    return Math.min(255, Math.max(0, next));
-  };
-  return `#${[16, 8, 0].map((s) => channel(s).toString(16).padStart(2, "0")).join("")}`;
-}
-
 function ProductCardBase({ product, priority, className }: ProductCardProps) {
   const { lang, t, l } = useLang();
   const { add, open } = useCart();
@@ -48,16 +35,6 @@ function ProductCardBase({ product, priority, className }: ProductCardProps) {
   const [cutoutFailed, setCutoutFailed] = useState(false);
   // A broken cut-out path falls back to the product photograph instead of a hole.
   const image = resolveAsset(cutoutFailed || !product.cutout ? product.images[0] : product.cutout);
-
-  /** Top / heart / base swatches derived from the product's own accent. */
-  const swatches = useMemo(
-    () => [
-      { tone: shade(product.accent, 0.42), note: product.notes.top[0] },
-      { tone: product.accent, note: product.notes.heart[0] },
-      { tone: shade(product.accent, -0.38), note: product.notes.base[0] },
-    ],
-    [product.accent, product.notes]
-  );
 
   /** Stable per-product tilt, derived from the slug. */
   const tilt = useMemo(() => {
@@ -158,19 +135,6 @@ function ProductCardBase({ product, priority, className }: ProductCardProps) {
               >
                 {size.ml}
               </button>
-            ))}
-          </div>
-
-          {/* Note swatches */}
-          <div className="pc-swatches">
-            <span className="pc-row-label">{t("product.notesShort")}</span>
-            {swatches.map((swatch, index) => (
-              <span
-                key={index}
-                title={swatch.note ? l(swatch.note) : undefined}
-                className="pc-swatch"
-                style={{ background: swatch.tone }}
-              />
             ))}
           </div>
 
