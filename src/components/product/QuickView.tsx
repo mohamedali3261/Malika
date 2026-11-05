@@ -90,8 +90,6 @@ export function QuickView({
 
           <div className="flex flex-col p-6 sm:p-8">
             <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-mist">
-              <span>{t(`shop.${product.category}`)}</span>
-              <span className="h-1 w-1 rounded-full bg-ink/20" />
               <span>{t(`shop.${product.gender}`)}</span>
             </div>
             <h3 className="font-display mt-2 text-4xl leading-none">{l(product.name)}</h3>

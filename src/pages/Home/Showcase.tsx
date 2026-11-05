@@ -299,7 +299,7 @@ export function Showcase() {
                 <div aria-live="polite" key={current.id} className="anim-rise">
                   {product && (
                     <p className="pcard-keep text-[9.5px] font-bold uppercase tracking-[0.18em] text-bone/50 sm:mt-2 sm:text-[10px] sm:tracking-[0.2em]">
-                      {t(`shop.${product.category}`)} · {t(`shop.${product.gender}`)}
+                      {t(`shop.${product.gender}`)}
                     </p>
                   )}
                   <h3 className="font-display mt-1 text-[1.45rem] leading-[1.05] tracking-tight sm:mt-3 sm:text-5xl sm:leading-[1.02]">

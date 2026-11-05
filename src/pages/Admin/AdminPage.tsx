@@ -1,16 +1,12 @@
-import { Images } from "@/pages/Admin/Images";
 import { Accounts } from "@/pages/Admin/Accounts";
 import { Delivery } from "@/pages/Admin/Delivery";
-import { Inventory } from "@/pages/Admin/Inventory";
 import { AuditLog } from "@/pages/Admin/AuditLog";
 import { Security } from "@/pages/Admin/Security";
 import { Orders } from "@/pages/Admin/Orders";
-import { GithubPanel } from "@/pages/Admin/GithubPanel";
 import { AdminHeader, type AdminTab } from "@/pages/Admin/AdminHeader";
 import { ProductForm } from "@/pages/Admin/ProductForm";
 import { ProductTable } from "@/pages/Admin/ProductTable";
 import { ContentEditor } from "@/pages/Admin/ContentEditor";
-import { SetupGuide } from "@/pages/Admin/SetupGuide";
 import { StoreSettingsForm } from "@/pages/Admin/StoreSettingsForm";
 import { Button } from "@/components/ui/Button";
 import { Download, Plus, Refresh, Upload } from "@/components/ui/icons";
@@ -42,13 +38,40 @@ export function AdminPage() {
     setFormOpen(true);
   };
 
-  const handleSave = async (product: Product) => {
+  const handleSave = async (product: Product, stocks: number[] = []) => {
     const conflict = products.some((item) => item.slug === product.slug && item.id !== product.id);
     if (conflict) {
       push(lang === "ar" ? "هذا الرابط (slug) مستخدم بالفعل. اختر رابطاً آخر." : "That slug is already in use. Choose another one.", "error");
       return;
     }
     try { await saveProduct(product); } catch { push(lang === "ar" ? "تعذر حفظ المنتج" : "Could not save product", "error"); return; }
+    // Handle stock: for each size, adjust to desired quantity
+    try {
+      const desired = product.sizes.map((s, i) => ({ size: s.ml, qty: Math.max(0, Math.trunc(stocks[i] ?? 0)) }));
+      const filtered = desired.filter(d => d.qty > 0 || products.some(p=>p.id===product.id));
+      if (filtered.length > 0) {
+        const invRes = await fetch('/api/admin/inventory');
+        const invRows: { product_id:string; size:number; quantity:number }[] = invRes.ok ? await invRes.json() : [];
+        const currentMap = new Map(invRows.filter(r=>r.product_id===product.id).map(r=>[r.size, r.quantity] as const));
+        for (const d of filtered) {
+          const current = currentMap.get(d.size) ?? 0;
+          const delta = d.qty - current;
+          if (delta === 0) continue;
+          if (delta > 0) {
+            const r = await fetch(`/api/admin/inventory/${encodeURIComponent(product.id)}/${d.size}/add`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ amount: delta }) });
+            if (!r.ok) throw new Error('stock add failed');
+          } else {
+            // need to set directly via PUT (decrease)
+            const r = await fetch(`/api/admin/inventory/${encodeURIComponent(product.id)}/${d.size}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ quantity: d.qty, expectedQuantity: current }) });
+            if (!r.ok) throw new Error('stock set failed');
+          }
+        }
+      }
+    } catch {
+      push(lang === "ar" ? "تم حفظ المنتج لكن تعذر تحديث المخزون؛ راجع كمية المنتج." : "Product saved but stock update failed; check the product quantity.", "error");
+      setFormOpen(false);
+      return;
+    }
     setFormOpen(false);
     push(`${l(product.name)} · ${t("admin.saved")}`);
   };
@@ -163,9 +186,7 @@ export function AdminPage() {
           )}
 
           {tab === "orders" && <Orders />}
-          {tab === "inventory" && <Inventory />}
           {tab === "delivery" && <Delivery />}
-          {tab === "images" && <Images />}
           {tab === "security" && <><Security /><Accounts /><AuditLog /></>}
           {tab === "content" && (
             <>
@@ -189,28 +210,7 @@ export function AdminPage() {
               </div>
               <StoreSettingsForm settings={settings} onSave={saveSettings} />
             </>
-          )}
-
-          {tab === "github" && (
-            <>
-              <div className="mb-4">
-                <h2 className="text-[13px] font-bold">{t("gh.title")}</h2>
-                <p className="text-[10px] text-mist">{lang === "ar" ? "ارفع الكتالوج إلى مستودعك وأطلق النشر التلقائي." : "Push the catalogue to your repo and trigger auto-deploy."}</p>
-              </div>
-              <GithubPanel products={products} settings={settings} content={content} />
-            </>
-          )}
-
-          {tab === "guide" && (
-            <>
-              <div className="mb-4">
-                <h2 className="text-[13px] font-bold">{t("admin.tab.guide")}</h2>
-                <p className="text-[10px] text-mist">{lang === "ar" ? "الخطة الكاملة: البيانات، الاستضافة، والنشر." : "The complete plan: data, hosting and publishing."}</p>
-              </div>
-              <SetupGuide />
-            </>
-          )}
-        </div>
+          )}        </div>
       </div>
 
       <ProductForm open={formOpen} initial={editing} onClose={() => setFormOpen(false)} onSave={handleSave} />

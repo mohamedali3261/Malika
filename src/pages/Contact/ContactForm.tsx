@@ -1,7 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { SmartImage } from "@/components/ui/Primitives";
-import { ArrowUpRight, Clock, Globe, Phone, Send, Whatsapp } from "@/components/ui/icons";
+import { ArrowUpRight, Phone, Send, Whatsapp } from "@/components/ui/icons";
 import { IMG } from "@/data/images";
 import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
@@ -10,7 +10,7 @@ import { contactMessage, openChannel, whatsappUrl } from "@/lib/messaging";
 import { useState, type FormEvent } from "react";
 
 export function ContactForm() {
-  const { t, lang, l, x } = useLang();
+  const { t, lang, x } = useLang();
   const { settings } = useStore();
   const { push } = useToast();
   const [name, setName] = useState("");
@@ -103,26 +103,9 @@ export function ContactForm() {
                 <p className="text-[11px] leading-relaxed text-bone/60">{x("No storefront — we ship across Egypt and reply fast on WhatsApp.", "لا يوجد متجر فعلي — نشحن لكل محافظات مصر ونرد بسرعة على واتساب.")}</p>
               </div>
               <ul className="mt-5 space-y-3 text-[12px]">
-                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
-                  <Globe className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Availability", "التواجد")}</p>
-                    <p className="mt-0.5 font-medium leading-snug text-bone">{l(settings.address)}</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
-                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Hours", "المواعيد")}</p>
-                    <p className="mt-0.5 font-medium leading-snug text-bone">{l(settings.hours)}</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-acid" />
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.14em] text-bone/50">{x("Phone", "الهاتف")}</p>
-                    <a href={`tel:${settings.phone}`} dir="ltr" className="mt-0.5 block font-medium text-bone transition hover:text-acid">{settings.phone}</a>
-                  </div>
+                <li className="flex items-center gap-3 rounded-xl bg-bone/8 px-3.5 py-3 backdrop-blur">
+                  <Phone className="h-4 w-4 shrink-0 text-acid" />
+                  <a href={`tel:${settings.phone}`} dir="ltr" className="font-medium leading-snug text-bone transition hover:text-acid">{settings.phone}</a>
                 </li>
               </ul>
               <a

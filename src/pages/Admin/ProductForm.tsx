@@ -8,7 +8,6 @@ import type { Category, Gender, Localized, Mood, Product, SizeOption } from "@/t
 import { cn } from "@/utils/cn";
 import { useEffect, useState, type FormEvent } from "react";
 
-const categories: Category[] = ["fresh", "floral", "woody", "oriental"];
 const genders: Gender[] = ["women", "men", "unisex"];
 
 const emptyDraft = {
@@ -44,6 +43,7 @@ const emptyDraft = {
   rating: 4.8,
   reviews: 0,
   sizes: [{ ml: 50, price: 1800 }] as SizeOption[],
+  stocks: [0] as number[],
 };
 
 type Draft = typeof emptyDraft;
@@ -82,6 +82,7 @@ function toDraft(product: Product): Draft {
     rating: product.rating,
     reviews: product.reviews,
     sizes: product.sizes.length > 0 ? product.sizes : [{ ml: 50, price: product.price }],
+    stocks: product.sizes.map(() => 0),
   };
 }
 
@@ -114,7 +115,7 @@ export function ProductForm({
   open: boolean;
   initial: Product | null;
   onClose: () => void;
-  onSave: (product: Product) => void;
+  onSave: (product: Product, stocks: number[]) => void | Promise<void>;
 }) {
   const { t, l, lang } = useLang();
   const [draft, setDraft] = useState<Draft>(emptyDraft);
@@ -127,6 +128,12 @@ export function ProductForm({
     setDraft(initial ? toDraft(initial) : emptyDraft);
     setError("");
     setUploading(false);
+    if (initial) {
+      fetch('/api/admin/inventory').then(r=>r.ok?r.json():[]).then((rows: {product_id:string,size:number,quantity:number}[])=>{
+        const map=new Map(rows.filter(r=>r.product_id===initial.id).map(r=>[r.size,r.quantity] as const));
+        setDraft(prev=>({...prev, stocks: prev.sizes.map(s=> map.get(s.ml) ?? 0)}));
+      }).catch(()=>{});
+    }
   }, [open, initial]);
 
   useEffect(() => {
@@ -147,8 +154,14 @@ export function ProductForm({
       draft.sizes.map((size, sizeIndex) => (sizeIndex === index ? { ...size, [key]: value } : size))
     );
   };
+  const setStock = (index: number, value: number) => {
+    const next=[...draft.stocks];
+    while (next.length < draft.sizes.length) next.push(0);
+    next[index]=Number.isFinite(value) ? Math.max(0, Math.min(1000000, Math.trunc(value))) : 0;
+    update("stocks", next);
+  };
 
-  const submit = (event: FormEvent) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
     if (!draft.nameEn.trim() || !draft.slug.trim()) {
       setError(lang === "ar" ? "الاسم الإنجليزي والرابط مطلوبان." : "English name and slug are required.");
@@ -196,7 +209,7 @@ export function ProductForm({
       sillage: { en: draft.sillageEn || "Soft", ar: draft.sillageAr || "ناعم" },
       createdAt: initial?.createdAt ?? new Date().toISOString().slice(0, 10),
     };
-    onSave(product);
+    await onSave(product, draft.stocks);
   };
 
   if (!open) return null;
@@ -291,13 +304,6 @@ export function ProductForm({
             <Field label="Compare-at price (optional)">
               <input type="number" min={0} value={draft.compareAt} onChange={(event) => update("compareAt", Number(event.target.value))} className="field" dir="ltr" />
             </Field>
-            <Field label="Category">
-              <select value={draft.category} onChange={(event) => update("category", event.target.value as Category)} className="field">
-                {categories.map((category) => (
-                  <option key={category} value={category}>{t(`shop.${category}`)}</option>
-                ))}
-              </select>
-            </Field>
             <Field label="Gender">
               <select value={draft.gender} onChange={(event) => update("gender", event.target.value as Gender)} className="field">
                 {genders.map((gender) => (
@@ -307,21 +313,30 @@ export function ProductForm({
             </Field>
 
             <div className="sm:col-span-2">
-              <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{t("product.size")}</span>
+              <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{t("product.size")} · {lang === "ar" ? "المخزون" : "Stock"}</span>
+              <p className="mb-2 text-[10px] leading-relaxed text-mist">{lang === "ar" ? "حدد الكمية الأولية لكل حجم. للمنتج الجديد تُضاف الكمية بعد الإنشاء. عند التعديل يتم تعديل الكمية للوصول للقيمة المطلوبة." : "Set initial quantity per size. For new products quantity is added after creation. When editing, stock is adjusted to reach the desired value."}</p>
               <div className="space-y-2">
                 {draft.sizes.map((size, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <input type="number" min={1} value={size.ml} onChange={(event) => setSize(index, "ml", Number(event.target.value))} className="field h-10 w-24" aria-label="ml" />
-                    <span className="text-[10px] text-mist">ml</span>
-                    <input type="number" min={0} value={size.price} onChange={(event) => setSize(index, "price", Number(event.target.value))} className="field h-10 flex-1" aria-label="price" />
-                    <span className="text-[10px] text-mist">EGP</span>
-                    <button type="button" onClick={() => update("sizes", draft.sizes.filter((_, i) => i !== index))} className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 text-mist hover:text-rose-500" aria-label="remove size">
+                  <div key={index} className="flex flex-wrap items-center gap-2 rounded-xl border border-ink/10 bg-white/40 p-2">
+                    <div className="flex items-center gap-1.5">
+                      <input type="number" min={1} value={size.ml} onChange={(event) => setSize(index, "ml", Number(event.target.value))} className="field h-10 w-20 text-center" aria-label="ml" />
+                      <span className="text-[10px] font-bold text-mist">ml</span>
+                    </div>
+                    <div className="flex flex-1 items-center gap-1.5">
+                      <input type="number" min={0} value={size.price} onChange={(event) => setSize(index, "price", Number(event.target.value))} className="field h-10 flex-1 text-center" aria-label="price" />
+                      <span className="text-[10px] font-bold text-mist">EGP</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="hidden text-[9px] font-bold uppercase tracking-widest text-mist sm:inline">{lang === "ar" ? "المخزون" : "Qty"}</span>
+                      <input type="number" min={0} max={1000000} value={draft.stocks[index] ?? 0} onChange={(event) => setStock(index, Number(event.target.value))} className="field h-10 w-[92px] text-center font-bold" aria-label="stock" placeholder="0" />
+                    </div>
+                    <button type="button" onClick={() => { update("sizes", draft.sizes.filter((_, i) => i !== index)); update("stocks", draft.stocks.filter((_, i) => i !== index)); }} className="grid h-9 w-9 place-items-center rounded-full border border-ink/10 text-mist hover:text-rose-500" aria-label="remove size">
                       <Trash className="h-3.5 w-3.5" />
                     </button>
                   </div>
                 ))}
               </div>
-              <button type="button" onClick={() => update("sizes", [...draft.sizes, { ml: 100, price: Math.round(draft.price * 1.4) }])} className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-plum">
+              <button type="button" onClick={() => { update("sizes", [...draft.sizes, { ml: 100, price: Math.round(draft.price * 1.4) }]); update("stocks", [...draft.stocks, 0]); }} className="mt-2 inline-flex items-center gap-1 text-[10px] font-bold text-plum">
                 <Plus className="h-3 w-3" /> {lang === "ar" ? "إضافة حجم" : "Add size"}
               </button>
             </div>
