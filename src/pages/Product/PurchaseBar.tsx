@@ -70,7 +70,7 @@ export function PurchaseBar({ product }: { product: Product }) {
               )
             )
           }
-          className="flex h-12 items-center justify-center gap-1.5 rounded-full bg-acid text-[12px] font-bold text-ink active:scale-[0.98]"
+          className="flex h-12 items-center justify-center gap-1.5 rounded-full bg-acid text-[12px] font-bold text-[#141019] active:scale-[0.98]"
         >
           <Whatsapp className="h-4 w-4" /> {t("product.stickyOrder")}
         </button>

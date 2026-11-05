@@ -29,8 +29,8 @@ export function Badge({
 }) {
   const tones = {
     ink: "bg-ink text-bone",
-    acid: "bg-acid text-ink",
-    lilac: "bg-lilac text-ink",
+    acid: "bg-acid text-[#141019]",
+    lilac: "bg-lilac text-[#141019]",
     bone: "bg-bone/90 text-ink",
     glass: "glass-dark text-bone border border-white/15",
   };

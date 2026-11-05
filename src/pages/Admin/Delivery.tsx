@@ -188,7 +188,7 @@ export function Delivery() {
               <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} className="h-4 w-4" />
               <span className="text-sm font-medium">{ar ? 'مفعّل' : 'Enabled'}</span>
             </label>
-            <button className="mt-1 rounded-full bg-acid px-5 py-2.5 text-sm font-black text-ink hover:bg-acid-deep">{ar ? 'حفظ الكوبون' : 'Save coupon'}</button>
+            <button className="mt-1 rounded-full bg-acid px-5 py-2.5 text-sm font-black text-[#141019] hover:bg-acid-deep">{ar ? 'حفظ الكوبون' : 'Save coupon'}</button>
           </form>
 
           <ul className="mt-4 space-y-2">
@@ -216,7 +216,7 @@ export function Delivery() {
                       <span className="text-xs font-medium">{ar ? 'مفعّل' : 'Enabled'}</span>
                     </label>
                     <div className="flex gap-2">
-                      <button onClick={()=>void saveEditCoupon(c.code)} className="flex-1 rounded-full bg-acid px-3 py-2 text-xs font-black text-ink hover:bg-acid-deep">{ar ? 'حفظ التعديل' : 'Save'}</button>
+                      <button onClick={()=>void saveEditCoupon(c.code)} className="flex-1 rounded-full bg-acid px-3 py-2 text-xs font-black text-[#141019] hover:bg-acid-deep">{ar ? 'حفظ التعديل' : 'Save'}</button>
                       <button onClick={()=>setEditingCoupon(null)} className="rounded-full border border-ink/10 px-4 py-2 text-xs font-bold hover:border-ink/30">{ar ? 'إلغاء' : 'Cancel'}</button>
                     </div>
                   </div>

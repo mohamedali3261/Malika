@@ -1,4 +1,5 @@
-import { Bag, Heart, Whatsapp } from "@/components/ui/icons";
+import { Bag, Heart, Moon, Sun, Whatsapp } from "@/components/ui/icons";
+import { useThemeMode } from "@/context/ThemeModeContext";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useLang } from "@/i18n/LanguageContext";
@@ -32,6 +33,8 @@ export function MobileTabBar() {
   const { count, open } = useCart();
   const { settings, wishlist } = useStore();
   const bagPulsing = useBagPulse();
+  const { mode, toggle } = useThemeMode();
+  const isDark = mode === "dark";
 
   if (path === "/studio" || path === "/admin" || path.startsWith("/product/")) return null;
 
@@ -63,7 +66,7 @@ export function MobileTabBar() {
           <span className="relative">
             <Heart className="h-5 w-5" fill={path === "/wishlist" || wishlist.length > 0 ? "currentColor" : "none"} />
             {wishlist.length > 0 && (
-              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-extrabold text-ink">
+              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-extrabold text-[#141019]">
                 {wishlist.length}
               </span>
             )}
@@ -87,13 +90,17 @@ export function MobileTabBar() {
             {count > 0 && (
               <span
                 key={count}
-                className="m-badge-ping-pop absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-ink"
+                className="m-badge-ping-pop absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-[#141019]"
               >
                 {count}
               </span>
             )}
           </span>
           {t("nav.cart")}
+        </button>
+        <button onClick={toggle} className={cn(itemClass(false))} aria-label={isDark ? "Day mode" : "Night mode"}>
+          {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          <span className="text-[9px]">{isDark ? "نهاري" : "ليلي"}</span>
         </button>
       </div>
     </nav>

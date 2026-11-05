@@ -112,10 +112,10 @@ export function ContactForm() {
                 href={whatsappUrl(settings.whatsapp, x("Hello VLOR, I'd like a scent consultation", "مرحباً ڨلور، أريد استشارة عطرية"))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-6 flex items-center justify-between rounded-full border border-bone/15 bg-bone/8 px-4 py-3.5 text-[12px] font-bold backdrop-blur transition hover:border-acid hover:bg-acid hover:text-ink"
+                className="group mt-6 flex items-center justify-between rounded-full border border-bone/15 bg-bone/8 px-4 py-3.5 text-[12px] font-bold backdrop-blur transition hover:border-acid hover:bg-acid hover:text-[#141019]"
               >
                 <span className="flex items-center gap-2.5">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-acid text-ink group-hover:bg-ink group-hover:text-acid">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-acid text-[#141019] group-hover:bg-ink group-hover:text-acid">
                     <Send className="h-3.5 w-3.5" />
                   </span>
                   {t("contact.visit")}

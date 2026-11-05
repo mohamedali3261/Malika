@@ -29,7 +29,7 @@ export function AdminHeader({
 
   return (
     <div>
-      <div className="relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8">
+      <div className="admin-studio-header relative overflow-hidden rounded-[1.8rem] bg-ink p-6 text-bone sm:p-8">
         <div className="pointer-events-none absolute -end-10 -top-10 h-56 w-56 rounded-full bg-lilac/20 blur-[70px]" />
         <div className="relative flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -60,7 +60,7 @@ export function AdminHeader({
               onClick={() => setTab(item.key)}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[10.5px] font-bold transition-all",
-                tab === item.key ? "bg-acid text-ink" : "text-bone/55 hover:bg-bone/10 hover:text-bone"
+                tab === item.key ? "bg-acid text-[#141019]" : "text-bone/55 hover:bg-bone/10 hover:text-bone"
               )}
             >
               {item.key === "products" && <Sparkle className="h-3.5 w-3.5" />}

@@ -208,7 +208,7 @@ export function Inventory() {
                       <button
                         disabled={isSaving || !addDraft[key]}
                         onClick={() => void addStock(row)}
-                        className="grid h-10 min-w-[72px] place-items-center rounded-xl bg-acid px-3 text-sm font-black text-ink transition hover:bg-acid-deep disabled:opacity-40"
+                        className="grid h-10 min-w-[72px] place-items-center rounded-xl bg-acid px-3 text-sm font-black text-[#141019] transition hover:bg-acid-deep disabled:opacity-40"
                       >
                         {isSaving ? '…' : ar ? 'إضافة' : 'Add'}
                       </button>

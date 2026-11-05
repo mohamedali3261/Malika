@@ -38,7 +38,7 @@ export function Channels() {
       description: settings.email,
       href: `mailto:${settings.email}`,
       icon: Mail,
-      tone: "hover:bg-acid hover:border-acid hover:text-ink",
+      tone: "hover:bg-acid hover:border-acid hover:text-[#141019]",
       badge: null,
     },
   ];
@@ -58,7 +58,7 @@ export function Channels() {
                 <span className="flex items-center gap-2">
                   <channel.icon className="h-4.5 w-4.5" />
                   {channel.badge && (
-                    <span className="rounded-full bg-acid px-2 py-0.5 text-[7.5px] font-extrabold uppercase tracking-[0.1em] text-ink">
+                    <span className="rounded-full bg-acid px-2 py-0.5 text-[7.5px] font-extrabold uppercase tracking-[0.1em] text-[#141019]">
                       {channel.badge}
                     </span>
                   )}

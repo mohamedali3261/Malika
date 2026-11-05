@@ -35,7 +35,7 @@ export function ContactCTA() {
                 <div className="mt-7 flex flex-wrap gap-2.5">
                   <button
                     onClick={() => openChannel(whatsappUrl(settings.whatsapp, greeting))}
-                    className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-acid px-6 text-[12px] font-bold text-ink transition hover:bg-acid-deep"
+                    className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-acid px-6 text-[12px] font-bold text-[#141019] transition hover:bg-acid-deep"
                   >
                     <Whatsapp className="h-4 w-4" />
                     {t("cta.whatsapp")}
@@ -83,7 +83,7 @@ export function ContactCTA() {
                 </div>
                 <Link
                   to="/shop"
-                  className="absolute -end-3 top-5 grid h-20 w-20 -rotate-6 place-items-center rounded-full bg-lilac text-center text-ink shadow-lg transition hover:rotate-0"
+                  className="absolute -end-3 top-5 grid h-20 w-20 -rotate-6 place-items-center rounded-full bg-lilac text-center text-[#141019] shadow-lg transition hover:rotate-0"
                 >
                   <div>
                     <p className="font-display text-base leading-none">{x("find", "اكتشف")}</p>

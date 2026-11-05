@@ -16,8 +16,7 @@ export function ThemeModeProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return "light";
     const stored = window.localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
     if (stored === "light" || stored === "dark") return stored;
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
-    return prefersDark ? "dark" : "light";
+    return "light";
   });
 
   const setMode = useCallback((next: ThemeMode) => {

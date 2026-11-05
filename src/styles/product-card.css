@@ -188,7 +188,7 @@ html[lang="ar"] .pc-watermark {
 }
 
 .pc-card:hover .pc-panel {
-  height: 238px;
+  height: 210px;
 }
 
 .pc-panel-inner {
@@ -234,9 +234,8 @@ html[lang="ar"] .pc-watermark {
   text-decoration: line-through;
 }
 
-/* Staggered reveal rows (sizes, note swatches, buy button) */
-.pc-sizes,
-.pc-swatches {
+/* Staggered reveal rows (sizes, buy button) */
+.pc-sizes {
   visibility: hidden;
   opacity: 0;
   display: flex;
@@ -253,20 +252,10 @@ html[lang="ar"] .pc-watermark {
   padding-top: 0.75rem;
 }
 
-.pc-swatches {
-  padding-top: 0.625rem;
-}
-
 .pc-card:hover .pc-sizes {
   visibility: visible;
   opacity: 1;
   transition-delay: 400ms;
-}
-
-.pc-card:hover .pc-swatches {
-  visibility: visible;
-  opacity: 1;
-  transition-delay: 520ms;
 }
 
 .pc-row-label {
@@ -301,13 +290,6 @@ html[lang="ar"] .pc-watermark {
 .pc-size-btn--active:hover {
   background-color: var(--color-ink);
   color: var(--color-bone);
-}
-
-.pc-swatch {
-  height: 18px;
-  width: 18px;
-  border-radius: 9999px;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .pc-buy-btn {
@@ -366,11 +348,10 @@ html[lang="ar"] .pc-watermark {
   }
 
   .pc-panel {
-    height: 238px;
+    height: 210px;
   }
 
-  .pc-sizes,
-  .pc-swatches {
+  .pc-sizes {
     visibility: visible;
     opacity: 1;
   }
@@ -380,3 +361,62 @@ html[lang="ar"] .pc-watermark {
     transform: translateY(0);
   }
 }
+
+/* Dark mode — keep cards dark with light text (override ink/bone swap that would make text dark on dark) */
+html[data-theme="dark"] .pc-card {
+  background-color: var(--color-plum);
+}
+html[data-theme="dark"] .pc-title,
+html[data-theme="dark"] .pc-price {
+  color: #f3efe7;
+}
+html[data-theme="dark"] .pc-compare {
+  color: rgba(243, 239, 231, 0.5);
+}
+html[data-theme="dark"] .pc-row-label {
+  color: rgba(243, 239, 231, 0.7);
+}
+html[data-theme="dark"] .pc-size-btn {
+  background-color: #f3efe7;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-size-btn:hover {
+  background-color: #ddf25c;
+}
+html[data-theme="dark"] .pc-size-btn--active,
+html[data-theme="dark"] .pc-size-btn--active:hover {
+  background-color: #ddf25c;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-buy-btn {
+  background-color: #f3efe7;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-buy-btn:hover {
+  background-color: #ddf25c;
+}
+html[data-theme="dark"] .pc-buy-btn--added {
+  background-color: #ddf25c;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-wish {
+  border-color: rgba(243, 239, 231, 0.18);
+  background-color: rgba(243, 239, 231, 0.10);
+  color: #f3efe7;
+}
+html[data-theme="dark"] .pc-wish:hover,
+html[data-theme="dark"] .pc-wish--active {
+  background-color: #f3efe7;
+  border-color: #f3efe7;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-badge--dark {
+  background-color: #f3efe7;
+  color: #141019;
+}
+html[data-theme="dark"] .pc-badge--light {
+  background-color: #1d1a24;
+  color: #f3efe7;
+  border: 1px solid rgba(243, 239, 231, 0.12);
+}
+

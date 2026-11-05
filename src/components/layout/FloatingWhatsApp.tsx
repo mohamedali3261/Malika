@@ -48,7 +48,7 @@ export function FloatingWhatsApp() {
       tabIndex={overFooter ? -1 : undefined}
       aria-label={x("Chat on WhatsApp", "تواصل على واتساب")}
     >
-      <span className="relative grid h-8 w-8 place-items-center rounded-full bg-acid text-ink">
+      <span className="relative grid h-8 w-8 place-items-center rounded-full bg-acid text-[#141019]">
         <span className="absolute inset-0 animate-ping rounded-full bg-acid/50" />
         <Whatsapp className="relative h-4 w-4" />
       </span>

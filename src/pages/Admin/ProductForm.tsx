@@ -444,7 +444,7 @@ export function ProductForm({
                     onClick={() => update(badge.key, !draft[badge.key])}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold transition",
-                      draft[badge.key] ? "border-acid-deep bg-acid text-ink" : "border-ink/15 text-ink/60"
+                      draft[badge.key] ? "border-acid-deep bg-acid text-[#141019]" : "border-ink/15 text-ink/60"
                     )}
                   >
                     {draft[badge.key] && <Check className="h-3 w-3" />} {badge.label}

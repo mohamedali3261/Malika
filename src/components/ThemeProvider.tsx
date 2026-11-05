@@ -50,18 +50,21 @@ export function ThemeProvider() {
       set("--color-acid-deep", shade(theme.accent, -0.12));
       set("--color-lilac", theme.lilac);
       set("--color-lilac-soft", shade(theme.lilac, 0.2));
-      set("--color-plum", shade(theme.bone, -0.15));
-      set("--color-plum-2", shade(theme.bone, -0.25));
+      // Keep product cards dark in dark mode (same ink-based plum as light, slightly lighter for contrast on dark background)
+      set("--color-plum", shade(theme.ink, 0.16));
+      set("--color-plum-2", shade(theme.ink, 0.24));
       set("--color-mist", "#a69eb0");
       html.setAttribute("data-theme", "dark");
     } else {
       // Light / day mode — keep background slightly dark as requested (not pure white)
+      // White surfaces now use the second bone color as requested
       const lightBone = shade(theme.bone, -0.07); // ~#e8e0cd, darker bone
+      const lightBone2 = shade(lightBone, -0.06);
       set("--color-ink", theme.ink);
       set("--color-bone", lightBone);
-      set("--color-bone-2", shade(lightBone, -0.06));
-      set("--color-surface", "#ffffff");
-      set("--color-surface-2", "#faf8f4");
+      set("--color-bone-2", lightBone2);
+      set("--color-surface", lightBone2);
+      set("--color-surface-2", shade(lightBone, -0.10));
       set("--color-line", shade(lightBone, -0.13));
       set("--color-acid", theme.accent);
       set("--color-acid-deep", shade(theme.accent, -0.12));
