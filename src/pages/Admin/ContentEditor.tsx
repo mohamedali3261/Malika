@@ -10,6 +10,7 @@ import {
   TextField,
   Toggle,
 } from "@/pages/Admin/ContentFields";
+import { OffersEditor } from "@/pages/Admin/OffersEditor";
 import { ShowcaseEditor } from "@/pages/Admin/ShowcaseEditor";
 import { StripsEditor } from "@/pages/Admin/StripsEditor";
 import { TextsEditor } from "@/pages/Admin/TextsEditor";
@@ -131,6 +132,7 @@ export function ContentEditor() {
             [
               ["runwayLookbook", ar ? "منصّة العرض العميق (Runway)" : "Runway depth lookbook"],
               ["showcase", ar ? "كارت الصور" : "Image card"],
+              ["offers", ar ? "عروض ڨلور — باقات بسعر واحد" : "VLOR Offers — Bundled sets"],
               ["featured", ar ? "المنتجات المميزة" : "Featured products"],
               ["story", ar ? "حكايتنا" : "Our story"],
               ["pillars", ar ? "الوعود الثلاثة" : "The three promises"],
@@ -141,8 +143,8 @@ export function ContentEditor() {
             <Toggle
               key={key}
               label={label}
-              checked={draft.sections[key]}
-              onChange={(value) => edit((next) => { next.sections[key] = value; })}
+              checked={draft.sections[key as keyof typeof draft.sections]}
+              onChange={(value) => edit((next) => { (next.sections as any)[key] = value; })}
             />
           ))}
         </Section>
@@ -293,6 +295,23 @@ export function ContentEditor() {
             products={products}
             onChange={(next) => edit((n) => { n.showcase = next; })}
           />
+        </Section>
+
+        {/* ---------------- offers / bundles — replaces icons section ---------------- */}
+        <Section
+          title={ar ? "عروض ڨلور — باقات بسعر واحد (قسم أيقونات ڨلور)" : "VLOR Offers — Bundled sets (Icons section)"}
+          description={ar ? "حوّل قسم أيقونات ڨلور إلى عروض: اختر ٢–٤ عطور لكل باقة، وسيظهر سعر كل عطر والخصم وسعر الباقة." : "Turn the Icons section into bundles: pick 2–4 scents per bundle, show each price, discount and the total bundle price."}
+          badge={`${draft.offers.bundles.length}`}
+          defaultOpen
+        >
+          <OffersEditor value={draft.offers} products={products} onChange={(next) => edit((n) => { n.offers = next; })} />
+          <div className="mt-3">
+            <Toggle
+              label={ar ? "إظهار قسم العروض في الرئيسية" : "Show offers section on home"}
+              checked={draft.sections.offers}
+              onChange={(value) => edit((n) => { n.sections.offers = value; })}
+            />
+          </div>
         </Section>
 
         {/* ---------------- hero ---------------- */}

@@ -7,8 +7,8 @@ import type { Localized, SiteSettings } from "@/types";
  */
 export const BRAND = {
   name: "VLOR",
-  nameAr: "فلور",
-  wordmark: { en: "VLOR", ar: "فلور" } as Localized,
+  nameAr: "ڨلور",
+  wordmark: { en: "VLOR", ar: "ڨلور" } as Localized,
   descriptor: { en: "Maison de parfum", ar: "دار عطور" } as Localized,
   tagline: { en: "Presence, bottled.", ar: "حضورٌ في زجاجة." } as Localized,
   foundingYear: 2021,

@@ -1,3 +1,4 @@
+import { BundleOffers } from "@/pages/Home/BundleOffers";
 import { ContactCTA } from "@/pages/Home/ContactCTA";
 import { Featured } from "@/pages/Home/Featured";
 import { Hero } from "@/pages/Home/Hero";
@@ -16,6 +17,7 @@ export function HomePage() {
       <Hero />
       {c.sections.runwayLookbook && <RunwayLookbook />}
       {c.sections.showcase && <Showcase />}
+      {c.sections.offers && c.offers?.bundles?.length > 0 && <BundleOffers />}
       {c.sections.featured && <Featured />}
       {c.sections.story && <StorySection />}
       {c.sections.pillars && <Pillars />}
