@@ -20,7 +20,7 @@ export function ContactHero() {
           </h1>
           <p className="lead-copy mt-4 max-w-xl text-mist">{t("contact.lead")}</p>
           <div className="mt-6 flex flex-wrap items-center gap-3 text-[11px]">
-            <span className="inline-flex items-center gap-2 rounded-full bg-acid px-3 py-1.5 font-bold text-ink">
+            <span className="inline-flex items-center gap-2 rounded-full bg-acid px-3 py-1.5 font-bold text-[#141019]">
               <span className="h-1.5 w-1.5 rounded-full bg-ink animate-pulse" />
               {x("online — reply in minutes", "متصلون الآن — نرد خلال دقائق")}
             </span>

@@ -121,7 +121,7 @@ export function FilterBar(props: FilterBarProps) {
                 <Sliders className="h-3.5 w-3.5" />
                 {x("More", "المزيد")}
                 {extras > 0 && (
-                  <span className="grid h-4.5 min-w-4.5 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-ink">{extras}</span>
+                  <span className="grid h-4.5 min-w-4.5 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-[#141019]">{extras}</span>
                 )}
               </button>
             )}
@@ -187,7 +187,7 @@ export function FilterBar(props: FilterBarProps) {
               aria-pressed={savedOnly}
               className={cn(
                 "flex h-8 items-center gap-1.5 rounded-full px-3 text-[12px] font-semibold transition-colors",
-                savedOnly ? "bg-lilac text-ink" : "bg-ink/5 text-ink/65 hover:bg-ink/10"
+                savedOnly ? "bg-lilac text-[#141019]" : "bg-ink/5 text-ink/65 hover:bg-ink/10"
               )}
             >
               <Heart className="h-3.5 w-3.5" fill={savedOnly ? "currentColor" : "none"} />

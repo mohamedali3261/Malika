@@ -287,7 +287,7 @@ export function CheckoutSheet({ open, onClose }: CheckoutSheetProps) {
                 <span>{t("cart.shipping")}</span>
                 <span>{activeQuote ? formatPrice(activeQuote.shipping, lang) : t("cart.calc")}</span>
               </div>
-              <p className="mt-2 flex items-center gap-1.5 rounded-lg bg-acid/40 px-2 py-1.5 text-[10px] font-semibold text-ink">
+              <p className="mt-2 flex items-center gap-1.5 rounded-lg bg-acid/40 px-2 py-1.5 text-[10px] font-semibold text-[#141019]">
                 <Check className="h-3.5 w-3.5 shrink-0" /> {t("cart.cod")}
               </p>
             </div>

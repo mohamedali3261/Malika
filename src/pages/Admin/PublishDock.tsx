@@ -233,7 +233,7 @@ export function PublishDock({ onLock }: { onLock: () => void }) {
                     {explained.fix}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <button onClick={() => void p.publish()} className="press inline-flex h-10 flex-1 items-center justify-center rounded-full bg-acid px-4 text-[12px] font-bold text-ink hover:bg-acid-deep">
+                    <button onClick={() => void p.publish()} className="press inline-flex h-10 flex-1 items-center justify-center rounded-full bg-acid px-4 text-[12px] font-bold text-[#141019] hover:bg-acid-deep">
                       {x("Try again", "حاول مجدداً")}
                     </button>
                     {fixInSettings && (
@@ -275,7 +275,7 @@ export function PublishDock({ onLock }: { onLock: () => void }) {
           className={cn(
             "press relative inline-flex h-12 items-center gap-2.5 rounded-full px-5 text-[12.5px] font-extrabold shadow-xl transition-colors disabled:cursor-wait",
             hasChanges || working || deploying
-              ? "bg-acid text-ink shadow-acid/30 hover:bg-acid-deep"
+              ? "bg-acid text-[#141019] shadow-acid/30 hover:bg-acid-deep"
               : "border border-ink/15 bg-bone text-ink/70 shadow-ink/10 hover:border-ink/40"
           )}
         >

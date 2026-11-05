@@ -139,7 +139,7 @@ export function Orders() {
                     <span>{ar?'المجموع':'Subtotal'} <b className="text-bone">{o.subtotal}</b></span>
                     <span>{ar?'الشحن':'Ship'} <b className="text-bone">{o.shipping}</b></span>
                     <span>{ar?'الخصم':'Disc'} <b className="text-acid">-{o.discount}</b></span>
-                    <span className="rounded-full bg-acid px-3 py-1 font-black text-ink">{total} EGP</span>
+                    <span className="rounded-full bg-acid px-3 py-1 font-black text-[#141019]">{total} EGP</span>
                   </span>
                 </div>
                 <div className="mt-3 flex items-center gap-2">

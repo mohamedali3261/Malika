@@ -39,9 +39,9 @@ export function NewsletterForm({ dark, compact }: { dark?: boolean; compact?: bo
         className={cn(
           "group inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-[0.9rem] px-6 text-[12px] font-bold uppercase tracking-[0.1em] transition-all duration-300 active:scale-[0.98]",
           done
-            ? "bg-acid text-ink"
+            ? "bg-acid text-[#141019]"
             : dark
-              ? "bg-acid text-ink hover:bg-acid-deep"
+              ? "bg-acid text-[#141019] hover:bg-acid-deep"
               : "bg-ink text-bone hover:bg-plum"
         )}
       >

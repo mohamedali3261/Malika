@@ -121,7 +121,7 @@ export function Navbar() {
             >
               <Heart className="h-4 w-4" fill={wishlist.length > 0 || path === "/wishlist" ? "currentColor" : "none"} />
               {wishlist.length > 0 && (
-                <span className="absolute -end-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-bold text-ink">
+                <span className="absolute -end-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-bold text-[#141019]">
                   {wishlist.length}
                 </span>
               )}
@@ -149,7 +149,7 @@ export function Navbar() {
               <span
                 key={count}
                 className={cn(
-                  "grid h-5 min-w-5 place-items-center rounded-full bg-acid px-1 text-[10px] font-extrabold text-ink",
+                  "grid h-5 min-w-5 place-items-center rounded-full bg-acid px-1 text-[10px] font-extrabold text-[#141019]",
                   count > 0 && "m-badge-ping-pop"
                 )}
               >
@@ -217,7 +217,7 @@ export function Navbar() {
               <span className="inline-flex items-center gap-2.5 font-display text-4xl leading-none">
                 {x("Saved", "المفضلة")}
                 {wishlist.length > 0 && (
-                  <span className="rounded-full bg-lilac px-2 py-0.5 font-sans text-xs font-bold text-ink">
+                  <span className="rounded-full bg-lilac px-2 py-0.5 font-sans text-xs font-bold text-[#141019]">
                     {wishlist.length}
                   </span>
                 )}

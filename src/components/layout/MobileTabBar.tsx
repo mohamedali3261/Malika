@@ -63,7 +63,7 @@ export function MobileTabBar() {
           <span className="relative">
             <Heart className="h-5 w-5" fill={path === "/wishlist" || wishlist.length > 0 ? "currentColor" : "none"} />
             {wishlist.length > 0 && (
-              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-extrabold text-ink">
+              <span className="absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-lilac px-1 text-[9px] font-extrabold text-[#141019]">
                 {wishlist.length}
               </span>
             )}
@@ -87,7 +87,7 @@ export function MobileTabBar() {
             {count > 0 && (
               <span
                 key={count}
-                className="m-badge-ping-pop absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-ink"
+                className="m-badge-ping-pop absolute -end-2.5 -top-1.5 grid h-4 min-w-4 place-items-center rounded-full bg-acid px-1 text-[9px] font-extrabold text-[#141019]"
               >
                 {count}
               </span>

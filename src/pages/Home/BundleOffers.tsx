@@ -68,7 +68,7 @@ export function BundleOffers() {
                 <div className="group relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-ink/10 bg-surface shadow-[0_16px_40px_-20px_rgba(20,16,25,0.18)] transition-all duration-300 hover:shadow-[0_20px_50px_-16px_rgba(20,16,25,0.22)] hover:-translate-y-1">
                   {/* badge */}
                   <div className="absolute start-3 top-3 z-10 flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-acid px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-ink">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-acid px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#141019]">
                       <Gift className="h-3 w-3" /> {l(bundle.badge)}
                     </span>
                     {savingPercent > 0 && (

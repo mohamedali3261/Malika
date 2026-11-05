@@ -30,7 +30,7 @@ export function StorySection() {
                 className="aspect-[3/4] w-full"
               />
             </div>
-            <div className="absolute -start-4 bottom-16 grid h-24 w-24 -rotate-6 place-items-center rounded-full bg-acid text-center text-ink shadow-lg sm:h-28 sm:w-28">
+            <div className="absolute -start-4 bottom-16 grid h-24 w-24 -rotate-6 place-items-center rounded-full bg-acid text-center text-[#141019] shadow-lg sm:h-28 sm:w-28">
               <div>
                 <p className="font-display text-2xl leading-none">{formatNumber(atelierStats.hours, lang)}h</p>
                 <p className="mx-auto mt-1 max-w-[80px] text-[8px] font-bold uppercase leading-tight tracking-[0.08em]">

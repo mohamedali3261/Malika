@@ -64,7 +64,7 @@ export function GitHubOAuthHandler() {
       >
         <span
           className={`grid h-8 w-8 shrink-0 place-items-center rounded-full ${
-            phase === "error" ? "bg-rose-500 text-white" : "bg-acid text-ink"
+            phase === "error" ? "bg-rose-500 text-white" : "bg-acid text-[#141019]"
           }`}
         >
           {phase === "error" ? <X className="h-4 w-4" /> : <Refresh className="h-4 w-4 animate-spin" />}

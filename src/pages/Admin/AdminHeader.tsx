@@ -60,7 +60,7 @@ export function AdminHeader({
               onClick={() => setTab(item.key)}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full px-3.5 py-2 text-[10.5px] font-bold transition-all",
-                tab === item.key ? "bg-acid text-ink" : "text-bone/55 hover:bg-bone/10 hover:text-bone"
+                tab === item.key ? "bg-acid text-[#141019]" : "text-bone/55 hover:bg-bone/10 hover:text-bone"
               )}
             >
               {item.key === "products" && <Sparkle className="h-3.5 w-3.5" />}

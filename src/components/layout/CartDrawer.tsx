@@ -64,7 +64,7 @@ export function CartDrawer() {
                 <p className="text-[10px] text-bone/60">{count === 0 ? t("cart.empty") : lang === "ar" ? `${count} منتجات` : `${count} items`}</p>
               </div>
               {count > 0 && (
-                <span className="grid h-6 min-w-6 place-items-center rounded-full bg-acid px-2 text-[11px] font-bold text-ink">
+                <span className="grid h-6 min-w-6 place-items-center rounded-full bg-acid px-2 text-[11px] font-bold text-[#141019]">
                   {count}
                 </span>
               )}
@@ -171,7 +171,7 @@ export function CartDrawer() {
               >
                 <Whatsapp className="h-4 w-4" /> {t("cart.quickSend")}
               </a>
-              <p className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-acid/20 px-3 py-2 text-[10px] font-semibold text-ink">
+              <p className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-acid/20 px-3 py-2 text-[10px] font-semibold text-[#141019]">
                 <Check className="h-3.5 w-3.5" /> {t("cart.cod")}
               </p>
             </div>

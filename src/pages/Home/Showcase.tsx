@@ -218,7 +218,7 @@ export function Showcase() {
                     type="button"
                     onClick={() => go(-1)}
                     aria-label={x("Previous", "السابقة")}
-                    className="pcard-chip press absolute start-2.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-bone/90 text-ink shadow-md transition hover:bg-acid sm:start-3 sm:h-11 sm:w-11 sm:shadow-lg"
+                    className="pcard-chip press absolute start-2.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-bone/90 text-[#141019] shadow-md transition hover:bg-acid sm:start-3 sm:h-11 sm:w-11 sm:shadow-lg"
                   >
                     <ArrowRight className="h-3.5 w-3.5 rotate-180 rtl:rotate-0 sm:h-4 sm:w-4" />
                   </button>
@@ -226,7 +226,7 @@ export function Showcase() {
                     type="button"
                     onClick={() => go(1)}
                     aria-label={x("Next", "التالية")}
-                    className="pcard-chip press absolute end-2.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-bone/90 text-ink shadow-md transition hover:bg-acid sm:end-3 sm:h-11 sm:w-11 sm:shadow-lg"
+                    className="pcard-chip press absolute end-2.5 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-bone/90 text-[#141019] shadow-md transition hover:bg-acid sm:end-3 sm:h-11 sm:w-11 sm:shadow-lg"
                   >
                     <ArrowRight className="h-3.5 w-3.5 rtl:rotate-180 sm:h-4 sm:w-4" />
                   </button>
