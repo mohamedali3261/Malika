@@ -91,15 +91,19 @@
     background: color-mix(in srgb, var(--color-surface) 96%, white 4%);
     border-color: var(--color-lilac);
   }
+  /* Token-based inverse field for ink-backed forms; it stays readable in both themes. */
   .field-dark {
-    background: rgba(243, 239, 231, 0.06);
-    border-color: rgba(243, 239, 231, 0.16);
-    color: var(--color-bone);
+    background: var(--color-surface);
+    border-color: var(--color-line);
+    color: var(--color-ink);
+  }
+  .field-dark::placeholder {
+    color: var(--color-mist);
   }
   .field-dark:focus {
-    background: rgba(243, 239, 231, 0.1);
+    background: var(--color-surface-2);
     border-color: var(--color-acid);
-    box-shadow: 0 0 0 4px rgba(221, 242, 92, 0.15);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-acid) 18%, transparent);
   }
 }
 

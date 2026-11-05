@@ -188,7 +188,7 @@ html[lang="ar"] .pc-watermark {
 }
 
 .pc-card:hover .pc-panel {
-  height: 210px;
+  height: 238px;
 }
 
 .pc-panel-inner {
@@ -263,7 +263,7 @@ html[lang="ar"] .pc-watermark {
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(243, 239, 231, 0.7);
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
 }
 
 .pc-size-btn {
@@ -348,7 +348,7 @@ html[lang="ar"] .pc-watermark {
   }
 
   .pc-panel {
-    height: 210px;
+    height: 238px;
   }
 
   .pc-sizes {
@@ -362,61 +362,69 @@ html[lang="ar"] .pc-watermark {
   }
 }
 
-/* Dark mode — keep cards dark with light text (override ink/bone swap that would make text dark on dark) */
+/* Dark mode — keep cards dark with light text and the compact panel layout. */
+html[data-theme="dark"] .pc-card:hover .pc-panel {
+  height: 210px;
+}
+@media (hover: none) {
+  html[data-theme="dark"] .pc-panel {
+    height: 210px;
+  }
+}
 html[data-theme="dark"] .pc-card {
   background-color: var(--color-plum);
 }
 html[data-theme="dark"] .pc-title,
 html[data-theme="dark"] .pc-price {
-  color: #f3efe7;
+  color: var(--color-ink);
 }
 html[data-theme="dark"] .pc-compare {
-  color: rgba(243, 239, 231, 0.5);
+  color: color-mix(in srgb, var(--color-ink) 50%, transparent);
 }
 html[data-theme="dark"] .pc-row-label {
-  color: rgba(243, 239, 231, 0.7);
+  color: color-mix(in srgb, var(--color-ink) 70%, transparent);
 }
 html[data-theme="dark"] .pc-size-btn {
-  background-color: #f3efe7;
-  color: #141019;
+  background-color: var(--color-ink);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-size-btn:hover {
-  background-color: #ddf25c;
+  background-color: var(--color-acid);
 }
 html[data-theme="dark"] .pc-size-btn--active,
 html[data-theme="dark"] .pc-size-btn--active:hover {
-  background-color: #ddf25c;
-  color: #141019;
+  background-color: var(--color-acid);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-buy-btn {
-  background-color: #f3efe7;
-  color: #141019;
+  background-color: var(--color-ink);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-buy-btn:hover {
-  background-color: #ddf25c;
+  background-color: var(--color-acid);
 }
 html[data-theme="dark"] .pc-buy-btn--added {
-  background-color: #ddf25c;
-  color: #141019;
+  background-color: var(--color-acid);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-wish {
-  border-color: rgba(243, 239, 231, 0.18);
-  background-color: rgba(243, 239, 231, 0.10);
-  color: #f3efe7;
+  border-color: color-mix(in srgb, var(--color-ink) 18%, transparent);
+  background-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
+  color: var(--color-ink);
 }
 html[data-theme="dark"] .pc-wish:hover,
 html[data-theme="dark"] .pc-wish--active {
-  background-color: #f3efe7;
-  border-color: #f3efe7;
-  color: #141019;
+  background-color: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-badge--dark {
-  background-color: #f3efe7;
-  color: #141019;
+  background-color: var(--color-ink);
+  color: var(--color-bone);
 }
 html[data-theme="dark"] .pc-badge--light {
-  background-color: #1d1a24;
-  color: #f3efe7;
-  border: 1px solid rgba(243, 239, 231, 0.12);
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
 }
 

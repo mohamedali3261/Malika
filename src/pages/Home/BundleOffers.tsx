@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/Primitives";
-import { Bag, Check, Gift, Sparkle } from "@/components/ui/icons";
+import { Bag } from "@/components/ui/icons";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useContent } from "@/hooks/useContent";
@@ -43,7 +43,6 @@ export function BundleOffers() {
             }, 0);
             const bundlePrice = bundle.bundlePrice;
             const saving = Math.max(0, originalTotal - bundlePrice);
-            const savingPercent = originalTotal > 0 ? Math.round((saving / originalTotal) * 100) : 0;
 
             const handleAddBundle = () => {
               // Add each product in bundle to cart; distribute bundle price proportionally
@@ -66,17 +65,10 @@ export function BundleOffers() {
             return (
               <Reveal key={bundle.id} delay={idx * 90} className="h-full">
                 <div className="group relative flex h-full flex-col overflow-hidden rounded-[1.6rem] border border-ink/10 bg-surface shadow-[0_16px_40px_-20px_rgba(20,16,25,0.18)] transition-all duration-300 hover:shadow-[0_20px_50px_-16px_rgba(20,16,25,0.22)] hover:-translate-y-1">
-                  {/* badge */}
-                  <div className="absolute start-3 top-3 z-10 flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-acid px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#141019]">
-                      <Gift className="h-3 w-3" /> {l(bundle.badge)}
-                    </span>
-                    {savingPercent > 0 && (
-                      <span className="hidden sm:inline-flex rounded-full bg-ink px-2.5 py-1 text-[10px] font-bold text-bone">
-                        -{savingPercent}%
-                      </span>
-                    )}
-                  </div>
+                  {/* One compact, editable discount badge */}
+                  <span className="absolute start-3 top-3 z-10 rounded-full bg-acid px-3 py-1 text-[11px] font-extrabold text-[#141019]">
+                    {l(bundle.badge)}
+                  </span>
 
                   {/* product row */}
                   <div className="flex gap-2 p-4 pt-12 sm:gap-3 sm:p-5 sm:pt-12">
@@ -98,59 +90,21 @@ export function BundleOffers() {
                     ))}
                   </div>
 
-                  {/* plus signs between */}
-                  <div className="mx-auto -mt-2 flex items-center justify-center gap-1 text-mist/30 sm:-mt-1">
-                    {bundleProducts.slice(0, 3).map((_, i) => (
-                      <span key={i} className="grid h-5 w-5 place-items-center rounded-full border border-ink/10 bg-bone text-[10px]">
-                        +
-                      </span>
-                    ))}
-                  </div>
-
                   <div className="flex flex-1 flex-col p-5 pt-3">
-                    <h3 className="font-display text-[1.35rem] leading-tight tracking-tight text-ink">{l(bundle.title)}</h3>
-                    <p className="mt-1.5 line-clamp-2 text-[12px] leading-relaxed text-mist">{l(bundle.description)}</p>
+                    <h3 className="font-display text-xl leading-tight tracking-tight text-ink">{l(bundle.title)}</h3>
 
-                    {/* price block */}
-                    <div className="mt-4 rounded-2xl border border-ink/8 bg-bone-2/40 p-3">
-                      <div className="flex items-center justify-between gap-2">
-                        <div>
-                          <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-mist">
-                            {x("Bundle price", "سعر الباقة")}
-                          </p>
-                          <p className="font-display text-2xl leading-none text-ink" dir="ltr">
-                            {formatPrice(bundlePrice, lang)}
-                          </p>
-                        </div>
-                        <div className="text-end">
-                          <p className="text-[10px] text-mist line-through" dir="ltr">
-                            {formatPrice(originalTotal, lang)}
-                          </p>
-                          <p className="inline-flex items-center gap-1 rounded-full bg-ink px-2 py-1 text-[10px] font-bold text-acid" dir="ltr">
-                            <Sparkle className="h-3 w-3" /> {x("Save", "وفّر")} {formatPrice(saving, lang)}
-                          </p>
-                        </div>
+                    <div className="mt-3 flex items-end justify-between gap-3 rounded-2xl border border-ink/8 bg-bone-2/40 p-3">
+                      <div>
+                        <p className="text-[10px] font-semibold text-mist line-through" dir="ltr">
+                          {formatPrice(originalTotal, lang)}
+                        </p>
+                        <p className="font-display text-2xl leading-none text-ink" dir="ltr">
+                          {formatPrice(bundlePrice, lang)}
+                        </p>
                       </div>
-
-                      {/* per-product breakdown */}
-                      <div className="mt-3 space-y-1.5 border-t border-ink/8 pt-3">
-                        {bundleProducts.map((product) => {
-                          const originalPrice = product.sizes?.[0]?.price ?? product.price;
-                          const share = originalTotal > 0 ? originalPrice / originalTotal : 1 / bundleProducts.length;
-                          const discountedPrice = Math.round(bundlePrice * share);
-                          return (
-                            <div key={product.id} className="flex items-center justify-between text-[11px]">
-                              <span className="flex items-center gap-1.5 font-medium text-ink/80">
-                                <Check className="h-3 w-3 text-emerald-600" /> {l(product.name)}
-                              </span>
-                              <span className="flex items-center gap-2 font-mono text-[11px]" dir="ltr">
-                                <span className="text-mist line-through">{formatPrice(originalPrice, lang)}</span>
-                                <span className="font-bold text-ink">{formatPrice(discountedPrice, lang)}</span>
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
+                      <p className="rounded-full bg-ink px-2.5 py-1 text-[11px] font-bold text-acid" dir="ltr">
+                        {x("Save", "وفّر")} {formatPrice(saving, lang)}
+                      </p>
                     </div>
 
                     <Button
@@ -165,9 +119,6 @@ export function BundleOffers() {
                       {x("Add bundle to bag", "أضف الباقة للسلة")}
                     </Button>
 
-                    <p className="mt-2 text-center text-[10px] leading-relaxed text-mist">
-                      {x("All sizes 50ml · Free samples included", "كل العطور ٥٠ مل · عينات مجانية مع الباقة")}
-                    </p>
                   </div>
                 </div>
               </Reveal>

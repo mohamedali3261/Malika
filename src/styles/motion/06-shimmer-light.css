@@ -112,7 +112,7 @@
 /* 114 */ .m-acid-glow        { animation: m-kf-acid-glow 3.8s ease-in-out infinite; }
 /* 115 */ .m-plum-glow        { animation: m-kf-plum-glow 5.5s ease-in-out infinite; }
 /* 116 */ .m-skeleton-wave {
-  background: linear-gradient(90deg, var(--color-bone-2) 20%, #f8f5ef 50%, var(--color-bone-2) 80%);
+  background: linear-gradient(90deg, var(--color-bone-2) 20%, var(--color-bone) 50%, var(--color-bone-2) 80%);
   background-size: 200% 100%;
   animation: m-kf-skeleton-wave 1.6s linear infinite;
 }

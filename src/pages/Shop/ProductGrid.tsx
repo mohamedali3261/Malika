@@ -28,7 +28,7 @@ export function ProductGrid({ products, total, visible, onMore, onReset, emptySa
         </span>
         <p className="font-display mt-5 text-3xl">{emptySaved ? t("shop.noSaved") : t("shop.empty")}</p>
         <p className="mt-2 max-w-sm text-[12px] text-mist">
-          {x("Try clearing filters or searching for another note.", "جرّب مسح الفلاتر أو البحث عن نوتة أخرى.")}
+          {x("Try clearing filters or changing your search.", "جرّب مسح الفلاتر أو تغيير كلمات البحث.")}
         </p>
         <Button variant="outline" size="sm" onClick={onReset} className="mt-5">
           {t("shop.clear")}

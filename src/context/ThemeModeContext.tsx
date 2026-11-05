@@ -31,9 +31,6 @@ export function ThemeModeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", mode);
-    // keep meta theme-color in sync for mobile
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", mode === "dark" ? "#141019" : "#ece6d5");
   }, [mode]);
 
   // Initialize on mount from localStorage if not already
