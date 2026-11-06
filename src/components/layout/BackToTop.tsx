@@ -69,7 +69,7 @@ export function BackToTop() {
           cy="21"
           r="18"
           fill="none"
-          stroke="#ddf25c"
+          stroke="var(--color-acid)"
           strokeWidth="2"
           strokeLinecap="round"
           strokeDasharray={CIRCUMFERENCE}

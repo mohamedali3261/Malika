@@ -237,7 +237,7 @@ export const SEED_PRODUCTS = [
       "https://images.pexels.com/photos/34036480/pexels-photo-34036480.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=800&h=1100"
     ],
     "cutout": "/api/images/40000000-0000-4000-8000-000000000003",
-    "accent": "#DDF25C",
+    "accent": "#B89A62",
     "featured": true,
     "bestseller": true,
     "rating": 4.9,

@@ -151,7 +151,7 @@ export function createDefaultContent(): SiteContent {
           city: { en: "New Cairo", ar: "القاهرة الجديدة" },
           rating: 5,
           initials: "NS",
-          accent: "#DDF25C",
+          accent: "#B89A62",
         },
         {
           id: "omar",
@@ -247,7 +247,7 @@ export function createDefaultContent(): SiteContent {
     theme: {
       ink: "#141019",
       bone: "#f3efe7",
-      accent: "#ddf25c",
+      accent: "#B89A62",
       lilac: "#c9b5f7",
       headingScale: 100,
       bodyScale: 100,
@@ -369,6 +369,7 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
       ...result.testimonials,
       items: result.testimonials.items.map((item) => ({
         ...item,
+        accent: item.accent?.toLowerCase() === "#ddf25c" ? base.theme.accent : item.accent,
         quote: replaceLegacyBrand(item.quote) as typeof item.quote,
       })),
     };
@@ -397,6 +398,7 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
 
   result.theme = {
     ...result.theme,
+    accent: result.theme.accent?.toLowerCase() === "#ddf25c" ? base.theme.accent : result.theme.accent,
     headingScale: clampScale("headingScale", Number(result.theme.headingScale)),
     bodyScale: clampScale("bodyScale", Number(result.theme.bodyScale)),
     sectionSpacing: clampScale("sectionSpacing", Number(result.theme.sectionSpacing)),
