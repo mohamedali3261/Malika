@@ -20,8 +20,8 @@
   --color-plum-2: #34203f;
   --color-lilac: #c9b5f7;
   --color-lilac-soft: #e7defb;
-  --color-acid: #ddf25c;
-  --color-acid-deep: #c6e13d;
+  --color-acid: #B89A62;
+  --color-acid-deep: #A28856;
   --color-mist: #6d6675;
   --color-line: #dcd4c7;
 
@@ -56,7 +56,7 @@ html[data-theme="dark"] .admin-studio-header .bg-bone\/\[0\.04\] {
   background-color: rgba(243, 239, 231, 0.04) !important;
 }
 html[data-theme="dark"] .admin-studio-header .text-acid {
-  color: #ddf25c !important;
+  color: var(--color-acid) !important;
 }
 
 /* Admin light pill overrides for dark mode — prevent white pills on dark background */

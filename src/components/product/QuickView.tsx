@@ -49,7 +49,6 @@ export function QuickView({
 
   const selected = product.sizes.find((size) => size.ml === ml) ?? product.sizes[0];
   const discount = discountPercent(product.price, product.compareAt);
-  const noteChips = [...product.notes.top, ...product.notes.heart].slice(0, 5);
 
   const addToBag = () => {
     add(product, selected.ml, selected.price);
@@ -75,7 +74,7 @@ export function QuickView({
         </button>
 
         <div className="grid sm:grid-cols-[0.9fr_1.1fr]">
-          <div className="relative p-4 sm:p-5" style={{ background: `linear-gradient(160deg, ${product.accent}4D, #efe9dd)` }}>
+          <div className="relative p-4 sm:p-5" style={{ background: `linear-gradient(160deg, ${product.accent}4D, var(--color-bone-2))` }}>
             <SmartImage
               src={product.images[0]}
               alt={l(product.name)}
@@ -98,14 +97,6 @@ export function QuickView({
               <Stars value={product.rating} reviews={product.reviews} />
             </div>
             <p className="mt-4 text-[13px] leading-relaxed text-ink/70">{l(product.description)}</p>
-
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {noteChips.map((note) => (
-                <span key={note.en} className="rounded-full border border-ink/12 px-2.5 py-1 text-[10px] font-medium text-ink/70">
-                  {l(note)}
-                </span>
-              ))}
-            </div>
 
             <div className="mt-5">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-mist">{t("product.size")}</p>

@@ -98,7 +98,7 @@
   animation: m-kf-strike-draw 0.55s var(--m-ease-expo) both;
 }
 /* 130 */ .m-highlight-marker {
-  background-image: linear-gradient(transparent 58%, rgba(221, 242, 92, 0.55) 58%);
+  background-image: linear-gradient(transparent 58%, color-mix(in srgb, var(--color-acid) 55%, transparent) 58%);
   background-repeat: no-repeat;
   background-position: 0 100%;
   animation: m-kf-highlight-marker 0.75s var(--m-ease-expo) both;

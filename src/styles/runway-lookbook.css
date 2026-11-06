@@ -5,11 +5,11 @@
 
 .rl-section {
   --rl-u: min(calc(100vw / 1600), calc(100vh / 900));
-  --rl-ink: #16191f;
-  --rl-mid: #737b86;
-  --rl-dim: #a4adb8;
-  --rl-line: #e6ebf0;
-  --rl-ice: #e9f0f7;
+  --rl-ink: var(--color-ink);
+  --rl-mid: var(--color-mist);
+  --rl-dim: color-mix(in srgb, var(--color-mist) 72%, var(--color-surface));
+  --rl-line: var(--color-line);
+  --rl-ice: var(--color-surface-2);
 
   position: relative;
   height: 100svh;
@@ -17,7 +17,7 @@
   max-height: 980px;
   display: grid;
   grid-template-rows: auto 1fr;
-  background: #ffffff;
+  background: var(--color-bone-2);
   color: var(--rl-ink);
   font-family: Inter, "Manrope", system-ui, sans-serif;
   border-block: 1px solid var(--rl-line);
@@ -45,7 +45,7 @@ html[lang="ar"] .rl-wide-i18n {
 .rl-header {
   position: relative;
   z-index: 5;
-  background: #ffffff;
+  background: var(--color-surface);
   border-bottom: 1px solid rgba(22, 25, 31, 0.06);
   padding: calc(18 * var(--rl-u)) calc(46 * var(--rl-u)) calc(14 * var(--rl-u));
 }
@@ -122,8 +122,8 @@ html[lang="ar"] .rl-wide-i18n {
   height: 14px;
   padding: 0 3px;
   border-radius: 99px;
-  background: #16191f;
-  color: #ffffff;
+  background: var(--rl-ink);
+  color: var(--color-bone);
   font-family: Inter, system-ui, sans-serif;
   font-size: 8.5px;
   font-weight: 600;
@@ -169,8 +169,8 @@ html[lang="ar"] .rl-wide-i18n {
   cursor: none;
   outline: none;
   background:
-    linear-gradient(transparent 60%, rgba(255, 255, 255, 0.72) 100%),
-    linear-gradient(90deg, #f1f5fa 0%, #e7eff6 38%, #eef4f9 62%, #f6f9fc 100%);
+    linear-gradient(transparent 60%, color-mix(in srgb, var(--color-bone-2) 80%, transparent) 100%),
+    linear-gradient(90deg, var(--color-bone-2) 0%, var(--color-surface-2) 38%, var(--color-bone) 62%, var(--color-surface) 100%);
 }
 
 .rl-stage:focus-visible {
@@ -327,8 +327,8 @@ html[lang="ar"] .rl-wide-i18n {
   width: calc(26 * var(--rl-u));
   height: calc(26 * var(--rl-u));
   border-radius: 999px;
-  border: 1px solid rgba(22, 25, 31, 0.18);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--rl-line);
+  background: color-mix(in srgb, var(--rl-ink) 8%, transparent);
   color: var(--rl-ink);
   display: grid;
   place-items: center;
@@ -338,7 +338,7 @@ html[lang="ar"] .rl-wide-i18n {
 .rl-step-btn:hover {
   background: var(--rl-ink);
   border-color: var(--rl-ink);
-  color: #ffffff;
+  color: var(--color-bone);
 }
 
 .rl-step-btn svg {
@@ -383,7 +383,7 @@ html[lang="ar"] .rl-wide-i18n {
 .rl-rail {
   position: relative;
   overflow: hidden;
-  background: #f3f6fa;
+  background: var(--color-surface-2);
   min-height: 0;
   touch-action: pan-y;
   user-select: none;
@@ -400,11 +400,11 @@ html[lang="ar"] .rl-wide-i18n {
   flex-direction: column;
   padding: calc(16 * var(--rl-u)) calc(22 * var(--rl-u)) calc(16 * var(--rl-u));
   will-change: transform;
-  background: #f3f6fa;
+  background: var(--color-surface-2);
 }
 
 .rl-card.is-alt {
-  background: #ffffff;
+  background: var(--color-surface);
 }
 
 .rl-fav {
@@ -527,7 +527,7 @@ html[lang="ar"] .rl-wide-i18n {
   position: absolute;
   inset: 0;
   z-index: 9;
-  background: #f1f5fa;
+  background: var(--color-surface-2);
   transition: opacity 0.5s ease;
   pointer-events: none;
 }
@@ -648,30 +648,30 @@ html[lang="ar"] .rl-wide-i18n {
 
 /* Dark mode overrides — make runway adapt to theme */
 html[data-theme="dark"] .rl-section {
-  --rl-ink: #f3efe7;
-  --rl-mid: #a69eb0;
-  --rl-dim: #8a8490;
-  --rl-line: rgba(243, 239, 231, 0.10);
-  --rl-ice: #2a252e;
+  --rl-ink: var(--color-ink);
+  --rl-mid: var(--color-mist);
+  --rl-dim: color-mix(in srgb, var(--color-mist) 72%, var(--color-surface));
+  --rl-line: var(--color-line);
+  --rl-ice: var(--color-surface-2);
   background: var(--color-bone);
   color: var(--rl-ink);
   border-color: var(--rl-line);
 }
 html[data-theme="dark"] .rl-header {
   background: var(--color-surface);
-  border-bottom-color: rgba(243, 239, 231, 0.06);
+  border-bottom-color: var(--rl-line);
 }
 html[data-theme="dark"] .rl-stage {
   background:
-    linear-gradient(transparent 60%, rgba(29, 26, 36, 0.72) 100%),
-    linear-gradient(90deg, #1d1a24 0%, #252131 38%, #2a252e 62%, #1d1a24 100%);
+    linear-gradient(transparent 60%, color-mix(in srgb, var(--color-bone) 82%, transparent) 100%),
+    linear-gradient(90deg, var(--color-bone) 0%, var(--color-surface) 38%, var(--color-surface-2) 62%, var(--color-bone) 100%);
 }
 html[data-theme="dark"] .rl-rail {
-  background: #252131;
-  border-left-color: rgba(243, 239, 231, 0.06);
+  background: var(--color-surface);
+  border-left-color: var(--rl-line);
 }
 html[data-theme="dark"] .rl-card {
-  background: #252131;
+  background: var(--color-surface);
 }
 html[data-theme="dark"] .rl-card.is-alt {
   background: var(--color-surface);
@@ -698,8 +698,8 @@ html[data-theme="dark"] .rl-acct-badge {
   color: #141019;
 }
 html[data-theme="dark"] .rl-step-btn {
-  border-color: rgba(243, 239, 231, 0.18);
-  background: rgba(243, 239, 231, 0.08);
+  border-color: var(--rl-line);
+  background: color-mix(in srgb, var(--rl-ink) 8%, transparent);
   color: var(--rl-ink);
 }
 html[data-theme="dark"] .rl-step-btn:hover {
@@ -707,7 +707,7 @@ html[data-theme="dark"] .rl-step-btn:hover {
   color: var(--color-bone);
 }
 html[data-theme="dark"] .rl-ring {
-  border-color: #f3efe7;
+  border-color: var(--color-ink);
 }
 html[data-theme="dark"] .rl-add::before,
 html[data-theme="dark"] .rl-add::after {

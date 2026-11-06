@@ -69,8 +69,8 @@
   100% { opacity: 0; transform: scale(1.75); }
 }
 @keyframes m-kf-ripple-double {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(221, 242, 92, 0.35), 0 0 0 0 rgba(201, 181, 247, 0.25); }
-  65%      { box-shadow: 0 0 0 8px rgba(221, 242, 92, 0), 0 0 0 15px rgba(201, 181, 247, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-acid) 35%, transparent), 0 0 0 0 rgba(201, 181, 247, 0.25); }
+  65%      { box-shadow: 0 0 0 8px transparent, 0 0 0 15px rgba(201, 181, 247, 0); }
 }
 @keyframes m-kf-twinkle-star {
   0%, 100% { opacity: 0.55; transform: scale(0.92) rotate(0deg); }

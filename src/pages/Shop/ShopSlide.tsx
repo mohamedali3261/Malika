@@ -39,7 +39,6 @@ export function ShopSlide({ product, index, total, active }: Props) {
   const discount = discountPercent(product.price, product.compareAt);
   const unit = x("ml", "مل");
 
-  const notes = [product.notes.top[0], product.notes.heart[0], product.notes.base[0]].filter(Boolean);
 
   const delay = (step: number): CSSProperties => ({ transitionDelay: active ? `${step * 110 + 170}ms` : "0ms" });
 
@@ -132,21 +131,6 @@ export function ShopSlide({ product, index, total, active }: Props) {
               </div>
             </div>
 
-            {notes.length > 0 && (
-              <div className="max-sm:hidden">
-                <div className={GROUP_TITLE}>{t("product.notesShort")}</div>
-                <div className="flex flex-wrap justify-center gap-1.5 lg:justify-start">
-                  {notes.map((note) => (
-                    <span
-                      key={note.en}
-                      className="rounded-full border border-bone/20 px-3 py-1 text-[12px] font-medium text-bone/80"
-                    >
-                      {l(note)}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           <div

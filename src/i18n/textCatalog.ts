@@ -632,8 +632,8 @@ export const inlineTexts: readonly { en: string; ar: string; file: string }[] = 
     "file": "pages/Shop/ProductGrid.tsx"
   },
   {
-    "en": "Try clearing filters or searching for another note.",
-    "ar": "جرّب مسح الفلاتر أو البحث عن نوتة أخرى.",
+    "en": "Try clearing filters or changing your search.",
+    "ar": "جرّب مسح الفلاتر أو تغيير كلمات البحث.",
     "file": "pages/Shop/ProductGrid.tsx"
   },
   {

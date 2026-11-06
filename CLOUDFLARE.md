@@ -11,6 +11,17 @@ The Worker (`malika`) serves the Vite build and `/api/*` on the same HTTPS origi
 5. Build and deploy with `npm run build` and `npx wrangler deploy` (or in Cloudflare Workers Builds → Settings → Build: set **Production branch** to `main1`, **Build command** to `npm run build`, and **Deploy command** to `npx wrangler deploy`; `wrangler.jsonc` also defines `previews.d1_databases` so `npx wrangler preview` succeeds on non-production branches — note that it currently points to the same `malika-db` ID unless you create a separate preview D1 database). Configure a custom domain in Cloudflare if desired. HTTPS is required for the secure session cookie. For local testing: `npm run build` and `npx wrangler dev --local`. Use Wrangler rather than Vite alone to serve the API.
 6. On first initialization, D1 is seeded with the 12 Malika collection perfumes, their 7 bottle cutouts in `images`, initial stock (25 per size) in `inventory`, and default shipping rates for all 27 Egyptian governorates. Change the initial admin password immediately after deployment so no visitor can claim the first-time setup prompt, and adjust prices, stock and shipping rates in `/admin` as needed.
 
+## Automatic production deployment
+
+The GitHub Actions workflow `.github/workflows/deploy-cloudflare.yml` automatically builds the site, applies any pending remote D1 migrations, and deploys the Worker plus static assets whenever a commit reaches `main1` (including a merged pull request). It can also be run manually from the repository's **Actions** tab. It does not deploy feature branches or pull-request commits directly.
+
+Before the first run, add these **repository Actions secrets** under **Settings → Secrets and variables → Actions**:
+
+- `CLOUDFLARE_API_TOKEN` — a Cloudflare API token scoped to this account with permission to edit Workers Scripts and D1 databases (and read the account).
+- `CLOUDFLARE_ACCOUNT_ID` — the Cloudflare account ID that owns the `malika` Worker and `malika-db` D1 database.
+
+The workflow fails with a clear error if either secret is absent. Keep both values in GitHub Secrets; never put them in source files. A manual deploy remains available with `npm run build`, `npx wrangler d1 migrations apply malika-db --remote`, and `npx wrangler deploy`.
+
 ## D1 image storage & free-tier limits
 
 - Uploaded images are validated (JPEG, PNG or WebP magic bytes), capped at **1 MB (1,000,000 bytes)** raw (~1.33 MB base64), and stored in the D1 `images` table (`migrations/0008_d1_images.sql`).

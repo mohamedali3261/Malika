@@ -99,7 +99,6 @@ export function Showcase() {
   const price = product
     ? Math.min(product.price, ...product.sizes.map((size) => size.price))
     : undefined;
-  const notes = product ? [...product.notes.top, ...product.notes.heart].slice(0, 4) : [];
 
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -311,23 +310,6 @@ export function Showcase() {
                     </p>
                   )}
 
-                  {notes.length > 0 && (
-                    <div className="mt-2.5 flex flex-wrap gap-1 sm:mt-5 sm:gap-1.5">
-                      {notes.slice(0, 3).map((note) => (
-                        <span
-                          key={note.en}
-                          className="pcard-keep rounded-full border border-bone/20 px-2.5 py-0.5 text-[10.5px] font-medium text-bone/75 sm:px-3 sm:py-1 sm:text-[12px]"
-                        >
-                          {l(note)}
-                        </span>
-                      ))}
-                      {notes[3] && (
-                        <span className="pcard-keep hidden rounded-full border border-bone/20 px-3 py-1 text-[12px] font-medium text-bone/75 sm:inline-flex">
-                          {l(notes[3])}
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </div>
               </div>
 

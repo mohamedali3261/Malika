@@ -219,7 +219,7 @@ export function ProductForm({
     id: "preview",
     slug: draft.slug,
     name: { en: draft.nameEn || "New scent", ar: draft.nameAr || draft.nameEn || "عطر جديد" },
-    tagline: { en: draft.taglineEn || "Scent notes", ar: draft.taglineAr || "نوتات العطر" },
+    tagline: { en: draft.taglineEn || "Signature scent", ar: draft.taglineAr || "عطر مميز" },
     description: { en: draft.descEn, ar: draft.descAr },
     story: { en: draft.storyEn, ar: draft.storyAr },
     price: Number(draft.price) || 0,

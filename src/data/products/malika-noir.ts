@@ -43,7 +43,7 @@ const malikaNoir: Product = {
   },
   images: [IMG.incense, IMG.anemone, IMG.shadow],
   cutout: "/images/bottles/dark.webp",
-  accent: "#DDF25C",
+  accent: "#B89A62",
   featured: true,
   bestseller: true,
   rating: 4.9,
