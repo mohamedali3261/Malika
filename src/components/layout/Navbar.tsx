@@ -19,7 +19,8 @@ import { messengerUrl, whatsappUrl } from "@/lib/messaging";
 import { Link, useRoute } from "@/lib/router";
 import { useBagPulse } from "@/motion";
 import { cn } from "@/utils/cn";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import "@/styles/navbar-brand.css";
 
 const links = [
   { to: "/", key: "nav.home" as const, index: "01" },
@@ -34,12 +35,33 @@ export function Navbar() {
   const { wishlist, settings } = useStore();
   const scrolled = useScrolled(24);
   const bagPulsing = useBagPulse();
+  const navBrandRef = useRef<HTMLAnchorElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   useBodyLock(mobileOpen);
 
   useEffect(() => {
     setMobileOpen(false);
   }, [path]);
+
+  useEffect(() => {
+    let frame = 0;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateBrandScale = () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const progress = reduceMotion.matches ? 0 : Math.min(1, Math.max(0, window.scrollY / 220));
+        navBrandRef.current?.style.setProperty("--nav-brand-scale", String(1 + progress * 0.16));
+      });
+    };
+    updateBrandScale();
+    window.addEventListener("scroll", updateBrandScale, { passive: true });
+    reduceMotion.addEventListener("change", updateBrandScale);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateBrandScale);
+      reduceMotion.removeEventListener("change", updateBrandScale);
+    };
+  }, []);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -96,21 +118,24 @@ export function Navbar() {
           </div>
 
           <Link
+            ref={navBrandRef}
             to="/"
             aria-label={x("VLOR home", "الرئيسية ڨلور")}
-            className="absolute left-1/2 top-1/2 z-10 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d4a044]/35 bg-black p-0.5 shadow-[0_0_26px_rgba(212,160,68,0.2)] transition duration-500 hover:scale-105 hover:shadow-[0_0_34px_rgba(212,160,68,0.35)] sm:h-[58px] sm:w-[58px] sm:p-1"
+            className="nav-brand-center"
           >
             <img
-              src="/images/brand/vlor-emblem.png"
+              src="/images/brand/vlor-logo-transparent.webp"
               alt="VLOR"
               draggable={false}
-              decoding="async"
-              className="h-full w-full rounded-full object-contain"
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
+              className="nav-brand-wordmark"
             />
           </Link>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <ThemeToggle />
+            <ThemeToggle className="hidden sm:grid" />
             <button
               onClick={toggle}
               className="hidden h-10 items-center gap-1.5 rounded-full border border-ink/12 px-3 text-[11px] font-bold uppercase tracking-widest text-ink transition hover:border-ink/40 sm:flex"
@@ -122,7 +147,7 @@ export function Navbar() {
             <Link
               to="/wishlist"
               className={cn(
-                "relative hidden h-10 w-10 place-items-center rounded-full border transition sm:grid",
+                "relative hidden h-10 w-10 place-items-center rounded-full border transition lg:grid",
                 path === "/wishlist"
                   ? "border-ink bg-ink text-bone"
                   : "border-ink/12 text-ink hover:border-ink/40"
@@ -148,7 +173,7 @@ export function Navbar() {
             </a>
             <button
               onClick={open}
-              className="m-press-spring group relative flex h-10 items-center gap-2.5 rounded-full bg-ink ps-4 pe-3 text-bone transition hover:bg-plum"
+              className="m-press-spring group relative flex h-10 items-center gap-1.5 rounded-full bg-ink ps-2 pe-2 text-bone transition hover:bg-plum sm:gap-2.5 sm:ps-4 sm:pe-3"
               aria-label={t("nav.cart")}
             >
               <span className={cn("grid place-items-center", bagPulsing && "m-bag-jiggle")}>

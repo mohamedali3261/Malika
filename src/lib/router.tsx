@@ -5,6 +5,7 @@ import {
   type AnchorHTMLAttributes,
   type MouseEvent,
   type ReactNode,
+  type Ref,
 } from "react";
 
 const listeners = new Set<() => void>();
@@ -58,9 +59,10 @@ export function useRoute() {
 interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   to: string;
   children: ReactNode;
+  ref?: Ref<HTMLAnchorElement>;
 }
 
-export function Link({ to, children, onClick, ...rest }: LinkProps) {
+export function Link({ to, children, onClick, ref, ...rest }: LinkProps) {
   const handleClick = useCallback(
     (event: MouseEvent<HTMLAnchorElement>) => {
       onClick?.(event);
@@ -73,7 +75,7 @@ export function Link({ to, children, onClick, ...rest }: LinkProps) {
   );
 
   return (
-    <a href={`#${to}`} onClick={handleClick} {...rest}>
+    <a ref={ref} href={`#${to}`} onClick={handleClick} {...rest}>
       {children}
     </a>
   );

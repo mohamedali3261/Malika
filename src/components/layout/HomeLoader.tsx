@@ -23,9 +23,11 @@ export function HomeLoader({ onDone }: HomeLoaderProps) {
         <div className="home-loader__glow" />
         <img
           className="home-loader__emblem"
-          src="/images/brand/vlor-emblem.png"
+          src="/images/brand/vlor-emblem.webp"
           alt="VLOR"
           draggable={false}
+          loading="eager"
+          decoding="sync"
           fetchPriority="high"
         />
         <div className="home-loader__track" aria-hidden="true">
