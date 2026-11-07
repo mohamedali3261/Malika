@@ -1,0 +1,60 @@
+.nav-brand-center {
+  --nav-brand-scale: 1;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: min(38vw, 184px);
+  height: min(14vw, 60px);
+  min-width: 116px;
+  min-height: 43px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(212 160 68 / 50%);
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 0 20px rgb(212 160 68 / 17%);
+  transform: translate(-50%, -50%) scale(var(--nav-brand-scale));
+  transform-origin: center;
+  will-change: transform;
+  transition: box-shadow 350ms ease, border-color 350ms ease;
+}
+
+.nav-brand-center::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image:
+    linear-gradient(100deg, rgb(0 0 0 / 72%), rgb(0 0 0 / 57%) 50%, rgb(0 0 0 / 72%)),
+    url("/images/brand/vlor-emblem.webp");
+  background-position: center;
+  background-size: cover;
+  opacity: .88;
+}
+
+.nav-brand-center:hover {
+  border-color: rgb(232 185 94 / 82%);
+  box-shadow: 0 0 30px rgb(212 160 68 / 32%);
+}
+
+.nav-brand-wordmark {
+  position: relative;
+  z-index: 1;
+  width: 96%;
+  height: 94%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgb(0 0 0 / 75%));
+  pointer-events: none;
+}
+
+@media (max-width: 380px) {
+  .nav-brand-center {
+    width: min(36vw, 120px);
+    height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-brand-center { transition: none; }
+}
