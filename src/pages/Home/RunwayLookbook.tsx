@@ -512,7 +512,7 @@ export function RunwayLookbook() {
     <section
       ref={sectionRef}
       id="runway-lookbook"
-      className="rl-section"
+      className="rl-section scroll-mt-[72px]"
       aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور ڨلور")}
     >
       {/* Editorial Runway Header */}
@@ -734,7 +734,12 @@ export function RunwayLookbook() {
                 ref={(el) => {
                   cardRefs.current[idx] = el;
                 }}
-                className={cn("rl-card", idx % 2 === 1 && "is-alt")}
+                className={cn(
+                  "rl-card",
+                  idx % 2 === 1 && "is-alt",
+                  idx === activeIdx * 2 && "is-active"
+                )}
+                aria-current={idx === activeIdx * 2 ? "true" : undefined}
               >
                 <button
                   type="button"

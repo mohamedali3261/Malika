@@ -70,17 +70,6 @@ export function ContactCTA() {
                   alt={x("VLOR perfume", "عطر ڨلور")}
                   className="aspect-[4/5] w-full rotate-2 rounded-[1.8rem] border border-bone/15"
                 />
-                <div className="absolute -bottom-4 -start-3 flex items-center gap-2.5 rounded-2xl border border-ink/10 bg-bone px-3.5 py-2.5 text-ink shadow-xl">
-                  <span className="grid h-8 w-8 place-items-center rounded-full bg-acid">
-                    <Sparkle className="h-4 w-4" />
-                  </span>
-                  <div>
-                    <p className="text-[8px] font-bold uppercase tracking-[0.16em] text-mist">
-                      {x("Gift with every order", "هدية مع كل طلب")}
-                    </p>
-                    <p className="text-[11px] font-bold">{x("Two free samples", "عينتان مجانيتان")}</p>
-                  </div>
-                </div>
                 <Link
                   to="/shop"
                   className="absolute -end-3 top-5 grid h-20 w-20 -rotate-6 place-items-center rounded-full bg-lilac text-center text-[#141019] shadow-lg transition hover:rotate-0"

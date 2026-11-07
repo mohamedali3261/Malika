@@ -6,7 +6,6 @@ import { ArrowUpRight } from "@/components/ui/icons";
 import { useStore } from "@/context/StoreContext";
 import { useContent } from "@/hooks/useContent";
 import { useLang } from "@/i18n/LanguageContext";
-import { Link } from "@/lib/router";
 import { pickCardRevealVariant } from "@/motion";
 import { useMemo } from "react";
 
@@ -51,22 +50,6 @@ export function Featured() {
           ))}
         </div>
 
-        <Reveal
-          variant="m-spring-soft"
-          delay={100}
-          className="mt-8 flex flex-col items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-bone-2/60 px-5 py-4 sm:flex-row"
-        >
-          <p className="text-[11.5px] leading-relaxed text-ink/60">
-            <span className="font-bold text-ink">{t("ann.2")}</span> · {t("ann.3")}
-          </p>
-          <Link
-            to="/shop"
-            className="link-underline group inline-flex items-center gap-2 text-[10.5px] font-bold uppercase tracking-[0.16em] text-ink"
-          >
-            {t("featured.all")}
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </Reveal>
       </div>
     </section>
   );

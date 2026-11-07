@@ -22,8 +22,6 @@ export const dict = {
     en: "Complimentary delivery on orders over EGP 2,000",
     ar: "توصيل مجاني للطلبات فوق ٢٠٠٠ ج.م",
   },
-  "ann.2": { en: "2 free samples with every order", ar: "عينتان مجانيتان مع كل طلب" },
-  "ann.3": { en: "Made in small batches · Online", ar: "تُصنع بكميات صغيرة · أونلاين" },
 
   // Hero
   "hero.eyebrow": { en: "Independent perfume house · Est. 2021", ar: "دار عطور مستقلة · تأسست ٢٠٢١" },
@@ -559,7 +557,6 @@ export const dict = {
   },
   "shop.trust1": { en: "Free delivery over EGP 2,000", ar: "توصيل مجاني فوق ٢٠٠٠ ج.م" },
   "shop.trust2": { en: "Cash on delivery", ar: "الدفع عند الاستلام" },
-  "shop.trust3": { en: "2 free samples", ar: "عينتان مجانيتان" },
   "shop.activeFilters": { en: "Active filters", ar: "الفلاتر المفعّلة" },
   "shop.removeFilter": { en: "Remove filter", ar: "إزالة الفلتر" },
 

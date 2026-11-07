@@ -54,6 +54,11 @@ export function Showcase() {
   const [visible, setVisible] = useState(false);
   const [held, setHeld] = useState(false);
   const [reduced, setReduced] = useState(false);
+  const [touchMode, setTouchMode] = useState(() =>
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(hover: none), (pointer: coarse)").matches
+  );
   const cardRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number } | null>(null);
 
@@ -77,6 +82,14 @@ export function Showcase() {
   }, []);
 
   useEffect(() => {
+    const media = window.matchMedia("(hover: none), (pointer: coarse)");
+    const sync = () => setTouchMode(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
     const node = cardRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
       setVisible(true);
@@ -92,7 +105,7 @@ export function Showcase() {
 
   if (count === 0) return null;
 
-  const playing = visible && !held && !reduced && count > 1;
+  const playing = visible && !held && !reduced && !touchMode && count > 1;
   const current = items[active];
   const product = current.product;
   const accent = product?.accent ?? c.theme.accent;
@@ -112,7 +125,7 @@ export function Showcase() {
     if (!start) return;
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
-    if (Math.abs(dx) < 38 || Math.abs(dx) < Math.abs(dy) * 1.35) return;
+    if (Math.abs(dx) < 28 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
     go((dx < 0) !== rtl ? 1 : -1);
   };
   const onPointerCancel = () => {
@@ -148,15 +161,15 @@ export function Showcase() {
             onFocus={(event) => event.target.matches(":focus-visible") && setHeld(true)}
             onBlur={() => setHeld(false)}
           >
-            {/* ───────── stage (compact 205px on phones, gallery scale on tablet/desktop) ───────── */}
+            {/* ───────── stage (larger, swipe-friendly bottle view on phones) ───────── */}
             <div
-              className="relative h-[205px] touch-pan-y select-none overflow-hidden outline-none sm:h-auto sm:aspect-[5/4] lg:aspect-auto lg:min-h-[600px]"
+              className="relative h-[280px] touch-pan-y select-none overflow-hidden outline-none sm:h-auto sm:aspect-[5/4] lg:aspect-auto lg:min-h-[600px]"
               tabIndex={0}
               onKeyDown={onKeyDown}
               onPointerDown={onPointerDown}
               onPointerUp={onPointerUp}
               onPointerCancel={onPointerCancel}
-              style={{ touchAction: "pan-y" }}
+              style={{ touchAction: "pan-y pinch-zoom" }}
             >
               {items.map((item, position) => {
                 const isActive = position === active;
@@ -176,11 +189,11 @@ export function Showcase() {
                     }}
                   >
                     {item.fit === "contain" ? (
-                      <div className="absolute inset-0 p-3.5 pb-12 sm:p-10 sm:pb-24 lg:p-14 lg:pb-28">
+                      <div className="absolute inset-0 p-4 pb-14 sm:p-10 sm:pb-24 lg:p-14 lg:pb-28">
                         <img
                           src={item.src}
                           alt={item.title}
-                          loading="lazy"
+                          loading={isActive ? "eager" : "lazy"}
                           decoding="async"
                           draggable={false}
                           className={cn(
@@ -193,7 +206,7 @@ export function Showcase() {
                       <img
                         src={item.src}
                         alt={item.title}
-                        loading="lazy"
+                        loading={isActive ? "eager" : "lazy"}
                         decoding="async"
                         draggable={false}
                         className="absolute inset-0 h-full w-full object-cover"

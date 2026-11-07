@@ -4,6 +4,7 @@ import { BackToTop } from "@/components/layout/BackToTop";
 import { CartDrawer } from "@/components/layout/CartDrawer";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { Footer } from "@/components/layout/Footer";
+import { HomeLoader } from "@/components/layout/HomeLoader";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
@@ -16,7 +17,7 @@ import { LanguageProvider } from "@/i18n/LanguageContext";
 import { useRoute } from "@/lib/router";
 import { HomePage } from "@/pages/Home";
 import { NotFoundPage } from "@/pages/NotFound/NotFoundPage";
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 
 const ShopPage = lazy(() => import("@/pages/Shop").then((m) => ({ default: m.ShopPage })));
 const WishlistPage = lazy(() => import("@/pages/Wishlist").then((m) => ({ default: m.WishlistPage })));
@@ -41,10 +42,13 @@ function RouteFallback() {
 
 function AppShell() {
   const { path } = useRoute();
+  const [homeLoaderOpen, setHomeLoaderOpen] = useState(() => path === "/");
+  const closeHomeLoader = useCallback(() => setHomeLoaderOpen(false), []);
   useSecretKeyword();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
+    if (path !== "/") setHomeLoaderOpen(false);
   }, [path]);
 
   const showTabBar = !path.startsWith("/studio") && !path.startsWith("/admin") && !path.startsWith("/product/");
@@ -81,6 +85,7 @@ function AppShell() {
       <MobileTabBar />
       <FloatingWhatsApp />
       <BackToTop />
+      {homeLoaderOpen && <HomeLoader onDone={closeHomeLoader} />}
     </div>
   );
 }

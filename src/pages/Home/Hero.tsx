@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { ArrowUpRight, Whatsapp } from "@/components/ui/icons";
+import { ArrowDown, ArrowUpRight, Whatsapp } from "@/components/ui/icons";
 import { useStore } from "@/context/StoreContext";
 import { useBrand } from "@/hooks/useBrand";
 import { useContent } from "@/hooks/useContent";
 import { useLang } from "@/i18n/LanguageContext";
 import { openChannel, whatsappUrl } from "@/lib/messaging";
 import { useMagnetic } from "@/motion";
+import "@/styles/home-scroll.css";
 
 export function Hero() {
   const { t, x } = useLang();
@@ -93,6 +94,16 @@ export function Hero() {
             </button>
           </div>
         </Reveal>
+
+        <a
+          href="#runway-lookbook"
+          className="home-scroll-cue mt-8 inline-flex flex-col items-center gap-2 text-bone/45 transition-colors hover:text-acid"
+        >
+          <span className="text-[9px] font-bold uppercase tracking-[0.22em]">{t("hero.scroll")}</span>
+          <span className="grid h-8 w-6 place-items-center rounded-full border border-bone/20">
+            <ArrowDown className="h-3.5 w-3.5 text-acid" />
+          </span>
+        </a>
       </div>
     </section>
   );
