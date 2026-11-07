@@ -68,36 +68,46 @@ export function Navbar() {
             >
               <Menu className="h-4.5 w-4.5" />
             </button>
-            <Link to="/" aria-label={x("VLOR home", "الرئيسية ڨلور")} className="shrink-0">
-              <Logo className="h-8 w-24 sm:h-12 sm:w-40" />
-            </Link>
-          </div>
-
-          <nav className="hidden items-center gap-1 rounded-full border border-ink/10 bg-surface/40 p-1.5 lg:flex">
-            {links.map((link) => {
-              const active = path === link.to;
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={cn(
-                    "group relative flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold tracking-tight transition-all duration-300",
-                    active ? "bg-ink text-bone" : "text-ink/70 hover:bg-ink/[0.05] hover:text-ink"
-                  )}
-                >
-                  <span
+            <nav className="hidden items-center gap-1 rounded-full border border-ink/10 bg-surface/40 p-1.5 lg:flex">
+              {links.map((link) => {
+                const active = path === link.to;
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
                     className={cn(
-                      "font-mono text-[8px] tracking-normal",
-                      active ? "text-acid" : "text-ink/30"
+                      "group relative flex items-center gap-2 rounded-full px-4 py-2 text-[12px] font-semibold tracking-tight transition-all duration-300",
+                      active ? "bg-ink text-bone" : "text-ink/70 hover:bg-ink/[0.05] hover:text-ink"
                     )}
                   >
-                    {link.index}
-                  </span>
-                  {t(link.key)}
-                </Link>
-              );
-            })}
-          </nav>
+                    <span
+                      className={cn(
+                        "font-mono text-[8px] tracking-normal",
+                        active ? "text-acid" : "text-ink/30"
+                      )}
+                    >
+                      {link.index}
+                    </span>
+                    {t(link.key)}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+
+          <Link
+            to="/"
+            aria-label={x("VLOR home", "الرئيسية ڨلور")}
+            className="absolute left-1/2 top-1/2 z-10 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#d4a044]/35 bg-black p-0.5 shadow-[0_0_26px_rgba(212,160,68,0.2)] transition duration-500 hover:scale-105 hover:shadow-[0_0_34px_rgba(212,160,68,0.35)] sm:h-[58px] sm:w-[58px] sm:p-1"
+          >
+            <img
+              src="/images/brand/vlor-emblem.png"
+              alt="VLOR"
+              draggable={false}
+              decoding="async"
+              className="h-full w-full rounded-full object-contain"
+            />
+          </Link>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
             <ThemeToggle />
@@ -112,7 +122,7 @@ export function Navbar() {
             <Link
               to="/wishlist"
               className={cn(
-                "relative grid h-10 w-10 place-items-center rounded-full border transition",
+                "relative hidden h-10 w-10 place-items-center rounded-full border transition sm:grid",
                 path === "/wishlist"
                   ? "border-ink bg-ink text-bone"
                   : "border-ink/12 text-ink hover:border-ink/40"

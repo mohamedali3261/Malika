@@ -5,7 +5,16 @@ import { Sparkle } from "@/components/ui/icons";
 export function Announcement() {
   const { c, lc } = useContent();
   const strip = c.strips.announcement;
-  const messages = c.announcements.filter((item) => lc(item).trim().length > 0);
+  const messages = c.announcements.filter((item) => {
+    const english = item.en.trim().toLocaleLowerCase();
+    const arabic = item.ar.trim();
+    const removedPromo =
+      english.includes("2 free samples with every order") ||
+      english.includes("made in small batches · online") ||
+      arabic.includes("عينتان مجانيتان مع كل طلب") ||
+      arabic.includes("تُصنع بكميات صغيرة · أونلاين");
+    return !removedPromo && lc(item).trim().length > 0;
+  });
 
   if (!strip.enabled || messages.length === 0) return null;
 

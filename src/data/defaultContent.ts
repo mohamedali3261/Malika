@@ -7,8 +7,6 @@ export function createDefaultContent(): SiteContent {
   return {
     announcements: [
       { en: "Complimentary delivery on orders over EGP 2,000", ar: "توصيل مجاني للطلبات فوق ٢٠٠٠ ج.م" },
-      { en: "2 free samples with every order", ar: "عينتان مجانيتان مع كل طلب" },
-      { en: "Made in small batches · Online", ar: "تُصنع بكميات صغيرة · أونلاين" },
     ],
 
     hero: {
