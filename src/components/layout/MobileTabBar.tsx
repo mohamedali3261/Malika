@@ -46,6 +46,7 @@ export function MobileTabBar() {
 
   return (
     <nav
+      dir="ltr"
       className="safe-bottom fixed inset-x-0 bottom-0 z-[75] border-t border-ink/10 bg-bone/95 px-2 pt-1.5 backdrop-blur-xl lg:hidden"
       aria-label={x("Mobile navigation", "تنقل الموبايل")}
     >

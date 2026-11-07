@@ -1,4 +1,4 @@
-import { useBrand } from "@/hooks/useBrand";
+import { Logo } from "@/components/ui/Primitives";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
@@ -43,7 +43,6 @@ interface RailEntry {
 }
 
 export function RunwayLookbook() {
-  const { wordmark } = useBrand();
   const { lang, l, t, x, dir } = useLang();
   const { products, wishlist, toggleWishlist, isWished } = useStore();
   const { count: cartCount, add, open: openCart } = useCart();
@@ -517,14 +516,10 @@ export function RunwayLookbook() {
       aria-label={x("Runway Depth Lookbook", "منصّة العرض العميق لعطور ڨلور")}
     >
       {/* Editorial Runway Header */}
-      <div className="rl-header">
+      <div className="rl-header" dir="ltr">
         <div className="rl-r1">
-          <Link
-            to="/shop"
-            dir={/[\u0600-\u06FF]/.test(wordmark) ? undefined : "ltr"}
-            className={cn("rl-brand rl-wide", /[\u0600-\u06FF]/.test(wordmark) && "rl-wide-i18n")}
-          >
-            {wordmark}
+          <Link to="/shop" dir="ltr" aria-label={x("VLOR shop", "متجر ڨلور")}>
+            <Logo compact className="rl-brand" />
           </Link>
 
           <nav className="rl-tabs rl-wide rl-wide-i18n" aria-label={x("Runway navigation", "تنقّل المنصّة")}>

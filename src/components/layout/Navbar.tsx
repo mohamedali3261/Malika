@@ -53,12 +53,13 @@ export function Navbar() {
     <>
       <Announcement />
       <header
+        dir="ltr"
         className={cn(
           "sticky top-0 z-50 transition-all duration-500",
           scrolled ? "glass border-b border-ink/10 shadow-[0_12px_40px_-24px_rgba(20,16,25,0.35)]" : "bg-bone"
         )}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-10">
+        <div className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6 lg:px-10">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileOpen(true)}
@@ -67,8 +68,8 @@ export function Navbar() {
             >
               <Menu className="h-4.5 w-4.5" />
             </button>
-            <Link to="/" aria-label="VLOR home" className="shrink-0">
-              <Logo />
+            <Link to="/" aria-label={x("VLOR home", "الرئيسية ڨلور")} className="shrink-0">
+              <Logo className="h-8 w-24 sm:h-12 sm:w-40" />
             </Link>
           </div>
 
@@ -162,6 +163,7 @@ export function Navbar() {
 
       {/* Mobile menu */}
       <div
+        dir="ltr"
         className={cn(
           "fixed inset-0 z-[80] lg:hidden",
           mobileOpen ? "pointer-events-auto" : "pointer-events-none"
@@ -178,7 +180,7 @@ export function Navbar() {
         <div
           className={cn(
             "absolute inset-y-0 start-0 flex w-[86%] max-w-sm flex-col bg-bone shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            mobileOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
+            mobileOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
           <div className="flex items-center justify-between border-b border-ink/10 px-5 py-5">

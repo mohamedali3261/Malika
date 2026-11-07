@@ -4,8 +4,6 @@ import { cn } from "@/utils/cn";
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Star } from "@/components/ui/icons";
-import { useLang } from "@/i18n/LanguageContext";
-
 
 /* ---------- Portal (overlays must escape transformed page wrappers) ---------- */
 export function Portal({ children }: { children: ReactNode }) {
@@ -278,48 +276,20 @@ export function Accordion({
   );
 }
 
-/* ---------- Logo ---------- */
-export function Logo({ light, compact }: { light?: boolean; compact?: boolean }) {
-  const { lang } = useLang();
-  const { wordmark, descriptor } = useBrand();
-  const isArabicWordmark = /[\u0600-\u06FF]/.test(wordmark);
+/* ---------- Brand logo ---------- */
+export function Logo({ compact, className }: { light?: boolean; compact?: boolean; className?: string }) {
+  const { wordmark } = useBrand();
   return (
-    <span className="inline-flex items-center gap-3">
-      <span
-        className={cn(
-          "relative grid h-10 w-10 place-items-center rounded-full border",
-          light ? "border-bone/25 text-acid" : "border-ink/15 text-plum"
-        )}
-      >
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={1.3}>
-          <path d="M12 3v18M6.5 21h11M8.5 8.5 12 3l3.5 5.5" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="12" cy="14" r="2.2" />
-        </svg>
-        <span className="absolute -end-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-acid" />
-      </span>
-      {!compact && (
-        <span className="flex flex-col leading-none">
-          <span
-            dir={isArabicWordmark ? undefined : "ltr"}
-            className={cn(
-              "font-display text-[22px]",
-              isArabicWordmark ? "tracking-normal" : "tracking-[0.28em]",
-              light ? "text-bone" : "text-ink"
-            )}
-          >
-            {wordmark}
-          </span>
-          <span
-            className={cn(
-              "mt-1 text-[8px] font-semibold uppercase",
-              (lang === "ar" ? "tracking-[0.24em]" : "tracking-[0.42em]"),
-              light ? "text-bone/45" : "text-mist"
-            )}
-          >
-            {descriptor}
-          </span>
-        </span>
+    <img
+      src="/images/brand/vlor-logo.png"
+      alt={wordmark || "VLOR"}
+      draggable={false}
+      decoding="async"
+      className={cn(
+        "block shrink-0 object-contain",
+        compact ? "h-8 w-24" : "h-12 w-36 sm:w-40",
+        className
       )}
-    </span>
+    />
   );
 }
