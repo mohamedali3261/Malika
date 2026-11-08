@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { SmartImage } from "@/components/ui/Primitives";
+import { Select } from "@/components/ui/Select";
 import { ChevronDown, Plus, Refresh, Trash, Upload } from "@/components/ui/icons";
 import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
@@ -182,12 +183,16 @@ export function ShowcaseEditor({ value, products, onChange }: Props) {
 
             <label className="mb-3 block">
               <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{ar ? "العطر المرتبط (اختياري)" : "Linked scent (optional)"}</span>
-              <select value={image.productSlug} onChange={(event) => pickProduct(image.id, event.target.value)} className="field">
-                <option value="">{ar ? "— بدون —" : "— none —"}</option>
-                {products.map((item) => (
-                  <option key={item.id} value={item.slug}>{item.name[lang]}</option>
-                ))}
-              </select>
+              <Select
+                value={image.productSlug}
+                onChange={(value) => pickProduct(image.id, value)}
+                options={[
+                  { value: "", label: ar ? "— بدون —" : "— none —" },
+                  ...products.map((item) => ({ value: item.slug, label: item.name[lang] })),
+                ]}
+                ariaLabel={ar ? "العطر المرتبط" : "Linked scent"}
+                dir={ar ? "rtl" : "ltr"}
+              />
             </label>
 
             <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{ar ? "الصورة" : "Image"}</span>

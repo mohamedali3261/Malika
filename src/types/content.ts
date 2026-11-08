@@ -100,14 +100,6 @@ export interface SectionToggles {
   pillars: boolean;
   testimonials: boolean;
   contactCta: boolean;
-  offers: boolean;
-}
-
-export interface OffersContent {
-  eyebrow: Localized;
-  title: Localized;
-  lead: Localized;
-  bundles: BundleOffer[];
 }
 
 /** Hard cap on the showcase card. Enforced in the editor AND when content is read. */
@@ -125,25 +117,11 @@ export interface ShowcaseImage {
   caption: Localized;
 }
 
-export interface BundleOffer {
-  id: string;
-  title: Localized;
-  description: Localized;
-  /** Slugs of products in this bundle (2-4) */
-  productSlugs: string[];
-  /** Total bundle price in EGP */
-  bundlePrice: number;
-  /** Optional badge like "وفر 25%" */
-  badge: Localized;
-}
-
 export interface ShowcaseContent {
   eyebrow: Localized;
   title: Localized;
   lead: Localized;
   images: ShowcaseImage[];
-  /** @deprecated bundles moved to offers but kept for migration */
-  bundles?: BundleOffer[];
 }
 
 export interface SiteContent {
@@ -183,7 +161,6 @@ export interface SiteContent {
     lead: Localized;
   };
   faq: FaqContent[];
-  offers: OffersContent;
   shopHero: ShopHeroContent;
   shopFilters: ShopFiltersContent;
   strips: StripsContent;

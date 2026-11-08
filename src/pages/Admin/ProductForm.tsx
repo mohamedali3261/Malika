@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Portal, SmartImage } from "@/components/ui/Primitives";
+import { Select } from "@/components/ui/Select";
 import { Check, Plus, Trash, X } from "@/components/ui/icons";
 import { useBodyLock } from "@/hooks/useUi";
 import { useLang } from "@/i18n/LanguageContext";
@@ -34,6 +35,8 @@ const emptyDraft = {
   images: "",
   cutout: "",
   accent: "#C9B5F7",
+  showOnHome: true,
+  showOnShop: true,
   featured: false,
   isNew: true,
   bestseller: false,
@@ -73,6 +76,8 @@ function toDraft(product: Product): Draft {
     images: product.images.join("\n"),
     cutout: product.cutout ?? "",
     accent: product.accent,
+    showOnHome: product.showOnHome !== false,
+    showOnShop: product.showOnShop !== false,
     featured: Boolean(product.featured),
     isNew: Boolean(product.isNew),
     bestseller: Boolean(product.bestseller),
@@ -200,6 +205,8 @@ export function ProductForm({
       images: draft.images.split("\n").map((url) => url.trim()).filter(Boolean),
       cutout: draft.cutout.trim() || undefined,
       accent: draft.accent,
+      showOnHome: draft.showOnHome,
+      showOnShop: draft.showOnShop,
       featured: draft.featured,
       isNew: draft.isNew,
       bestseller: draft.bestseller,
@@ -232,6 +239,8 @@ export function ProductForm({
     images: draft.images.split("\n").map((url) => url.trim()).filter(Boolean),
     cutout: draft.cutout.trim() || undefined,
     accent: draft.accent,
+    showOnHome: draft.showOnHome,
+    showOnShop: draft.showOnShop,
     featured: draft.featured,
     isNew: draft.isNew,
     bestseller: draft.bestseller,
@@ -304,12 +313,14 @@ export function ProductForm({
             <Field label="Compare-at price (optional)">
               <input type="number" min={0} value={draft.compareAt} onChange={(event) => update("compareAt", Number(event.target.value))} className="field" dir="ltr" />
             </Field>
-            <Field label="Gender">
-              <select value={draft.gender} onChange={(event) => update("gender", event.target.value as Gender)} className="field">
-                {genders.map((gender) => (
-                  <option key={gender} value={gender}>{t(`shop.${gender}`)}</option>
-                ))}
-              </select>
+            <Field label={lang === "ar" ? "الفئة" : "Audience"}>
+              <Select
+                value={draft.gender}
+                onChange={(value) => update("gender", value as Gender)}
+                options={genders.map((gender) => ({ value: gender, label: t(`shop.${gender}`) }))}
+                ariaLabel={lang === "ar" ? "الفئة المستهدفة" : "Audience"}
+                dir={lang === "ar" ? "rtl" : "ltr"}
+              />
             </Field>
 
             <div className="sm:col-span-2">
@@ -430,26 +441,70 @@ export function ProductForm({
                 <input value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="field" dir="ltr" />
               </div>
             </Field>
-            <div className="sm:col-span-2">
-              <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">{t("admin.badges")}</span>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { key: "featured" as const, label: t("admin.featured") },
-                  { key: "isNew" as const, label: t("product.new") },
-                  { key: "bestseller" as const, label: t("product.bestseller") },
-                ].map((badge) => (
-                  <button
-                    key={badge.key}
-                    type="button"
-                    onClick={() => update(badge.key, !draft[badge.key])}
-                    className={cn(
-                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold transition",
-                      draft[badge.key] ? "border-acid-deep bg-acid text-[#141019]" : "border-ink/15 text-ink/60"
-                    )}
-                  >
-                    {draft[badge.key] && <Check className="h-3 w-3" />} {badge.label}
-                  </button>
-                ))}
+            <div className="sm:col-span-2 space-y-4">
+              <div className="rounded-2xl border border-ink/10 bg-surface/45 p-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-mist">
+                  {lang === "ar" ? "مكان ظهور بطاقة العطر" : "Show this scent card on"}
+                </p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {[
+                    {
+                      key: "showOnHome" as const,
+                      title: lang === "ar" ? "الصفحة الرئيسية" : "Homepage",
+                      description: lang === "ar" ? "إظهار العطر ضمن بطاقات الرئيسية." : "Include this scent in the home product cards.",
+                    },
+                    {
+                      key: "showOnShop" as const,
+                      title: lang === "ar" ? "المتجر" : "Shop",
+                      description: lang === "ar" ? "إظهار بطاقة العطر في قائمة المتجر." : "Include this card in the shop catalogue.",
+                    },
+                  ].map((page) => (
+                    <button
+                      key={page.key}
+                      type="button"
+                      role="switch"
+                      aria-checked={draft[page.key]}
+                      onClick={() => update(page.key, !draft[page.key])}
+                      className={cn(
+                        "flex items-center justify-between gap-3 rounded-xl border p-3 text-start transition",
+                        draft[page.key] ? "border-ink bg-ink text-bone" : "border-ink/10 bg-bone/60 text-ink hover:border-ink/25"
+                      )}
+                    >
+                      <span>
+                        <span className="block text-[12px] font-bold">{page.title}</span>
+                        <span className={cn("mt-0.5 block text-[10px] leading-relaxed", draft[page.key] ? "text-bone/60" : "text-mist")}>{page.description}</span>
+                      </span>
+                      <span className={cn("relative h-5 w-9 shrink-0 rounded-full transition-colors", draft[page.key] ? "bg-acid" : "bg-ink/15")}>
+                        <span className={cn("absolute top-0.5 h-4 w-4 rounded-full transition-all", draft[page.key] ? "start-[18px] bg-ink" : "start-0.5 bg-surface")} />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.14em] text-mist">
+                  {lang === "ar" ? "التصنيفات والإبراز" : t("admin.badges")}
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { key: "featured" as const, label: t("admin.featured") },
+                    { key: "isNew" as const, label: t("product.new") },
+                    { key: "bestseller" as const, label: t("product.bestseller") },
+                  ].map((badge) => (
+                    <button
+                      key={badge.key}
+                      type="button"
+                      onClick={() => update(badge.key, !draft[badge.key])}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[10px] font-bold transition",
+                        draft[badge.key] ? "border-acid-deep bg-acid text-[#141019]" : "border-ink/15 text-ink/60"
+                      )}
+                    >
+                      {draft[badge.key] && <Check className="h-3 w-3" />} {badge.label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

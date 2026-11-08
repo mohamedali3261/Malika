@@ -73,6 +73,18 @@
     color: var(--color-mist);
     opacity: 0.7;
   }
+  select.field,
+  select:not(.field) {
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+  select.field {
+    appearance: none;
+  }
+  select option {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+  }
   .field:focus {
     outline: none;
     border-color: var(--color-plum);

@@ -12,7 +12,7 @@ export function ContactCTA() {
   const { t, x } = useLang();
   const { c, lc } = useContent();
   const { settings } = useStore();
-  const greeting = x("Hello VLOR, help me pick a scent 🌿", "مرحباً ڨلور، أرغب في مساعدتي لاختيار عطر 🌿");
+  const greeting = x("Hello VLOR, help me choose my signature scent 🌿", "مرحباً ڨلور، ساعدوني في اختيار عطري المميّز 🌿");
 
   return (
     <section className="cv-auto relative bg-bone sec-pb">
@@ -50,24 +50,16 @@ export function ContactCTA() {
                   </button>
                 </div>
 
-                <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-bone/35">
-                  <span className="flex items-center gap-1.5">
-                    <span className="relative flex h-1.5 w-1.5">
-                      <span className="absolute h-full w-full animate-ping rounded-full bg-acid opacity-70" />
-                      <span className="relative h-1.5 w-1.5 rounded-full bg-acid" />
-                    </span>
-                    {x("Online now · replies in ~9 min", "متصلون الآن · رد خلال ٩ دقائق")}
-                  </span>
-                  <span>·</span>
-                  <span>{x("No online payment — every order confirmed personally", "لا دفع إلكتروني — نؤكد كل طلب شخصياً")}</span>
-                </div>
+                <p className="mt-6 max-w-md text-[10px] font-semibold leading-relaxed tracking-wide text-bone/45">
+                  {x("Personal guidance from the first note to your final choice.", "إرشاد شخصي، من أول نوتة حتى اختيارك الأخير.")}
+                </p>
               </div>
 
               <div className="relative mx-auto w-full max-w-[330px]">
                 <div className="absolute inset-4 rounded-full bg-lilac/25 blur-2xl" />
                 <SmartImage
                   src={IMG.bottleEditorial}
-                  alt={x("VLOR perfume", "عطر ڨلور")}
+                  alt={x("A VLOR signature perfume", "عطر ڨلور المميّز")}
                   className="aspect-[4/5] w-full rotate-2 rounded-[1.8rem] border border-bone/15"
                 />
                 <Link
@@ -75,8 +67,8 @@ export function ContactCTA() {
                   className="absolute -end-3 top-5 grid h-20 w-20 -rotate-6 place-items-center rounded-full bg-lilac text-center text-[#141019] shadow-lg transition hover:rotate-0"
                 >
                   <div>
-                    <p className="font-display text-base leading-none">{x("find", "اكتشف")}</p>
-                    <p className="mt-0.5 text-[8px] font-bold uppercase tracking-[0.12em]">{x("your scent", "عطرك")}</p>
+                    <p className="font-display text-base leading-none">{x("discover", "اكتشف")}</p>
+                    <p className="mt-0.5 text-[8px] font-bold uppercase tracking-[0.12em]">{x("your signature", "عطرك المميّز")}</p>
                   </div>
                 </Link>
               </div>

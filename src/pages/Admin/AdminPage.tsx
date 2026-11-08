@@ -151,7 +151,7 @@ export function AdminPage() {
                 <div>
                   <h2 className="text-[13px] font-bold">{t("admin.collection")}</h2>
                   <p className="text-[10px] text-mist">
-                    {lang === "ar" ? "أضف، عدّل، أو احذف أي عطر — الحفظ فوري." : "Add, edit or remove any scent — saved instantly."}
+                    {lang === "ar" ? "أضف أو عدّل أو احذف كروت العطور، وحدد ظهور كل كارت في الرئيسية والمتجر." : "Add, edit or remove scent cards, and choose whether each appears on the homepage or shop."}
                   </p>
                   <p className={cn("mt-1 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-[9px] font-bold", dirty ? "bg-amber-100 text-amber-800" : "bg-emerald-100 text-emerald-800")}>
                     <span className={cn("h-1.5 w-1.5 rounded-full", dirty ? "bg-amber-500" : "bg-emerald-500")} />
@@ -198,7 +198,7 @@ export function AdminPage() {
                     : "Full control over every text, section and colour on the site."}
                 </p>
               </div>
-              <ContentEditor />
+              <ContentEditor onManageProducts={() => setTab("products")} />
             </>
           )}
 

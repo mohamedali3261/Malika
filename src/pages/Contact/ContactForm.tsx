@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import { SmartImage } from "@/components/ui/Primitives";
 import { ArrowUpRight, Phone, Send, Whatsapp } from "@/components/ui/icons";
 import { IMG } from "@/data/images";
@@ -15,10 +16,10 @@ export function ContactForm() {
   const { push } = useToast();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [subject, setSubject] = useState(t("contact.choose1"));
+  const [subjectKey, setSubjectKey] = useState<"contact.choose1" | "contact.choose2" | "contact.choose3" | "contact.choose4">("contact.choose1");
   const [message, setMessage] = useState("");
-
-  const subjects = [t("contact.choose1"), t("contact.choose2"), t("contact.choose3"), t("contact.choose4")];
+  const subject = t(subjectKey);
+  const subjectOptions = (["contact.choose1", "contact.choose2", "contact.choose3", "contact.choose4"] as const).map((key) => ({ value: key, label: t(key) }));
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -56,16 +57,14 @@ export function ContactForm() {
 
               <label className="block">
                 <span className="mb-1.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-mist">{t("contact.subject")}</span>
-                <div className="relative">
-                  <select value={subject} onChange={(event) => setSubject(event.target.value)} className="field h-11 w-full appearance-none rounded-xl border border-ink/12 bg-bone-2/40 px-4 pe-10 text-[13px] transition focus:border-plum focus:bg-surface focus:outline-none">
-                    {subjects.map((item) => (
-                      <option key={item} value={item}>{item}</option>
-                    ))}
-                  </select>
-                  <svg viewBox="0 0 24 24" className="pointer-events-none absolute end-4 top-1/2 h-4 w-4 -translate-y-1/2 text-mist" fill="none" stroke="currentColor" strokeWidth={1.6}>
-                    <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
+                <Select
+                  value={subjectKey}
+                  onChange={(value) => setSubjectKey(value as typeof subjectKey)}
+                  options={subjectOptions}
+                  ariaLabel={t("contact.subject")}
+                  buttonClassName="h-11 rounded-xl bg-bone-2/40 px-4 text-[13px]"
+                  dir={lang === "ar" ? "rtl" : "ltr"}
+                />
               </label>
 
               <label className="block">

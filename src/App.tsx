@@ -5,7 +5,6 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { FloatingWhatsApp } from "@/components/layout/FloatingWhatsApp";
 import { Footer } from "@/components/layout/Footer";
 import { HomeLoader } from "@/components/layout/HomeLoader";
-import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { useSecretKeyword } from "@/components/layout/SecretEntry";
@@ -51,8 +50,6 @@ function AppShell() {
     if (path !== "/") setHomeLoaderOpen(false);
   }, [path]);
 
-  const showTabBar = !path.startsWith("/studio") && !path.startsWith("/admin") && !path.startsWith("/product/");
-
   const renderPage = () => {
     if (path === "/") return <HomePage />;
     if (path === "/shop") return <ShopPage />;
@@ -65,7 +62,7 @@ function AppShell() {
   };
 
   return (
-    <div className={showTabBar ? "flex min-h-screen flex-col bg-bone pb-[76px] lg:pb-0" : "flex min-h-screen flex-col bg-bone"}>
+    <div className="flex min-h-screen flex-col bg-bone">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-[200] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-xs focus:text-bone"
@@ -82,7 +79,6 @@ function AppShell() {
       <Footer />
       <CartDrawer />
       <CheckoutSheetHost />
-      <MobileTabBar />
       <FloatingWhatsApp />
       <BackToTop />
       {homeLoaderOpen && <HomeLoader onDone={closeHomeLoader} />}

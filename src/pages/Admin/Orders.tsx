@@ -1,9 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { Select } from '@/components/ui/Select';
 import { useLang } from '@/i18n/LanguageContext';
 
 type Order = { id:string; customer_name:string; phone:string; city:string; address:string; note:string; subtotal:number; shipping:number; discount:number; status:string; created_at:string };
 type Item = { id:string; order_id:string; name:string; size:number; unit_price:number; quantity:number };
 const statuses=['new','confirmed','shipped','completed','cancelled'] as const;
+const statusText = (status: string, ar: boolean) => {
+  const labels: Record<string, string> = {
+    new: ar ? 'جديد' : 'New',
+    confirmed: ar ? 'مؤكد' : 'Confirmed',
+    shipped: ar ? 'تم الشحن' : 'Shipped',
+    completed: ar ? 'مكتمل' : 'Completed',
+    cancelled: ar ? 'ملغى' : 'Cancelled',
+  };
+  return labels[status] || status;
+};
 
 function StatusBadge({ status, ar }: { status:string; ar:boolean }) {
   const map: Record<string,string> = {
@@ -35,6 +46,8 @@ export function Orders() {
   const [status,setStatus]=useState('');
   const [page,setPage]=useState(1);
   const [hasMore,setHasMore]=useState(false);
+  const statusOptions = statuses.map((value) => ({ value, label: statusText(value, ar) }));
+  const filterOptions = [{ value: "", label: ar ? "كل الحالات" : "All statuses" }, ...statusOptions];
 
   useEffect(()=> {
     const controller=new AbortController();
@@ -98,10 +111,15 @@ export function Orders() {
 
       <div className="flex flex-wrap gap-2 rounded-2xl border border-ink/10 bg-surface p-3">
         <input aria-label={ar?'بحث برقم الطلب أو الهاتف':'Search by order ID or phone'} className="field h-10 max-w-xs flex-1 text-sm" placeholder={ar?'رقم الطلب أو الهاتف':'Order ID or phone'} value={query} onChange={e=>{setQuery(e.target.value);setPage(1);}}/>
-        <select aria-label={ar?'تصفية حسب الحالة':'Filter by status'} className="field h-10 max-w-[180px] text-sm" value={status} onChange={e=>{setStatus(e.target.value);setPage(1);}}>
-          <option value="">{ar?'كل الحالات':'All statuses'}</option>
-          {statuses.map(s=><option key={s} value={s}>{s}</option>)}
-        </select>
+        <Select
+          ariaLabel={ar ? 'تصفية حسب الحالة' : 'Filter by status'}
+          className="w-full max-w-[180px]"
+          buttonClassName="h-10 text-sm"
+          value={status}
+          options={filterOptions}
+          onChange={(value) => { setStatus(value); setPage(1); }}
+          dir={ar ? 'rtl' : 'ltr'}
+        />
         <span className="ms-auto self-center text-xs text-mist">{orders.length} {ar?'طلب':'orders'}{hasMore ? '+' : ''}</span>
       </div>
 
@@ -144,9 +162,15 @@ export function Orders() {
                 </div>
                 <div className="mt-3 flex items-center gap-2">
                   <span className="text-xs font-bold text-mist">{ar?'تغيير الحالة':'Change status'}</span>
-                  <select aria-label={ar?'حالة الطلب':'Order status'} className="field h-9 max-w-[200px] text-sm" value={o.status} onChange={e=>void update(o.id,e.target.value)}>
-                    {statuses.map(s=><option key={s} value={s}>{s}</option>)}
-                  </select>
+                  <Select
+                    ariaLabel={ar ? 'حالة الطلب' : 'Order status'}
+                    className="w-full max-w-[200px]"
+                    buttonClassName="h-9 text-sm"
+                    value={o.status}
+                    options={statusOptions}
+                    onChange={(value) => void update(o.id, value)}
+                    dir={ar ? 'rtl' : 'ltr'}
+                  />
                 </div>
               </div>
             </article>
