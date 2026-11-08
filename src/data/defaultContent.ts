@@ -42,41 +42,6 @@ export function createDefaultContent(): SiteContent {
       ],
     },
 
-    offers: {
-      eyebrow: { en: "VLOR Bundles", ar: "عروض ڨلور" },
-      title: { en: "Curated sets. One price.", ar: "باقات مختارة. بسعر واحد." },
-      lead: {
-        en: "Pick 2–4 scents together and save — each bundle shows its original prices and your bundle discount.",
-        ar: "اختر ٢–٤ عطور معاً ووفّر — كل باقة تعرض سعر كل عطر والخصم والسعر النهائي للباقة.",
-      },
-      bundles: [
-        {
-          id: "bundle-noir-oud",
-          title: { en: "Midnight Duo", ar: "ثنائية منتصف الليل" },
-          description: { en: "VLOR Noir + Oud Meridian — deep, smoky, unforgettable.", ar: "ڨلور نوار + عود ميريديان — عمق دخاني لا يُنسى." },
-          productSlugs: ["vlor-noir", "oud-meridian"],
-          bundlePrice: 4800,
-          badge: { en: "Save 22%", ar: "وفّر ٢٢٪" },
-        },
-        {
-          id: "bundle-floral-trio",
-          title: { en: "Bloom Trinity", ar: "ثلاثية الزهور" },
-          description: { en: "Velvet Dusk + Iris Mirage + Bloom Ledger — soft, powdery, romantic.", ar: "ڨلفت داسك + إيريس ميراج + بلوم ليدجر — ناعمة، بودرية، رومانسية." },
-          productSlugs: ["velvet-dusk", "iris-mirage", "bloom-ledger"],
-          bundlePrice: 6200,
-          badge: { en: "Save 25%", ar: "وفّر ٢٥٪" },
-        },
-        {
-          id: "bundle-fresh-duo",
-          title: { en: "Citrus Archive Set", ar: "باقة الانتعاش" },
-          description: { en: "Citrus Archive + Cedar Static + Salt & Smoke — fresh, woody, airy.", ar: "سيتروس أرشيف + سيدار ستاتيك + سولت آند سموك — منعش خشبي هوائي." },
-          productSlugs: ["citrus-archive", "cedar-static", "salt-and-smoke"],
-          bundlePrice: 5900,
-          badge: { en: "Save 20%", ar: "وفّر ٢٠٪" },
-        },
-      ],
-    },
-
     featured: {
       eyebrow: { en: "The signature edit", ar: "مختارات التوقيع" },
       title: { en: "Scents that stay in the room.", ar: "عطورٌ تبقى بعد أن تغادر." },
@@ -179,11 +144,11 @@ export function createDefaultContent(): SiteContent {
     },
 
     cta: {
-      eyebrow: { en: "Let's talk scent", ar: "لنتحدث عن العطر" },
-      title: { en: "Not sure which one? Ask a human.", ar: "لم تحسم اختيارك؟ اسأل إنساناً." },
+      eyebrow: { en: "Your scent, thoughtfully chosen", ar: "عطرك، نختاره معك" },
+      title: { en: "Discover the scent that feels like you.", ar: "اكتشف عطراً يشبهك." },
       lead: {
-        en: "Send us three words about yourself on WhatsApp and our perfumer will reply with three scents — usually within the hour.",
-        ar: "أرسل لنا ثلاث كلمات عن نفسك على واتساب وسيرد عليك عطّارنا بثلاثة عطور — عادةً خلال ساعة.",
+        en: "Tell us which notes you love, and our team will guide you to a composition that feels unmistakably yours.",
+        ar: "أخبرنا بالنفحات التي تفضّلها، وسنرشدك إلى تركيبة تعبّر عنك بكل عناية.",
       },
     },
 
@@ -267,7 +232,6 @@ export function createDefaultContent(): SiteContent {
       pillars: false,
       testimonials: false,
       contactCta: true,
-      offers: true,
     },
   };
 }
@@ -302,9 +266,8 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
 
   const merged = merge(base, stored) as unknown as Record<string, unknown>;
 
-  // Keep only keys this build knows about. Content saved by an older build
-  // (the removed "offers" section, for instance) is discarded here instead of
-  // lingering in storage and in every published catalogue.
+  // Keep only keys this build knows about. Removed fields saved by older
+  // versions are discarded instead of lingering in storage or published data.
   const clean: Record<string, unknown> = {};
   for (const key of Object.keys(base)) clean[key] = merged[key];
 
@@ -354,6 +317,38 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
     })),
   };
 
+  // Replace the previous built-in consultation copy in saved catalogues while
+  // preserving any wording the owner intentionally changed in either language.
+  const upgradeLegacyCopy = (
+    value: { en?: string; ar?: string } | undefined,
+    old: { en: string; ar: string },
+    next: { en: string; ar: string },
+  ) => ({
+    en: value?.en === old.en ? next.en : value?.en ?? next.en,
+    ar: value?.ar === old.ar ? next.ar : value?.ar ?? next.ar,
+  });
+  result.cta = {
+    ...result.cta,
+    eyebrow: upgradeLegacyCopy(
+      result.cta?.eyebrow,
+      { en: "Let's talk scent", ar: "لنتحدث عن العطر" },
+      base.cta.eyebrow,
+    ),
+    title: upgradeLegacyCopy(
+      result.cta?.title,
+      { en: "Not sure which one? Ask a human.", ar: "لم تحسم اختيارك؟ اسأل إنساناً." },
+      base.cta.title,
+    ),
+    lead: upgradeLegacyCopy(
+      result.cta?.lead,
+      {
+        en: "Send us three words about yourself on WhatsApp and our perfumer will reply with three scents — usually within the hour.",
+        ar: "أرسل لنا ثلاث كلمات عن نفسك على واتساب وسيرد عليك عطّارنا بثلاثة عطور — عادةً خلال ساعة.",
+      },
+      base.cta.lead,
+    ),
+  };
+
   if (result.story) {
     result.story = {
       ...result.story,
@@ -370,27 +365,6 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
         accent: item.accent?.toLowerCase() === "#ddf25c" ? base.theme.accent : item.accent,
         quote: replaceLegacyBrand(item.quote) as typeof item.quote,
       })),
-    };
-  }
-
-  // Offers / bundles sanitization
-  if (!result.offers || typeof result.offers !== "object") {
-    result.offers = base.offers;
-  } else {
-    const rawBundles = Array.isArray((result.offers as any).bundles) ? (result.offers as any).bundles : [];
-    const cleanBundles = rawBundles.slice(0, 12).map((b: any) => ({
-      id: String(b?.id || Math.random().toString(36).slice(2, 8)),
-      title: (b?.title && typeof b.title === "object" ? b.title : base.offers.bundles[0].title) as typeof base.offers.bundles[0]["title"],
-      description: (b?.description && typeof b.description === "object" ? b.description : base.offers.bundles[0].description) as typeof base.offers.bundles[0]["description"],
-      productSlugs: Array.isArray(b?.productSlugs) ? (b.productSlugs as string[]).filter((s: unknown) => typeof s === "string" && s.length > 0).slice(0, 4) : [],
-      bundlePrice: Math.max(0, Math.round(Number(b?.bundlePrice) || 0)),
-      badge: (b?.badge && typeof b.badge === "object" ? b.badge : base.offers.bundles[0].badge) as typeof base.offers.bundles[0]["badge"],
-    })).filter((b: any) => b.productSlugs.length >= 2 && b.bundlePrice > 0);
-    result.offers = {
-      eyebrow: (replaceLegacyBrand((result.offers as any).eyebrow) as typeof base.offers.eyebrow) || base.offers.eyebrow,
-      title: (replaceLegacyBrand((result.offers as any).title) as typeof base.offers.title) || base.offers.title,
-      lead: (replaceLegacyBrand((result.offers as any).lead) as typeof base.offers.lead) || base.offers.lead,
-      bundles: cleanBundles.length > 0 ? cleanBundles : base.offers.bundles,
     };
   }
 

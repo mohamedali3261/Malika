@@ -50,7 +50,7 @@ export function Navbar() {
       if (frame) window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
         const progress = reduceMotion.matches ? 0 : Math.min(1, Math.max(0, window.scrollY / 220));
-        navBrandRef.current?.style.setProperty("--nav-brand-scale", String(1 + progress * 0.16));
+        navBrandRef.current?.style.setProperty("--nav-brand-scale", String(1 - progress * 0.08));
       });
     };
     updateBrandScale();
@@ -147,7 +147,7 @@ export function Navbar() {
             <Link
               to="/wishlist"
               className={cn(
-                "relative hidden h-10 w-10 place-items-center rounded-full border transition lg:grid",
+                "relative grid h-9 w-9 shrink-0 place-items-center rounded-full border transition sm:h-10 sm:w-10",
                 path === "/wishlist"
                   ? "border-ink bg-ink text-bone"
                   : "border-ink/12 text-ink hover:border-ink/40"

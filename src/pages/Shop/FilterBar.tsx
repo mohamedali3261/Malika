@@ -1,4 +1,5 @@
-import { ChevronDown, Heart, Search, Sliders, X } from "@/components/ui/icons";
+import { Heart, Search, Sliders, X } from "@/components/ui/icons";
+import { Select } from "@/components/ui/Select";
 import { useLang } from "@/i18n/LanguageContext";
 import { formatPrice } from "@/lib/format";
 import type { Gender, SortKey } from "@/types";
@@ -91,21 +92,15 @@ export function FilterBar(props: FilterBarProps) {
         {(show.sort || hasMore || isFiltered) && (
           <div className="flex items-center gap-2 lg:ms-auto lg:shrink-0">
             {show.sort && (
-              <div className="relative min-w-0 flex-1 lg:flex-none">
-                <select
-                  value={sort}
-                  onChange={(event) => setSort(event.target.value as SortKey)}
-                  aria-label={t("shop.sort")}
-                  className="h-10 w-full appearance-none rounded-full border border-ink/12 bg-surface/60 pe-8 ps-3.5 text-[12px] font-semibold text-ink outline-none focus:border-ink"
-                >
-                  {sortOptions.map((option) => (
-                    <option key={option.key} value={option.key}>
-                      {t(option.label)}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="pointer-events-none absolute end-3 top-1/2 h-3 w-3 -translate-y-1/2 text-mist" />
-              </div>
+              <Select
+                value={sort}
+                onChange={(value) => setSort(value as SortKey)}
+                ariaLabel={t("shop.sort")}
+                options={sortOptions.map((option) => ({ value: option.key, label: t(option.label) }))}
+                className="min-w-0 flex-1 lg:w-[190px] lg:flex-none"
+                buttonClassName="h-10 rounded-full bg-surface/60 px-3.5 text-[12px]"
+                dir={lang === "ar" ? "rtl" : "ltr"}
+              />
             )}
 
             {hasMore && (

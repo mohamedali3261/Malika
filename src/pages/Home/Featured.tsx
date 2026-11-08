@@ -15,10 +15,13 @@ export function Featured() {
   const { products } = useStore();
 
   const edit = useMemo(() => {
-    const featured = products.filter((product) => product.featured);
-    const rest = products.filter((product) => !product.featured);
+    const available = products.filter((product) => product.showOnHome !== false);
+    const featured = available.filter((product) => product.featured);
+    const rest = available.filter((product) => !product.featured);
     return [...featured, ...rest].slice(0, 6);
   }, [products]);
+
+  if (edit.length === 0) return null;
 
   return (
     <section className="relative bg-bone sec-y" id="signature-edit">

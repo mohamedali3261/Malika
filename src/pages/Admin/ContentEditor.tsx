@@ -4,12 +4,14 @@ import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { Link } from "@/lib/router";
+import { Section } from "@/pages/Admin/ContentFields";
+import { ShowcaseEditor } from "@/pages/Admin/ShowcaseEditor";
 import type { SiteContent } from "@/types/content";
 import { draftsChanged, registerDraft } from "@/lib/studioDrafts";
 import { useEffect, useRef, useState } from "react";
 
-export function ContentEditor() {
-  const { content, updateContent, resetContent } = useStore();
+export function ContentEditor({ onManageProducts }: { onManageProducts?: () => void }) {
+  const { content, products, updateContent, resetContent } = useStore();
   const { t, lang } = useLang();
   const { push } = useToast();
   const [draft, setDraft] = useState<SiteContent>(content);
@@ -52,7 +54,6 @@ export function ContentEditor() {
   const sections: { key: keyof SiteContent["sections"]; label: string; hint: string }[] = [
     { key: "runwayLookbook", label: ar ? "منصّة العرض (Runway)" : "Runway lookbook", hint: ar ? "سلايدر المنتجات العلوي" : "Top product slider" },
     { key: "showcase", label: ar ? "كارت الصور" : "Image card", hint: ar ? "حتى ٥ صور" : "Up to 5 images" },
-    { key: "offers", label: ar ? "عروض ڨلور — الباقات" : "VLOR Offers", hint: ar ? "باقات بسعر واحد" : "Bundled sets" },
     { key: "featured", label: ar ? "المنتجات المميزة" : "Featured products", hint: ar ? "المختارة" : "Picked" },
     { key: "story", label: ar ? "حكايتنا" : "Our story", hint: ar ? "قسم القصة" : "Story block" },
     { key: "contactCta", label: ar ? "دعوة التواصل" : "Contact CTA", hint: ar ? "آخر الصفحة" : "Bottom CTA" },
@@ -74,7 +75,7 @@ export function ContentEditor() {
 
       <div className="rounded-2xl border border-ink/10 bg-surface p-5">
         <h3 className="text-sm font-bold">{ar ? "إظهار / إخفاء أقسام الصفحة الرئيسية" : "Show / hide home sections"}</h3>
-        <p className="mt-1 text-xs leading-relaxed text-mist">{ar ? "اضغط لإخفاء أي قسم فوراً. لا توجد إعدادات أخرى هنا — كل شيء أصبح أبسط." : "Tap to hide any section instantly. No other settings here — everything is simpler."}</p>
+        <p className="mt-1 text-xs leading-relaxed text-mist">{ar ? "أظهر أو أخفِ أقسام الرئيسية، وعدّل صور كارت العرض وبطاقات العطور من أدوات الإدارة أدناه." : "Show or hide home sections, then manage the image showcase and product cards with the tools below."}</p>
 
         <div className="mt-5 grid gap-2">
           {sections.map((s) => {
@@ -101,7 +102,35 @@ export function ContentEditor() {
         </div>
       </div>
 
-      <p className="mt-3 text-center text-[11px] text-mist">{ar ? "تم تبسيط صفحة المحتوى حسب طلبك — فقط أزرار الإخفاء." : "Content page simplified as requested — toggles only."}</p>
+      <div className="mt-3">
+        <Section
+          title={ar ? "بطاقات العرض المصوّرة في الرئيسية" : "Homepage image showcase cards"}
+          description={ar ? "أضف أو عدّل أو احذف الصور التي تظهر في كارت العرض." : "Add, edit or remove the images shown in the homepage showcase."}
+          badge={`${draft.showcase.images.length}/5`}
+        >
+          <ShowcaseEditor
+            value={draft.showcase}
+            products={products}
+            onChange={(value) => edit((next) => { next.showcase = value; })}
+          />
+        </Section>
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink/10 bg-surface p-4">
+        <div>
+          <h3 className="text-sm font-bold">{ar ? "بطاقات العطور في الرئيسية والمتجر" : "Product cards on the homepage and shop"}</h3>
+          <p className="mt-1 max-w-xl text-xs leading-relaxed text-mist">
+            {ar ? "من تبويب المنتجات أضف أو عدّل أو احذف العطور، وافتح الرئيسية أو المتجر لتصفية بطاقات كل صفحة. من نموذج العطر اختر الصفحات التي يظهر فيها." : "In the Products tab, add, edit or delete scents. Filter by Homepage or Shop to manage each page, then choose card visibility in the product form."}
+          </p>
+        </div>
+        {onManageProducts && (
+          <Button variant="outline" onClick={() => { if (dirty) save(); onManageProducts(); }}>
+            {ar ? "إدارة كروت المنتجات" : "Manage product cards"}
+          </Button>
+        )}
+      </div>
+
+      <p className="mt-3 text-center text-[11px] text-mist">{ar ? "لا تنسَ حفظ التغييرات قبل النشر." : "Remember to save your changes before publishing."}</p>
     </div>
   );
 }

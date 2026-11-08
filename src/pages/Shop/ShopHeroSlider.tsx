@@ -59,8 +59,9 @@ export function ShopHeroSlider() {
 
   const slides = useMemo(() => {
     const { scope, max } = c.shopHero;
-    let pool = scope === "featured" ? products.filter((product) => product.featured) : products;
-    if (pool.length === 0) pool = products; // "featured only" with nothing featured must not blank the page
+    const shopProducts = products.filter((product) => product.showOnShop !== false);
+    let pool = scope === "featured" ? shopProducts.filter((product) => product.featured) : shopProducts;
+    if (pool.length === 0) pool = shopProducts; // "featured only" with nothing featured must not blank the page
     return [...pool]
       .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || b.rating - a.rating)
       .slice(0, max);

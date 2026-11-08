@@ -162,23 +162,15 @@ export const dict = {
   "testi.title": { en: "The trail people leave.", ar: "الأثر الذي يتركونه خلفهم." },
   "testi.lead": { en: "4.9/5 from 1,842 verified reviews. These are a few of our favourites.", ar: "٤٫٩/٥ من ١٨٤٢ تقييماً موثقاً. هذه بعض المفضلة لدينا." },
 
-  // CTA
-  "cta.eyebrow": { en: "Let's talk scent", ar: "لنتحدث عن العطر" },
-  "cta.title": { en: "Not sure which one? Ask a human.", ar: "لم تحسم اختيارك؟ اسأل إنساناً." },
+  // Personal scent consultation CTA
+  "cta.eyebrow": { en: "Your scent, thoughtfully chosen", ar: "عطرك، نختاره معك" },
+  "cta.title": { en: "Discover the scent that feels like you.", ar: "اكتشف عطراً يشبهك." },
   "cta.lead": {
-    en: "Send us three words about yourself on WhatsApp and our perfumer will reply with three scents — usually within the hour.",
-    ar: "أرسل لنا ثلاث كلمات عن نفسك على واتساب وسيرد عليك عطّارنا بثلاثة عطور — عادةً خلال ساعة.",
+    en: "Tell us which notes you love, and our team will guide you to a composition that feels unmistakably yours.",
+    ar: "أخبرنا بالنفحات التي تفضّلها، وسنرشدك إلى تركيبة تعبّر عنك بكل عناية.",
   },
-  "cta.whatsapp": { en: "Chat on WhatsApp", ar: "تحدث على واتساب" },
-  "cta.messenger": { en: "Message us", ar: "راسلنا على ماسنجر" },
-
-  // Newsletter
-  "news.title": { en: "Letters from the atelier.", ar: "رسائل من الورشة." },
-  "news.lead": { en: "New releases, scent notes and private sales. Twice a month, never noise.", ar: "إصدارات جديدة، نوتات عطرية وتخفيضات خاصة. مرتين شهرياً، دون إزعاج." },
-  "news.placeholder": { en: "Your email address", ar: "بريدك الإلكتروني" },
-  "news.button": { en: "Subscribe", ar: "اشترك" },
-  "news.success": { en: "You're on the list. Welcome to the house.", ar: "أنت في القائمة الآن. أهلاً بك في الدار." },
-  "news.invalid": { en: "Please enter a valid email address.", ar: "أدخل بريداً إلكترونياً صحيحاً." },
+  "cta.whatsapp": { en: "Talk to a perfumer", ar: "تحدّث مع خبير العطور" },
+  "cta.messenger": { en: "Message our team", ar: "راسل فريقنا" },
 
   // Contact page
   "contact.eyebrow": { en: "Say hello", ar: "قل مرحباً" },

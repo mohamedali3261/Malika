@@ -1,7 +1,6 @@
 import { useBrand } from "@/hooks/useBrand";
 import { Logo } from "@/components/ui/Primitives";
 import { BRAND } from "@/data/site";
-import { NewsletterForm } from "@/components/ui/NewsletterForm";
 import {
   ArrowUpRight,
   Clock,
@@ -36,20 +35,6 @@ export function Footer() {
       <div className="pointer-events-none absolute bottom-0 start-1/4 h-64 w-64 rounded-full bg-lilac/15 blur-[90px]" />
 
       <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        {/* newsletter */}
-        <div className="grid gap-8 border-b border-bone/12 py-12 md:grid-cols-[1fr_1fr] md:items-center lg:py-16">
-          <div>
-            <h3 className="font-display text-4xl leading-none sm:text-5xl">{t("news.title")}</h3>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-bone/55">{t("news.lead")}</p>
-          </div>
-          <div className="md:justify-self-end md:w-[420px]">
-            <NewsletterForm dark />
-            <p className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-bone/35">
-              <span className="h-1 w-1 rounded-full bg-acid" /> {t("footer.made")}
-            </p>
-          </div>
-        </div>
-
         {/* columns */}
         <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1.2fr]">
           <div>
@@ -129,12 +114,6 @@ export function Footer() {
               </li>
             </ul>
           </div>
-        </div>
-
-        <div className="relative select-none overflow-hidden border-t border-bone/12 pt-6">
-          <p dir="ltr" className="font-display text-center text-[19vw] leading-[0.72] tracking-[0.06em] text-bone/[0.055] sm:text-[15vw]">
-            {wordmark}
-          </p>
         </div>
 
         <div className="flex flex-col items-center justify-between gap-3 border-t border-bone/12 py-5 text-[10px] uppercase tracking-[0.16em] text-bone/35 sm:flex-row">

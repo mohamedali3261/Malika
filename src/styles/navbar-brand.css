@@ -5,16 +5,16 @@
   top: 50%;
   left: 50%;
   display: grid;
-  width: min(38vw, 184px);
-  height: min(14vw, 60px);
-  min-width: 116px;
-  min-height: 43px;
+  width: min(32vw, 148px);
+  height: min(12vw, 50px);
+  min-width: 100px;
+  min-height: 36px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgb(212 160 68 / 50%);
-  border-radius: 12px;
+  border-radius: 10px;
   background: #000;
-  box-shadow: 0 0 20px rgb(212 160 68 / 17%);
+  box-shadow: 0 0 16px rgb(212 160 68 / 14%);
   transform: translate(-50%, -50%) scale(var(--nav-brand-scale));
   transform-origin: center;
   will-change: transform;
@@ -50,8 +50,10 @@
 
 @media (max-width: 380px) {
   .nav-brand-center {
-    width: min(36vw, 120px);
-    height: 44px;
+    width: min(32vw, 108px);
+    height: 38px;
+    min-width: 92px;
+    min-height: 34px;
   }
 }
 

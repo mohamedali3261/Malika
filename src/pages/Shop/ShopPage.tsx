@@ -27,10 +27,11 @@ export function ShopPage() {
   const { c } = useContent();
   const show = c.shopFilters;
   const { query: routeQuery } = useRoute();
+  const shopProducts = useMemo(() => products.filter((product) => product.showOnShop !== false), [products]);
 
   const priceCeiling = useMemo(
-    () => Math.max(3500, Math.ceil(Math.max(...products.map((product) => Math.max(...product.sizes.map((size) => size.price))), 3500) / 500) * 500),
-    [products]
+    () => Math.max(3500, Math.ceil(Math.max(...shopProducts.map((product) => Math.max(...product.sizes.map((size) => size.price))), 3500) / 500) * 500),
+    [shopProducts]
   );
 
   const initialGender = (routeQuery.get("gender") as Gender | null) ?? "all";
@@ -65,7 +66,7 @@ export function ShopPage() {
 
   const filtered = useMemo(() => {
     const term = eQuery.trim().toLowerCase();
-    const list = products.filter((product) => {
+    const list = shopProducts.filter((product) => {
       if (eGender !== "all" && product.gender !== eGender) return false;
       if (eSaved && !wishlist.includes(product.id)) return false;
       const cheapest = Math.min(product.price, ...product.sizes.map((size) => size.price));
@@ -89,7 +90,7 @@ export function ShopPage() {
           return Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || b.rating - a.rating;
       }
     });
-  }, [products, eGender, eSaved, wishlist, eMax, eQuery, eSort]);
+  }, [shopProducts, eGender, eSaved, wishlist, eMax, eQuery, eSort]);
 
   const isFiltered = eQuery !== "" || eGender !== "all" || eSaved || eMax < priceCeiling;
 
@@ -106,7 +107,7 @@ export function ShopPage() {
     <div className="anim-page">
       <h1 className="sr-only">{t("shop.title")}</h1>
       <ShopHeroSlider />
-      <ShopIntro count={products.length} />
+      <ShopIntro count={shopProducts.length} />
       <section className="bg-bone pb-4 pt-5">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <FilterBar

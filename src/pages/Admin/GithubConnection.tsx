@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { Select } from "@/components/ui/Select";
 import {
   Check,
   Copy,
@@ -166,14 +167,13 @@ export function GithubConnection({
               />
             </Row>
             <Row label={t("gh.scope")} hint={t("gh.scopeHint")}>
-              <select
+              <Select
                 value={settings.scope}
-                onChange={(event) => update("scope", event.target.value as OAuthScope)}
-                className="field"
-              >
-                <option value="public_repo">public_repo</option>
-                <option value="repo">repo</option>
-              </select>
+                onChange={(value) => update("scope", value as OAuthScope)}
+                options={[{ value: "public_repo", label: "public_repo" }, { value: "repo", label: "repo" }]}
+                ariaLabel={t("gh.scope")}
+                dir="ltr"
+              />
             </Row>
             <Row label={t("gh.callback")} hint={lang === "ar" ? "ألصق نفس الرابط في GitHub ← OAuth App ← Authorization callback URL." : "Paste the same URL in GitHub → OAuth App → Authorization callback URL."}>
               <div className="flex gap-1.5">

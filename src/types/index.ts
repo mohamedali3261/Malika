@@ -39,6 +39,10 @@ export interface Product {
    */
   cutout?: string;
   accent: string;
+  /** Controls whether this scent has a product card on the homepage. */
+  showOnHome?: boolean;
+  /** Controls whether this scent has a product card in the shop. Legacy products default to visible. */
+  showOnShop?: boolean;
   featured?: boolean;
   isNew?: boolean;
   bestseller?: boolean;

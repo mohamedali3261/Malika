@@ -2,6 +2,7 @@ import { SmartImage } from "@/components/ui/Primitives";
 import { Pencil, Search, Trash } from "@/components/ui/icons";
 import { useLang } from "@/i18n/LanguageContext";
 import { formatPrice } from "@/lib/format";
+import { cn } from "@/utils/cn";
 import type { Product } from "@/types";
 import { useMemo, useState } from "react";
 
@@ -16,28 +17,63 @@ export function ProductTable({
 }) {
   const { t, lang, l } = useLang();
   const [term, setTerm] = useState("");
+  const [scope, setScope] = useState<"all" | "home" | "shop">("all");
+  const ar = lang === "ar";
+
+  const scoped = useMemo(
+    () => products.filter((product) => {
+      if (scope === "home") return product.showOnHome !== false;
+      if (scope === "shop") return product.showOnShop !== false;
+      return true;
+    }),
+    [products, scope]
+  );
 
   const filtered = useMemo(() => {
     const value = term.trim().toLowerCase();
-    if (!value) return products;
-    return products.filter((product) =>
+    if (!value) return scoped;
+    return scoped.filter((product) =>
       [product.name.en, product.name.ar, product.slug, product.gender]
         .join(" ")
         .toLowerCase()
         .includes(value)
     );
-  }, [products, term]);
+  }, [scoped, term]);
+
+  const scopes = [
+    { key: "all" as const, label: ar ? "كل المنتجات" : "All products", count: products.length },
+    { key: "home" as const, label: ar ? "الرئيسية" : "Homepage", count: products.filter((product) => product.showOnHome !== false).length },
+    { key: "shop" as const, label: ar ? "المتجر" : "Shop", count: products.filter((product) => product.showOnShop !== false).length },
+  ];
 
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-[11px] font-semibold text-mist">
-          {filtered.length} / {products.length} {t("shop.results")}
-        </p>
+        <div className="flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-ink/10 bg-bone-2/50 p-1" role="tablist" aria-label={ar ? "تصفية بطاقات المنتجات حسب الصفحة" : "Filter product cards by page"}>
+          {scopes.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              role="tab"
+              aria-selected={scope === item.key}
+              onClick={() => setScope(item.key)}
+              className={cn(
+                "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold transition",
+                scope === item.key ? "bg-ink text-bone" : "text-mist hover:bg-surface hover:text-ink"
+              )}
+            >
+              {item.label}
+              <span className={cn("rounded-full px-1.5 py-0.5 text-[9px] tabular-nums", scope === item.key ? "bg-bone/15 text-acid" : "bg-ink/5")}>{item.count}</span>
+            </button>
+          ))}
+        </div>
         <label className="relative block w-full sm:w-64">
           <Search className="pointer-events-none absolute start-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-mist" />
           <input value={term} onChange={(event) => setTerm(event.target.value)} placeholder={t("shop.search")} className="field h-9 ps-9 text-[11px]" />
         </label>
+        <p className="w-full text-end text-[11px] font-semibold text-mist sm:w-auto">
+          {filtered.length} / {scoped.length} {t("shop.results")}
+        </p>
       </div>
 
       {filtered.length === 0 ? (
@@ -57,7 +93,9 @@ export function ProductTable({
                 <div className="min-w-0">
                   <p className="truncate text-[12px] font-bold">{product.name.en}</p>
                   <p className="truncate text-[10px] text-mist">{product.name.ar} · {formatPrice(product.price, lang)}</p>
-                  <div className="mt-1 flex gap-1 md:hidden">
+                  <div className="mt-1 flex flex-wrap gap-1 md:hidden">
+                    {product.showOnHome !== false && <span className="rounded-full bg-lilac px-1.5 py-0.5 text-[7px] font-bold">{ar ? "الرئيسية" : "home"}</span>}
+                    {product.showOnShop !== false && <span className="rounded-full bg-bone-2 px-1.5 py-0.5 text-[7px] font-bold">{ar ? "المتجر" : "shop"}</span>}
                     {product.featured && <span className="rounded-full bg-ink px-1.5 py-0.5 text-[7px] font-bold text-acid">featured</span>}
                     {product.isNew && <span className="rounded-full bg-lilac px-1.5 py-0.5 text-[7px] font-bold">new</span>}
                     {product.bestseller && <span className="rounded-full bg-acid px-1.5 py-0.5 text-[7px] font-bold">best</span>}
@@ -66,6 +104,8 @@ export function ProductTable({
               </div>
               <span className="hidden text-[11px] text-ink/60 md:block">{t(`shop.${product.gender}`)}</span>
               <div className="hidden flex-wrap gap-1 md:flex">
+                {product.showOnHome !== false && <span className="rounded-full bg-lilac px-1.5 py-0.5 text-[7px] font-bold">home</span>}
+                {product.showOnShop !== false && <span className="rounded-full bg-bone-2 px-1.5 py-0.5 text-[7px] font-bold">shop</span>}
                 {product.featured && <span className="rounded-full bg-ink px-1.5 py-0.5 text-[7px] font-bold text-acid">featured</span>}
                 {product.isNew && <span className="rounded-full bg-lilac px-1.5 py-0.5 text-[7px] font-bold">new</span>}
                 {product.bestseller && <span className="rounded-full bg-acid px-1.5 py-0.5 text-[7px] font-bold">best</span>}

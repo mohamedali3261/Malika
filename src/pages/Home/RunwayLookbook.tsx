@@ -50,11 +50,12 @@ export function RunwayLookbook() {
 
   // Select 6 signature flacons for the receding runway line + pair remaining catalogue scents in the 12-card rail
   const { lookProducts, railItems } = useMemo(() => {
-    if (products.length === 0) {
+    const homeProducts = products.filter((product) => product.showOnHome !== false);
+    if (homeProducts.length === 0) {
       return { lookProducts: [] as Product[], railItems: [] as RailEntry[] };
     }
 
-    const sorted = [...products].sort(
+    const sorted = [...homeProducts].sort(
       (a, b) =>
         Number(Boolean(b.cutout)) - Number(Boolean(a.cutout)) ||
         Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||
