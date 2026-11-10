@@ -40,6 +40,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     `malika.settings.v2${catalogueVersion}`,
     publishedSettings ? { ...defaultSettings, ...publishedSettings } : defaultSettings
   );
+  const [priceSettingsMigrated, setPriceSettingsMigrated] = usePersistentState<boolean>("malika.settings.one-egp.v1", false);
+  useEffect(() => {
+    if (priceSettingsMigrated) return;
+    setSettings((previous) => previous.freeShippingThreshold === 1 ? previous : { ...previous, freeShippingThreshold: 1 });
+    setPriceSettingsMigrated(true);
+  }, [priceSettingsMigrated, setPriceSettingsMigrated, setSettings]);
   const settings = useMemo<SiteSettings>(
     () => ({
       ...rawSettings,

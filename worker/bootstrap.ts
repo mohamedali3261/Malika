@@ -19,6 +19,9 @@ const DDL_STATEMENTS = [
   `CREATE TABLE IF NOT EXISTS inventory (product_id TEXT NOT NULL REFERENCES products(id), size INTEGER NOT NULL CHECK(size > 0), quantity INTEGER NOT NULL DEFAULT 0 CHECK(quantity >= 0), PRIMARY KEY (product_id, size))`,
   `CREATE TABLE IF NOT EXISTS shipping_rates (city TEXT PRIMARY KEY, amount INTEGER NOT NULL CHECK(amount >= 0), free_threshold INTEGER CHECK(free_threshold IS NULL OR free_threshold >= 0))`,
   `CREATE TABLE IF NOT EXISTS coupons (code TEXT PRIMARY KEY, percent INTEGER NOT NULL CHECK(percent BETWEEN 1 AND 100), max_uses INTEGER NOT NULL CHECK(max_uses > 0), uses INTEGER NOT NULL DEFAULT 0 CHECK(uses >= 0), expires_at TEXT, enabled INTEGER NOT NULL DEFAULT 1 CHECK(enabled IN (0,1)))`,
+  `CREATE TABLE IF NOT EXISTS analytics_daily (day TEXT NOT NULL, event_type TEXT NOT NULL CHECK(event_type IN ('page_view','product_click')), page_path TEXT NOT NULL, target_id TEXT NOT NULL DEFAULT '', visitor_hash TEXT NOT NULL, event_count INTEGER NOT NULL DEFAULT 1 CHECK(event_count >= 1), PRIMARY KEY(day,event_type,page_path,target_id,visitor_hash), CHECK((event_type='page_view' AND target_id='') OR (event_type='product_click' AND target_id<>'')))`,
+  `CREATE INDEX IF NOT EXISTS analytics_daily_pages ON analytics_daily(event_type,day,page_path)`,
+  `CREATE INDEX IF NOT EXISTS analytics_daily_products ON analytics_daily(event_type,day,target_id)`,
   `CREATE TABLE IF NOT EXISTS deleted_images (key TEXT PRIMARY KEY, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
   `CREATE TABLE IF NOT EXISTS images (key TEXT PRIMARY KEY, content_type TEXT NOT NULL CHECK(content_type IN ('image/jpeg', 'image/png', 'image/webp')), data_base64 TEXT NOT NULL CHECK(length(data_base64) BETWEEN 16 AND 1333336), size INTEGER NOT NULL CHECK(size BETWEEN 12 AND 1000000), created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
 ];

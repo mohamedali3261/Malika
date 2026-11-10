@@ -30,8 +30,8 @@ function ProductCardBase({ product, priority, className }: ProductCardProps) {
   const [ml, setMl] = useState(initial?.ml ?? 50);
 
   const wished = isWished(product.id);
-  const discount = discountPercent(product.price, product.compareAt);
   const selected = product.sizes.find((size) => size.ml === ml) ?? initial;
+  const discount = discountPercent(selected?.price ?? product.price, product.compareAt);
   const [cutoutFailed, setCutoutFailed] = useState(false);
   // A broken cut-out path falls back to the product photograph instead of a hole.
   const image = resolveAsset(cutoutFailed || !product.cutout ? product.images[0] : product.cutout);
@@ -117,7 +117,7 @@ function ProductCardBase({ product, priority, className }: ProductCardProps) {
           <h3 className="pc-title font-display">{l(product.name)}</h3>
           <p className="pc-price-row">
             <span className="pc-price">{formatPrice(selected?.price ?? product.price, lang)}</span>
-            {product.compareAt && (
+            {product.compareAt && product.compareAt > (selected?.price ?? product.price) && (
               <span className="pc-compare">{formatPrice(product.compareAt, lang)}</span>
             )}
           </p>

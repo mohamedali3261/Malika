@@ -9,7 +9,7 @@
 @property --acc {
   syntax: "<color>";
   inherits: true;
-  initial-value: #B89A62;
+  initial-value: #D4A035;
 }
 
 /* Card dimensions. "compact" is the default; "standard" is the earlier, taller
@@ -38,7 +38,7 @@
 }
 
 .shop-stage {
-  --acc: #B89A62;
+  --acc: #D4A035;
   /* Derived, so it follows the animated --acc frame by frame. */
   --acc-deep: color-mix(in srgb, var(--acc) 66%, #000);
   --acc-soft: color-mix(in srgb, var(--acc) 30%, transparent);

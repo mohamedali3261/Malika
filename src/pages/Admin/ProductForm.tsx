@@ -21,7 +21,7 @@ const emptyDraft = {
   descAr: "",
   storyEn: "",
   storyAr: "",
-  price: 1800,
+  price: 1,
   compareAt: 0,
   category: "woody" as Category,
   gender: "unisex" as Gender,
@@ -45,7 +45,7 @@ const emptyDraft = {
   sillageAr: "حضور ناعم",
   rating: 4.8,
   reviews: 0,
-  sizes: [{ ml: 50, price: 1800 }] as SizeOption[],
+  sizes: [{ ml: 50, price: 1 }] as SizeOption[],
   stocks: [0] as number[],
 };
 

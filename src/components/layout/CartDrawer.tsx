@@ -27,8 +27,8 @@ export function CartDrawer() {
   }, [close]);
 
   const quickMessage = cartMessage(lines, lang, settings);
-  const freeThreshold = 2000;
-  const progress = useMemo(() => Math.min(100, Math.round((subtotal / freeThreshold) * 100)), [subtotal]);
+  const freeThreshold = settings.freeShippingThreshold;
+  const progress = useMemo(() => Math.min(100, Math.round((subtotal / freeThreshold) * 100)), [subtotal, freeThreshold]);
   const remaining = Math.max(0, freeThreshold - subtotal);
 
   return (

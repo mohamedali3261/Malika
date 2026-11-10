@@ -1,4 +1,5 @@
 import { usePersistentState } from "@/hooks/usePersistentState";
+import { useStore } from "@/context/StoreContext";
 import type { CartLine, Product } from "@/types";
 import { useCallback, useContext, useEffect, useMemo, useState, createContext, type ReactNode } from "react";
 import { useRoute } from "@/lib/router";
@@ -26,6 +27,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const { path } = useRoute();
+  const { products } = useStore();
+
+  // Re-price saved cart lines against the current catalogue after a price update.
+  useEffect(() => {
+    if (products.length === 0) return;
+    setLines((current) => {
+      let changed = false;
+      const next = current.map((line) => {
+        const product = products.find((item) => item.id === line.productId);
+        const size = product?.sizes.find((item) => item.ml === line.ml);
+        if (!product || !size) return line;
+        const image = product.images[0] || line.image;
+        if (line.price === size.price && line.slug === product.slug && line.name.en === product.name.en && line.name.ar === product.name.ar && line.image === image) return line;
+        changed = true;
+        return { ...line, price: size.price, slug: product.slug, name: product.name, image };
+      });
+      return changed ? next : current;
+    });
+  }, [products, setLines]);
 
   // A sheet should never survive a navigation.
   useEffect(() => {

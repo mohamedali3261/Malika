@@ -23,7 +23,7 @@ export function PurchasePanel({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
 
   const selected = product.sizes.find((size) => size.ml === ml) ?? product.sizes[0];
-  const discount = discountPercent(product.price, product.compareAt);
+  const discount = discountPercent(selected?.price ?? product.price, product.compareAt);
   const wished = isWished(product.id);
 
   const handleAdd = () => {
@@ -69,7 +69,7 @@ export function PurchasePanel({ product }: { product: Product }) {
         <p className="font-display text-[1.9rem] leading-none sm:text-[2rem]">
           {formatPrice(selected?.price ?? product.price, lang)}
         </p>
-        {product.compareAt && (
+        {product.compareAt && product.compareAt > (selected?.price ?? product.price) && (
           <p className="text-[11px] text-mist line-through">{formatPrice(product.compareAt, lang)}</p>
         )}
         <span className="text-[10px] font-medium text-mist">/ {selected?.ml ?? 50} ml</span>

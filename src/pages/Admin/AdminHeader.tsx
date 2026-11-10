@@ -1,9 +1,9 @@
-import { Check, Lock, Pencil, Sparkle } from "@/components/ui/icons";
+import { Check, Eye, Lock, Pencil, Sparkle } from "@/components/ui/icons";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/utils/cn";
 
-export type AdminTab = "products" | "orders" | "delivery" | "security" | "content" | "settings";
+export type AdminTab = "products" | "analytics" | "orders" | "delivery" | "security" | "content" | "settings";
 
 export function AdminHeader({
   tab,
@@ -20,6 +20,7 @@ export function AdminHeader({
 
   const tabs: { key: AdminTab; label: string }[] = [
     { key: "products", label: t("admin.tab.products") },
+    { key: "analytics", label: t("admin.tab.analytics") },
     { key: "orders", label: lang === "ar" ? "الطلبات" : "Orders" },
     { key: "delivery", label: lang === "ar" ? "الشحن" : "Delivery" },
     { key: "security", label: lang === "ar" ? "الأمان" : "Security" },
@@ -64,6 +65,7 @@ export function AdminHeader({
               )}
             >
               {item.key === "products" && <Sparkle className="h-3.5 w-3.5" />}
+              {item.key === "analytics" && <Eye className="h-3.5 w-3.5" />}
               {item.key === "content" && <Pencil className="h-3.5 w-3.5" />}
               {item.label}
             </button>

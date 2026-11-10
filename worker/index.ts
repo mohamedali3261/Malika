@@ -16,6 +16,10 @@ const product = z.object({
   images: z.array(z.string().max(2048)).max(20), cutout: z.string().max(2048).optional(), accent: text(50), showOnHome: z.boolean().optional(), showOnShop: z.boolean().optional(), featured: z.boolean().optional(), isNew: z.boolean().optional(), bestseller: z.boolean().optional(), rating: z.number().min(0).max(5), reviews: z.number().int().min(0), longevity: text(100), sillage: localized, createdAt: text(100)
 }).strict();
 const order = z.object({ coupon: z.string().trim().toUpperCase().regex(/^[A-Z0-9_-]{1,40}$/).optional(), expectedShipping: z.number().int().min(0).max(10000000), expectedDiscount: z.number().int().min(0).max(500000000), customer: z.object({ name: text(120).min(2), phone: text(30).regex(/^[+\d\s()-]{8,30}$/), city: text(100), address: text(500).min(6), note: z.string().trim().max(1000) }), items: z.array(z.object({ productId: text(100), ml: z.number().int().positive(), qty: z.number().int().min(1).max(20), expectedPrice: z.number().int().min(0).max(10000000) })).min(1).max(50) });
+const analyticsEvent = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('page_view'), pagePath: text(180).regex(/^\/[a-z0-9/_-]*$/i), visitorId: z.string().uuid() }).strict(),
+  z.object({ type: z.literal('product_click'), pagePath: text(180).regex(/^\/[a-z0-9/_-]*$/i), visitorId: z.string().uuid(), productSlug: z.string().regex(/^[a-z0-9-]{1,100}$/) }).strict(),
+]);
 const encoder = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2,'0')).join('');
 const sha = async (s: string) => hex(await crypto.subtle.digest('SHA-256', encoder.encode(s)));
@@ -25,6 +29,26 @@ async function passwordHash(password: string, salt: string) {
 }
 const random = () => Array.from(crypto.getRandomValues(new Uint8Array(32)), x => x.toString(16).padStart(2,'0')).join('');
 const jsonBody = async (c: any) => { try { return await c.req.json(); } catch { return null; } };
+function normalizeAnalyticsPath(input: string): string | null {
+  const path = input.toLowerCase();
+  if (/^\/(studio|admin)(\/|$)/.test(path)) return null;
+  if (/^\/track(\/|$)/.test(path)) return '/track';
+  if (path === '/favorites' || path === '/saved') return '/wishlist';
+  if (/^\/product\/[a-z0-9-]{1,100}$/.test(path)) return path;
+  if (['/', '/shop', '/wishlist', '/contact'].includes(path)) return path;
+  return '/404';
+}
+let analyticsCleanupDay = '';
+async function pruneOldAnalytics(db: D1Database, today: string): Promise<void> {
+  if (analyticsCleanupDay === today) return;
+  analyticsCleanupDay = today;
+  const cutoff = new Date(Date.now() - 400 * 86_400_000).toISOString().slice(0, 10);
+  try {
+    await db.prepare('DELETE FROM analytics_daily WHERE day < ?').bind(cutoff).run();
+  } catch {
+    analyticsCleanupDay = '';
+  }
+}
 app.use('/api/*', async (c, next) => {
   c.header('X-Content-Type-Options', 'nosniff');
   if (!(c.req.method === 'GET' && c.req.path.startsWith('/api/images/'))) c.header('Cache-Control', 'no-store');
@@ -69,6 +93,26 @@ const adminGuard: MiddlewareHandler<Env> = async (c, next) => {
 };
 app.use('/api/admin/*', adminGuard);
 app.get('/api/admin/session', c => c.json({ok:true,role:c.get('role'),mustChangePassword:c.get('mustChangePassword')}));
+app.get('/api/admin/analytics', async c => {
+  const range = z.enum(['7','30','90','365']).safeParse(c.req.query('days') || '30');
+  if (!range.success) return c.json({error:'Invalid analytics range'},400);
+  const days = Number(range.data);
+  const end = new Date();
+  const endDay = end.toISOString().slice(0,10);
+  const startDay = new Date(end.getTime() - (days - 1) * 86_400_000).toISOString().slice(0,10);
+  const [summary, clickSummary, pages, products] = await Promise.all([
+    c.env.DB.prepare("SELECT COALESCE(SUM(event_count),0) AS page_views,COUNT(DISTINCT visitor_hash) AS visitors FROM analytics_daily WHERE event_type='page_view' AND day BETWEEN ? AND ?").bind(startDay,endDay).first<{page_views:number,visitors:number}>(),
+    c.env.DB.prepare("SELECT COALESCE(SUM(event_count),0) AS clicks FROM analytics_daily WHERE event_type='product_click' AND day BETWEEN ? AND ?").bind(startDay,endDay).first<{clicks:number}>(),
+    c.env.DB.prepare("SELECT page_path,COALESCE(SUM(event_count),0) AS views,COUNT(DISTINCT visitor_hash) AS visitors FROM analytics_daily WHERE event_type='page_view' AND day BETWEEN ? AND ? GROUP BY page_path ORDER BY views DESC,page_path ASC").bind(startDay,endDay).all<{page_path:string,views:number,visitors:number}>(),
+    c.env.DB.prepare("SELECT p.slug,COALESCE(json_extract(p.data,'$.name.en'),p.slug) AS name_en,COALESCE(json_extract(p.data,'$.name.ar'),p.slug) AS name_ar,COALESCE(SUM(a.event_count),0) AS clicks,COUNT(DISTINCT a.visitor_hash) AS visitors,p.archived FROM products p LEFT JOIN analytics_daily a ON a.event_type='product_click' AND a.target_id=p.slug AND a.day BETWEEN ? AND ? GROUP BY p.id,p.slug,p.archived ORDER BY clicks DESC,p.slug ASC").bind(startDay,endDay).all<{slug:string,name_en:string,name_ar:string,clicks:number,visitors:number,archived:number}>(),
+  ]);
+  return c.json({
+    period:{days,startDay,endDay},
+    summary:{pageViews:summary?.page_views ?? 0,visitors:summary?.visitors ?? 0,productClicks:clickSummary?.clicks ?? 0},
+    pages:pages.results.map(row=>({path:row.page_path,views:row.views,visitors:row.visitors})),
+    products:products.results.map(row=>({slug:row.slug,name:{en:row.name_en,ar:row.name_ar},clicks:row.clicks,visitors:row.visitors,archived:Boolean(row.archived)})),
+  });
+});
 app.post('/api/admin/logout', async c => { const token = getCookie(c,'__Host-malika_session'); if (token) await c.env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(await sha(token)).run(); deleteCookie(c,'__Host-malika_session',{secure:true,path:'/'}); return c.json({ok:true}); });
 app.post('/api/admin/password', async c => {
   const data = z.object({ currentPassword: z.string().max(256).optional(), newPassword: z.string().min(8).max(256) }).safeParse(await jsonBody(c));
@@ -122,6 +166,27 @@ app.delete('/api/admin/accounts/:id', async c => {
 app.get('/api/admin/audit', async c => c.json((await c.env.DB.prepare('SELECT id,admin_id,action,target_id,created_at FROM audit_log ORDER BY created_at DESC LIMIT 100').all()).results));
 app.get('/api/categories', async c => c.json((await c.env.DB.prepare('SELECT * FROM categories ORDER BY id').all()).results));
 app.get('/api/products', async c => c.json((await c.env.DB.prepare('SELECT data FROM products WHERE archived=0 ORDER BY updated_at DESC').all<{data:string}>()).results.map(x => JSON.parse(x.data))));
+app.post('/api/analytics/event', async c => {
+  const input = analyticsEvent.safeParse(await jsonBody(c));
+  if (!input.success) return c.json({error:'Invalid analytics event'},400);
+  const pagePath = normalizeAnalyticsPath(input.data.pagePath);
+  if (!pagePath) return c.json({ok:true,ignored:true});
+
+  let targetId = '';
+  if (input.data.type === 'product_click') {
+    const found = await c.env.DB.prepare('SELECT id FROM products WHERE slug=? AND archived=0').bind(input.data.productSlug).first<{id:string}>();
+    if (!found) return c.json({error:'Product not found'},404);
+    targetId = input.data.productSlug;
+  }
+
+  const today = new Date().toISOString().slice(0,10);
+  await pruneOldAnalytics(c.env.DB,today);
+  const visitorHash = await sha(`analytics-v1:${input.data.visitorId}`);
+  await c.env.DB.prepare("INSERT INTO analytics_daily(day,event_type,page_path,target_id,visitor_hash,event_count) VALUES(?,?,?,?,?,1) ON CONFLICT(day,event_type,page_path,target_id,visitor_hash) DO UPDATE SET event_count=analytics_daily.event_count+1")
+    .bind(today,input.data.type,pagePath,targetId,visitorHash)
+    .run();
+  return c.json({ok:true});
+});
 app.post('/api/admin/products/import', async c => {
   const body = z.object({products:z.array(product).min(1).max(100)}).safeParse(await jsonBody(c));
   if (!body.success) return c.json({error:'Invalid catalogue', issues:body.error.issues.slice(0,20).map(i=>({path:i.path,message:i.message}))},400);
@@ -297,7 +362,7 @@ app.get('/api/admin/images', async c => {
 });
 const edgeCache = (): Cache | undefined => (typeof caches !== 'undefined' ? (caches as unknown as { default?: Cache }).default : undefined);
 const deleteImage = async (c: Context<Env>) => {
-  const key=c.req.param('key'); if(!imageKey.test(key)) return c.json({error:'Invalid key'},400);
+  const key=c.req.param('key') ?? ''; if(!imageKey.test(key)) return c.json({error:'Invalid key'},400);
   // The reference check, tombstone, audit entry and deletion share one D1
   // transaction. Product triggers prevent later references to a tombstoned key.
   const results=await c.env.DB.batch([
