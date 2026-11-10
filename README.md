@@ -635,7 +635,7 @@ reaches the bundle. A **personal access token** connection is still available as
 
 - Brand: **مليكة · MALIKA** — Arabic for *queen*; the house is built around regal, lasting presence. Rename it in
   `src/data/site.ts` (`BRAND`) and the `brand.*` keys in `src/i18n/translations.ts`.
-- Palette: ink plum `#141019`, bone `#F3EFE7`, lilac `#C9B5F7`, warm bronze `#B89A62` — a softer alternative to neon lime.
+- Palette: ink plum `#141019`, bone `#F3EFE7`, lilac `#C9B5F7`, gold `#D4A035` — a richer, warm primary accent.
 - Type: Instrument Serif (Latin display) + Manrope (Latin UI) + IBM Plex Sans Arabic (Arabic display/UI).
 - Motion: IntersectionObserver reveals, marquees, floats, sheen sweeps, drawer/modal transitions; all
   reduced-motion aware.

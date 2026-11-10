@@ -2,6 +2,7 @@ export { AdminPage } from "./AdminPage";
 export { StudioGate } from "./StudioGate";
 export { StudioLock } from "./StudioLock";
 export { AdminHeader } from "./AdminHeader";
+export { Analytics } from "./Analytics";
 export { ProductTable } from "./ProductTable";
 export { ProductForm } from "./ProductForm";
 export { StoreSettingsForm } from "./StoreSettingsForm";

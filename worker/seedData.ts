@@ -9,138 +9,138 @@ export const INITIAL_ADMIN = {
 export const SEED_SHIPPING_RATES: ReadonlyArray<readonly [string, number, number]> = [
   [
     "Cairo",
-    60,
-    2000
+    1,
+    1
   ],
   [
     "Giza",
-    60,
-    2000
+    1,
+    1
   ],
   [
     "Alexandria",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Qalyubia",
-    70,
-    2000
+    1,
+    1
   ],
   [
     "Sharqia",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Dakahlia",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Gharbia",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Monufia",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Beheira",
-    75,
-    2000
+    1,
+    1
   ],
   [
     "Kafr El Sheikh",
-    80,
-    2000
+    1,
+    1
   ],
   [
     "Damietta",
-    80,
-    2000
+    1,
+    1
   ],
   [
     "Port Said",
-    80,
-    2000
+    1,
+    1
   ],
   [
     "Ismailia",
-    80,
-    2000
+    1,
+    1
   ],
   [
     "Suez",
-    80,
-    2000
+    1,
+    1
   ],
   [
     "Faiyum",
-    85,
-    2000
+    1,
+    1
   ],
   [
     "Beni Suef",
-    85,
-    2000
+    1,
+    1
   ],
   [
     "Minya",
-    90,
-    2000
+    1,
+    1
   ],
   [
     "Asyut",
-    90,
-    2000
+    1,
+    1
   ],
   [
     "Sohag",
-    95,
-    2000
+    1,
+    1
   ],
   [
     "Qena",
-    95,
-    2000
+    1,
+    1
   ],
   [
     "Luxor",
-    100,
-    2000
+    1,
+    1
   ],
   [
     "Aswan",
-    100,
-    2000
+    1,
+    1
   ],
   [
     "Red Sea",
-    100,
-    2000
+    1,
+    1
   ],
   [
     "Matrouh",
-    100,
-    2000
+    1,
+    1
   ],
   [
     "North Sinai",
-    105,
-    2000
+    1,
+    1
   ],
   [
     "South Sinai",
-    105,
-    2000
+    1,
+    1
   ],
   [
     "New Valley",
-    110,
-    2000
+    1,
+    1
   ]
 ];
 
@@ -164,20 +164,20 @@ export const SEED_PRODUCTS = [
       "en": "Our first composition and still our most requested. Yara built it for a Cairo rooftop in December — cool air, warm company, charcoal in the corner. Ninety-one trials before the balance was right.",
       "ar": "أول تركيبة لنا وما زالت الأكثر طلباً. صممته يارا لسطح مبنى في القاهرة في ديسمبر — هواء بارد، صحبة دافئة، وفحم في الزاوية. إحدى وتسعون محاولة قبل أن يصبح التوازن صحيحاً."
     },
-    "price": 2650,
-    "compareAt": 3100,
+    "price": 1,
+    "compareAt": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1850
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2650
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3750
+        "price": 1
       }
     ],
     "category": "woody",
@@ -237,7 +237,7 @@ export const SEED_PRODUCTS = [
       "https://images.pexels.com/photos/34036480/pexels-photo-34036480.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=800&h=1100"
     ],
     "cutout": "/api/images/40000000-0000-4000-8000-000000000003",
-    "accent": "#B89A62",
+    "accent": "#D4A035",
     "featured": true,
     "bestseller": true,
     "rating": 4.9,
@@ -268,19 +268,19 @@ export const SEED_PRODUCTS = [
       "en": "Inspired by the fig tree in our founder's grandmother's garden in Maadi — fruit warmed by the afternoon, earth still cool underneath. A scent for the hour before sunset.",
       "ar": "مستوحى من شجرة التين في حديقة جدة مؤسستنا في المعادي — فاكهة دافئة من بعد الظهر، وتراب لا يزال بارداً تحتها. عطر للساعة التي تسبق الغروب."
     },
-    "price": 2150,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1550
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2150
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 2950
+        "price": 1
       }
     ],
     "category": "woody",
@@ -350,7 +350,8 @@ export const SEED_PRODUCTS = [
       "en": "Intimate, then noticed",
       "ar": "هادئ ثم يُلاحظ"
     },
-    "createdAt": "2026-01-08"
+    "createdAt": "2026-01-08",
+    "compareAt": 1
   },
   {
     "id": "velvet-dusk",
@@ -371,19 +372,19 @@ export const SEED_PRODUCTS = [
       "en": "The pink of the sky ten minutes after the sun disappears. We chased that colour with orris butter — one of the most expensive materials we use — and let it unfold slowly.",
       "ar": "لون السماء الوردي بعد اختفاء الشمس بعشر دقائق. طاردنا ذلك اللون بزبدة السوسن — أغلى المواد التي نستخدمها — وتركناه يتكشف ببطء."
     },
-    "price": 2450,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1750
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2450
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3350
+        "price": 1
       }
     ],
     "category": "floral",
@@ -453,7 +454,8 @@ export const SEED_PRODUCTS = [
       "en": "Softly generous",
       "ar": "حضور ناعم"
     },
-    "createdAt": "2025-06-21"
+    "createdAt": "2025-06-21",
+    "compareAt": 1
   },
   {
     "id": "cedar-static",
@@ -474,19 +476,19 @@ export const SEED_PRODUCTS = [
       "en": "Named after the static before a thunderstorm in the mountains — the air feels charged and metallic. We replicated it with grapefruit peel, cade oil and a thread of ambergris.",
       "ar": "سُمّي على اسم الشحنة الكهربائية قبل عاصفة رعدية في الجبال — هواء مشحون ومعدني. أعدنا إنتاجه بقشر الجريب فروت وزيت الكاد وخيط من العنبر."
     },
-    "price": 2300,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1650
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2300
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3150
+        "price": 1
       }
     ],
     "category": "woody",
@@ -555,7 +557,8 @@ export const SEED_PRODUCTS = [
       "en": "Crisp and present",
       "ar": "نقي وحاضر"
     },
-    "createdAt": "2025-09-02"
+    "createdAt": "2025-09-02",
+    "compareAt": 1
   },
   {
     "id": "iris-mirage",
@@ -576,19 +579,19 @@ export const SEED_PRODUCTS = [
       "en": "Iris takes six years to mature. We waited, and the result is a scent that behaves like light on water — never quite where you thought it was.",
       "ar": "يحتاج السوسن ست سنوات ليصل إلى نضجه. انتظرنا، والنتيجة عطر يتصرف كالضوء على الماء — لا يكون أبداً حيث ظننت."
     },
-    "price": 2850,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 2050
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2850
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3950
+        "price": 1
       }
     ],
     "category": "floral",
@@ -657,7 +660,8 @@ export const SEED_PRODUCTS = [
       "en": "Whispered",
       "ar": "كهمسة"
     },
-    "createdAt": "2026-02-14"
+    "createdAt": "2026-02-14",
+    "compareAt": 1
   },
   {
     "id": "salt-and-smoke",
@@ -678,19 +682,19 @@ export const SEED_PRODUCTS = [
       "en": "Built for a weekend in Ain Sokhna that turned into a bonfire. Sunscreen, salt water and cedar smoke on a jacket — it shouldn't work as well as it does.",
       "ar": "صُمم لعطلة في العين السخنة تحولت إلى نار خشب. صن بلوك وماء مالح ورائحة أرز مدخن على جاكيت — لا يجب أن تكون بهذا الجمال، لكنها كذلك."
     },
-    "price": 1950,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1450
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 1950
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 2650
+        "price": 1
       }
     ],
     "category": "fresh",
@@ -758,7 +762,8 @@ export const SEED_PRODUCTS = [
       "en": "Fresh trail",
       "ar": "أثر منعش"
     },
-    "createdAt": "2025-07-19"
+    "createdAt": "2025-07-19",
+    "compareAt": 1
   },
   {
     "id": "oud-meridian",
@@ -779,20 +784,20 @@ export const SEED_PRODUCTS = [
       "en": "We spent eleven months sourcing this oud. It is smoky rather than animalic, which makes it wearable in Cairo heat. The saffron is there to keep it golden.",
       "ar": "أمضينا أحد عشر شهراً في البحث عن هذا العود. دخاني وليس حيوانياً، مما يجعله قابلاً للاستخدام في حر القاهرة. الزعفران موجود ليبقيه ذهبياً."
     },
-    "price": 3250,
-    "compareAt": 3800,
+    "price": 1,
+    "compareAt": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 2250
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 3250
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 4450
+        "price": 1
       }
     ],
     "category": "oriental",
@@ -883,19 +888,19 @@ export const SEED_PRODUCTS = [
       "en": "A morning perfume for people who hate morning perfumes. We removed the sugar and kept the peel — bitter, clean, awake.",
       "ar": "عطر صباحي لمن يكرهون عطور الصباح. أزلنا السكر واحتفظنا بالقشر — مُرّ، نظيف، مستيقظ."
     },
-    "price": 1750,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1250
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 1750
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 2350
+        "price": 1
       }
     ],
     "category": "fresh",
@@ -963,7 +968,8 @@ export const SEED_PRODUCTS = [
       "en": "Bright and light",
       "ar": "مشرق وخفيف"
     },
-    "createdAt": "2026-03-01"
+    "createdAt": "2026-03-01",
+    "compareAt": 1
   },
   {
     "id": "bloom-ledger",
@@ -984,19 +990,19 @@ export const SEED_PRODUCTS = [
       "en": "Tuberose is loud by nature. We spent a summer learning how to let it speak at a conversational volume — with freesia, jasmine and a clean woody spine.",
       "ar": "التوبروز بطبيعته صاخب. قضينا صيفاً نتعلم كيف نجعله يتحدث بصوت هادئ — مع الفريزيا والياسمين وعمود خشبي نظيف."
     },
-    "price": 2250,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1600
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2250
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3050
+        "price": 1
       }
     ],
     "category": "floral",
@@ -1063,7 +1069,8 @@ export const SEED_PRODUCTS = [
       "en": "Romantic trail",
       "ar": "أثر رومانسي"
     },
-    "createdAt": "2025-03-24"
+    "createdAt": "2025-03-24",
+    "compareAt": 1
   },
   {
     "id": "amber-hours",
@@ -1084,19 +1091,19 @@ export const SEED_PRODUCTS = [
       "en": "We wanted the feeling of staying in when everyone else goes out. Plum and cardamom open it; labdanum and benzoin hold the door shut.",
       "ar": "أردنا إحساس البقاء في البيت حين يخرج الجميع. البرقوق والهيل يفتحانه، واللبدانوم والبنزوين يغلقان الباب."
     },
-    "price": 2550,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1800
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2550
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3450
+        "price": 1
       }
     ],
     "category": "oriental",
@@ -1163,7 +1170,8 @@ export const SEED_PRODUCTS = [
       "en": "Warm aura",
       "ar": "هالة دافئة"
     },
-    "createdAt": "2025-10-10"
+    "createdAt": "2025-10-10",
+    "compareAt": 1
   },
   {
     "id": "musk-elsewhere",
@@ -1184,19 +1192,19 @@ export const SEED_PRODUCTS = [
       "en": "Our most-gifted bottle, because it suits everyone. Designed for layering — it makes other scents feel more like yours.",
       "ar": "أكثر زجاجة تُهدى، لأنها تناسب الجميع. صُممت للدمج — تجعل العطور الأخرى تبدو أكثر لك."
     },
-    "price": 1850,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1350
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 1850
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 2450
+        "price": 1
       }
     ],
     "category": "fresh",
@@ -1264,7 +1272,8 @@ export const SEED_PRODUCTS = [
       "en": "Skin-close",
       "ar": "قريب من البشرة"
     },
-    "createdAt": "2025-05-05"
+    "createdAt": "2025-05-05",
+    "compareAt": 1
   },
   {
     "id": "night-jasmine",
@@ -1285,19 +1294,19 @@ export const SEED_PRODUCTS = [
       "en": "Our grandparents put jasmine garlands by the window at night. This is that memory, made denser for evening wear and rounded with a drop of vanilla.",
       "ar": "كان أجدادنا يضعون قلائد الياسمين بجانب النافذة ليلاً. هذه هي تلك الذكرى، أكثر كثافة لساعات المساء، ومستديرة بقطرة فانيليا."
     },
-    "price": 2650,
+    "price": 1,
     "sizes": [
       {
         "ml": 30,
-        "price": 1850
+        "price": 1
       },
       {
         "ml": 50,
-        "price": 2650
+        "price": 1
       },
       {
         "ml": 100,
-        "price": 3550
+        "price": 1
       }
     ],
     "category": "floral",
@@ -1365,7 +1374,8 @@ export const SEED_PRODUCTS = [
       "en": "Evening presence",
       "ar": "حضور مسائي"
     },
-    "createdAt": "2025-12-01"
+    "createdAt": "2025-12-01",
+    "compareAt": 1
   }
 ];
 

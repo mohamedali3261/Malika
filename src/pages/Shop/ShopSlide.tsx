@@ -36,7 +36,7 @@ export function ShopSlide({ product, index, total, active }: Props) {
   const selected = product.sizes.find((size) => size.ml === ml) ?? initial;
   const price = selected?.price ?? product.price;
   const wished = isWished(product.id);
-  const discount = discountPercent(product.price, product.compareAt);
+  const discount = discountPercent(price, product.compareAt);
   const unit = x("ml", "مل");
 
 
@@ -98,7 +98,7 @@ export function ShopSlide({ product, index, total, active }: Props) {
 
           <div className={cn("mt-2 flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 lg:justify-start", REVEAL)} style={delay(1)}>
             <span className="hd-sub font-display leading-none">{formatPrice(price, lang)}</span>
-            {product.compareAt && (
+            {product.compareAt && product.compareAt > price && (
               <span className="text-[12px] text-bone/40 line-through">{formatPrice(product.compareAt, lang)}</span>
             )}
             {discount && (

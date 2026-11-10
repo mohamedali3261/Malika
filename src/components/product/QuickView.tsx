@@ -48,7 +48,7 @@ export function QuickView({
   }, [open, product]);
 
   const selected = product.sizes.find((size) => size.ml === ml) ?? product.sizes[0];
-  const discount = discountPercent(product.price, product.compareAt);
+  const discount = discountPercent(selected?.price ?? product.price, product.compareAt);
 
   const addToBag = () => {
     add(product, selected.ml, selected.price);
@@ -124,7 +124,7 @@ export function QuickView({
                   <p className="text-[9px] uppercase tracking-[0.22em] text-mist">{t("product.from")}</p>
                   <p className="font-display text-3xl">{formatPrice(selected.price, lang)}</p>
                 </div>
-                {product.compareAt && (
+                {product.compareAt && product.compareAt > selected.price && (
                   <p className="text-[12px] text-mist line-through">{formatPrice(product.compareAt, lang)}</p>
                 )}
               </div>

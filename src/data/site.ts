@@ -21,7 +21,7 @@ export const defaultSettings: SiteSettings = {
   instagram: "vlor.perfumes",
   email: "hello@vlor-perfumes.com",
   phone: "+20 123 456 7890",
-  freeShippingThreshold: 2000,
+  freeShippingThreshold: 1,
   address: {
     en: "Online store · Shipping across Egypt",
     ar: "متجر إلكتروني · شحن لكل محافظات مصر",
