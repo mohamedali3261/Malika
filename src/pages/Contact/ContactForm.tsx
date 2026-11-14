@@ -91,7 +91,7 @@ export function ContactForm() {
           </Reveal>
 
           <Reveal delay={110} className="relative flex flex-col bg-ink p-6 text-bone sm:p-8">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_0%,rgba(201,181,247,0.22),transparent_52%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_0%,rgba(199,168,115,0.22),transparent_52%)]" />
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_90%,rgba(213,255,74,0.08),transparent_40%)]" />
             <div className="relative flex h-full flex-col">
               <div className="overflow-hidden rounded-[1.4rem] border border-bone/10">

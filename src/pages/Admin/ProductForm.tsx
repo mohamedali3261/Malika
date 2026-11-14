@@ -34,7 +34,7 @@ const emptyDraft = {
   baseAr: "",
   images: "",
   cutout: "",
-  accent: "#C9B5F7",
+  accent: "#D4A035",
   showOnHome: true,
   showOnShop: true,
   featured: false,
@@ -435,7 +435,7 @@ export function ProductForm({
               />
             </Field>
 
-            <Field label={lang === "ar" ? "لون البطاقة" : "Card accent"}>
+            <Field label={lang === "ar" ? "لون إبراز العطر (في صفحات العرض)" : "Product accent (showcase and product pages)"} hint={lang === "ar" ? "درجات البنفسجي تُعرض بلون تمييز الموقع." : "Purple tones are displayed using the site accent."}>
               <div className="flex items-center gap-2">
                 <input type="color" value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="h-10 w-12 cursor-pointer rounded-lg border border-ink/15 bg-surface p-1" />
                 <input value={draft.accent} onChange={(event) => update("accent", event.target.value)} className="field" dir="ltr" />

@@ -1,5 +1,4 @@
 import { Check, Eye, Lock, Pencil, Sparkle } from "@/components/ui/icons";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useLang } from "@/i18n/LanguageContext";
 import { cn } from "@/utils/cn";
 
@@ -71,7 +70,6 @@ export function AdminHeader({
             </button>
           ))}
           <div className="ms-auto flex items-center gap-2">
-            <ThemeToggle variant="admin" />
             <span className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.12em]", dirty ? "bg-amber-300/15 text-amber-200" : "bg-bone/10 text-bone/45")}>
               {dirty ? <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-300" /> : <Check className="h-3 w-3" />}
               {dirty ? t("gh.dirty") : t("gh.allPublished")}

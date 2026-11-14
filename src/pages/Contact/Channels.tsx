@@ -22,7 +22,7 @@ export function Channels() {
       description: t("contact.messenger.desc"),
       href: messengerUrl(settings.messenger),
       icon: Messenger,
-      tone: "hover:bg-[#C9B5F7] hover:border-lilac hover:text-ink",
+      tone: "hover:bg-lilac hover:border-lilac hover:text-ink",
       badge: null,
     },
     {

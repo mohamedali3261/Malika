@@ -194,7 +194,7 @@ export function Select({
         onKeyDown={onTriggerKeyDown}
         className={cn(
           "flex h-11 w-full items-center justify-between gap-3 rounded-xl border border-ink/12 bg-surface/80 px-4 text-start text-[12px] font-semibold text-ink shadow-sm transition duration-200 hover:border-ink/25 hover:bg-surface focus:border-plum focus:outline-none focus:ring-4 focus:ring-lilac/25 disabled:cursor-not-allowed disabled:opacity-50",
-          open && "border-plum shadow-[0_0_0_4px_rgba(201,181,247,0.2)]",
+          open && "border-plum shadow-[0_0_0_4px_rgba(199,168,115,0.2)]",
           buttonClassName
         )}
       >

@@ -9,6 +9,7 @@ import { useLang } from "@/i18n/LanguageContext";
 import { formatPrice, discountPercent } from "@/lib/format";
 import { openChannel, productMessage, whatsappUrl } from "@/lib/messaging";
 import { Link } from "@/lib/router";
+import { productAccent } from "@/lib/theme";
 import { emitBagPulse } from "@/motion";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
@@ -74,7 +75,7 @@ export function QuickView({
         </button>
 
         <div className="grid sm:grid-cols-[0.9fr_1.1fr]">
-          <div className="relative p-4 sm:p-5" style={{ background: `linear-gradient(160deg, ${product.accent}4D, var(--color-bone-2))` }}>
+          <div className="relative p-4 sm:p-5" style={{ background: `linear-gradient(160deg, color-mix(in srgb, ${productAccent(product.accent, "var(--color-acid)")} 30%, transparent), var(--color-bone-2))` }}>
             <SmartImage
               src={product.images[0]}
               alt={l(product.name)}

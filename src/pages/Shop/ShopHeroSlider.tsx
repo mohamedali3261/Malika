@@ -4,6 +4,7 @@ import { useStore } from "@/context/StoreContext";
 import { useContent } from "@/hooks/useContent";
 import { useLang } from "@/i18n/LanguageContext";
 import { resolveAsset } from "@/lib/assets";
+import { productAccent } from "@/lib/theme";
 import { ShopSlide } from "@/pages/Shop/ShopSlide";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
@@ -84,7 +85,7 @@ export function ShopHeroSlider() {
   if (!c.shopHero.enabled || count === 0) return null;
 
   const current = slides[active];
-  const accent = current.accent || c.theme.accent;
+  const accent = productAccent(current.accent, c.theme.accent);
   const atStart = active === 0;
   const atEnd = active === count - 1;
 

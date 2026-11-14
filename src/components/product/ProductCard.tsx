@@ -63,10 +63,7 @@ function ProductCardBase({ product, priority, className }: ProductCardProps) {
   };
 
   return (
-    <article
-      className={cn("pc-card", className)}
-      style={{ "--pc-accent": product.accent } as CSSProperties}
-    >
+    <article className={cn("pc-card", className)}>
       {/* Accent disc — expands out of the corner on hover (always open on touch). */}
       <span aria-hidden="true" className="pc-disc" />
 

@@ -20,7 +20,7 @@ function StatusBadge({ status, ar }: { status:string; ar:boolean }) {
   const map: Record<string,string> = {
     new: 'bg-amber-100 text-amber-800 border-amber-200',
     confirmed: 'bg-sky-100 text-sky-800 border-sky-200',
-    shipped: 'bg-violet-100 text-violet-800 border-violet-200',
+    shipped: 'bg-amber-100 text-amber-800 border-amber-200',
     completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
     cancelled: 'bg-rose-100 text-rose-700 border-rose-200',
   };
