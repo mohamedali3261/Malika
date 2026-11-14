@@ -7,6 +7,7 @@ import { useContent } from "@/hooks/useContent";
 import { useLang } from "@/i18n/LanguageContext";
 import { formatNumber, formatPrice } from "@/lib/format";
 import { resolveAsset } from "@/lib/assets";
+import { productAccent } from "@/lib/theme";
 import { MAX_SHOWCASE_IMAGES } from "@/types/content";
 import { cn } from "@/utils/cn";
 import {
@@ -108,7 +109,7 @@ export function Showcase() {
   const playing = visible && !held && !reduced && !touchMode && count > 1;
   const current = items[active];
   const product = current.product;
-  const accent = product?.accent ?? c.theme.accent;
+  const accent = productAccent(product?.accent, c.theme.accent);
   const price = product
     ? Math.min(product.price, ...product.sizes.map((size) => size.price))
     : undefined;
@@ -173,7 +174,7 @@ export function Showcase() {
             >
               {items.map((item, position) => {
                 const isActive = position === active;
-                const tone = item.product?.accent ?? c.theme.accent;
+                const tone = productAccent(item.product?.accent, c.theme.accent);
                 return (
                   <div
                     key={item.id}

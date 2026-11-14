@@ -10,6 +10,7 @@ import { getProductBySlug } from "@/data/products";
 import { useStore } from "@/context/StoreContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { Link, useRoute } from "@/lib/router";
+import { productAccent } from "@/lib/theme";
 
 export function ProductPage() {
   const { t, x } = useLang();
@@ -39,7 +40,7 @@ export function ProductPage() {
       <section className="relative overflow-hidden page-pad">
         <div
           className="pointer-events-none absolute -start-32 top-20 h-80 w-80 rounded-full opacity-20 blur-[100px]"
-          style={{ background: product.accent }}
+          style={{ background: productAccent(product.accent, "var(--color-acid)") }}
         />
         <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
           <Link

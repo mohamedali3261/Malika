@@ -54,8 +54,8 @@
   to   { opacity: 1; transform: translate3d(0, 0, 0) scaleY(1);       transform-origin: top; }
 }
 @keyframes m-kf-search-focus-glow {
-  from { box-shadow: 0 0 0 0 rgba(201, 181, 247, 0); }
-  to   { box-shadow: 0 0 0 4px rgba(201, 181, 247, 0.3); }
+  from { box-shadow: 0 0 0 0 rgba(199, 168, 115, 0); }
+  to   { box-shadow: 0 0 0 4px rgba(199, 168, 115, 0.3); }
 }
 @keyframes m-kf-whatsapp-float-in {
   from { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.9); }

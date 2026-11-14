@@ -10,7 +10,6 @@ import {
   Whatsapp,
   X,
 } from "@/components/ui/icons";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useCart } from "@/context/CartContext";
 import { useStore } from "@/context/StoreContext";
 import { useBodyLock, useScrolled } from "@/hooks/useUi";
@@ -135,7 +134,6 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <ThemeToggle className="hidden sm:grid" />
             <button
               onClick={toggle}
               className="hidden h-10 items-center gap-1.5 rounded-full border border-ink/12 px-3 text-[11px] font-bold uppercase tracking-widest text-ink transition hover:border-ink/40 sm:flex"
@@ -281,7 +279,6 @@ export function Navbar() {
               </Button>
             </div>
             <div className="flex justify-center pt-1">
-              <ThemeToggle className="sm:hidden" />
             </div>
           </div>
         </div>

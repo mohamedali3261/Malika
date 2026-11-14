@@ -20,7 +20,7 @@ export function Announcement() {
 
   return (
     <div className="relative overflow-hidden bg-ink text-bone">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_120%,rgba(201,181,247,0.22),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_120%,rgba(199,168,115,0.22),transparent_55%)]" />
       <Marquee
         speed={strip.speed}
         direction={strip.direction}

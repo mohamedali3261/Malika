@@ -4,6 +4,7 @@ import { useStore } from "@/context/StoreContext";
 import { useToast } from "@/context/ToastContext";
 import { useLang } from "@/i18n/LanguageContext";
 import { Link } from "@/lib/router";
+import { siteBackground } from "@/lib/theme";
 import { Section } from "@/pages/Admin/ContentFields";
 import { ShowcaseEditor } from "@/pages/Admin/ShowcaseEditor";
 import type { SiteContent } from "@/types/content";
@@ -100,6 +101,60 @@ export function ContentEditor({ onManageProducts }: { onManageProducts?: () => v
           <Link to="/" className="text-xs font-bold text-plum underline decoration-acid decoration-2 underline-offset-4">{ar ? "معاينة الموقع ↗" : "Preview storefront ↗"}</Link>
           <span className="text-xs text-mist">{t("admin.dirtyNote")}</span>
         </div>
+      </div>
+
+      <div className="mt-3">
+        <Section
+          title={ar ? "ألوان الموقع" : "Site colours"}
+          description={ar ? "اختر ألوان الموقع؛ درجات الخلفيات وبطاقات المنتجات تتناسق معها تلقائياً. احفظ ثم انشر لتظهر للزوار." : "Choose the site palette; backgrounds and product card shades follow automatically. Save and publish to make changes visible to visitors."}
+        >
+          <div className="grid gap-3 sm:grid-cols-2">
+            {([
+              { key: "ink", label: ar ? "النص واللون الداكن" : "Text and dark colour" },
+              { key: "bone", label: ar ? "اللون الفاتح الأساسي" : "Base light colour" },
+              { key: "accent", label: ar ? "لون التمييز والأزرار" : "Accent and buttons" },
+              { key: "lilac", label: ar ? "اللون الثانوي" : "Secondary colour" },
+            ] as const).map(({ key, label }) => (
+              <label key={key} className="flex items-center gap-3 rounded-xl border border-ink/10 bg-bone/50 p-3">
+                <input
+                  type="color"
+                  value={draft.theme[key]}
+                  onChange={(event) => edit((next) => { next.theme[key] = event.target.value; })}
+                  className="h-11 w-14 shrink-0 cursor-pointer rounded-lg border border-ink/15 bg-surface p-1"
+                />
+                <span className="min-w-0">
+                  <span className="block text-xs font-bold text-ink">{label}</span>
+                  <span dir="ltr" className="mt-1 block text-[11px] text-mist">{draft.theme[key].toUpperCase()}</span>
+                </span>
+              </label>
+            ))}
+          </div>
+          <div className="mt-5 border-t border-ink/10 pt-4">
+            <h4 className="text-sm font-bold">{ar ? "خلفية الموقع" : "Site background"}</h4>
+            <p className="mt-1 text-xs leading-relaxed text-mist">{ar ? "اختر خلفية الموقع في الوضع النهاري، مع لون متباين للنص حتى يبقى واضحاً." : "Choose the day mode background and a contrasting text colour for readability."}</p>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              {([
+                { key: "backgroundLight", mode: "light", label: ar ? "لون الخلفية" : "Background colour" },
+              ] as const).map(({ key, mode, label }) => (
+                <div key={key} className="rounded-xl border border-ink/10 bg-bone/50 p-3">
+                  <label className="flex items-center gap-3">
+                    <input type="color" value={siteBackground(draft.theme, mode)}
+                      onChange={(event) => edit((next) => { next.theme[key] = event.target.value; })}
+                      className="h-11 w-14 shrink-0 cursor-pointer rounded-lg border border-ink/15 bg-surface p-1" />
+                    <span>
+                      <span className="block text-xs font-bold text-ink">{label}</span>
+                      <span dir="ltr" className="mt-1 block text-[11px] text-mist">{siteBackground(draft.theme, mode).toUpperCase()}</span>
+                    </span>
+                  </label>
+                  {draft.theme[key] && <button type="button" className="mt-2 text-xs font-bold text-ink underline underline-offset-4"
+                    onClick={() => edit((next) => { delete next.theme[key]; })}>
+                    {ar ? "استخدام الدرجة التلقائية" : "Use automatic shade"}
+                  </button>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Section>
       </div>
 
       <div className="mt-3">

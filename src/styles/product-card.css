@@ -11,7 +11,7 @@
   max-width: 340px;
   overflow: hidden;
   border-radius: 22px;
-  background-color: var(--color-plum);
+  background-color: var(--color-bone);
   box-shadow: 0 18px 50px -30px rgba(20, 16, 25, 0.9);
   transition: box-shadow 500ms ease;
 }
@@ -30,7 +30,7 @@
 .pc-disc {
   position: absolute;
   inset: 0;
-  background: var(--pc-accent, #c9b5f7);
+  background: var(--color-surface-2);
   clip-path: circle(140px at 80% 18%);
   transition: clip-path 500ms ease-in-out;
 }
@@ -60,7 +60,7 @@
   font-weight: 800;
   font-style: italic;
   line-height: 1;
-  color: rgba(243, 239, 231, 0.07);
+  color: color-mix(in srgb, var(--color-ink) 7%, transparent);
 }
 
 html[lang="ar"] .pc-watermark {
@@ -116,8 +116,8 @@ html[lang="ar"] .pc-watermark {
   width: 2.25rem;
   place-items: center;
   border-radius: 9999px;
-  border: 1px solid rgba(20, 16, 25, 0.25);
-  background-color: rgba(20, 16, 25, 0.1);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 25%, transparent);
+  background-color: color-mix(in srgb, var(--color-ink) 10%, transparent);
   color: var(--color-ink);
   cursor: pointer;
   transition:
@@ -210,7 +210,7 @@ html[lang="ar"] .pc-watermark {
   font-size: 20px;
   line-height: 1.25;
   letter-spacing: -0.02em;
-  color: var(--color-bone);
+  color: var(--color-ink);
 }
 
 .pc-price-row {
@@ -225,12 +225,12 @@ html[lang="ar"] .pc-watermark {
 .pc-price {
   font-size: 15px;
   font-weight: 800;
-  color: var(--color-bone);
+  color: var(--color-ink);
 }
 
 .pc-compare {
   font-size: 11px;
-  color: rgba(243, 239, 231, 0.4);
+  color: color-mix(in srgb, var(--color-ink) 55%, transparent);
   text-decoration: line-through;
 }
 
@@ -370,9 +370,6 @@ html[data-theme="dark"] .pc-card:hover .pc-panel {
   html[data-theme="dark"] .pc-panel {
     height: 210px;
   }
-}
-html[data-theme="dark"] .pc-card {
-  background-color: var(--color-plum);
 }
 html[data-theme="dark"] .pc-title,
 html[data-theme="dark"] .pc-price {

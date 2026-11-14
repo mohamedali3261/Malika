@@ -1,5 +1,6 @@
 import { SmartImage } from "@/components/ui/Primitives";
 import { useLang } from "@/i18n/LanguageContext";
+import { productAccent } from "@/lib/theme";
 import type { Product } from "@/types";
 import { cn } from "@/utils/cn";
 import { useEffect, useState } from "react";
@@ -28,7 +29,7 @@ export function Gallery({ product }: { product: Product }) {
     <div className="relative" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div
         className="relative overflow-hidden rounded-[1.8rem] border border-ink/8 p-3 sm:rounded-[2.2rem] sm:p-4"
-        style={{ background: `linear-gradient(150deg, ${product.accent}55, var(--color-bone-2))` }}
+        style={{ background: `linear-gradient(150deg, color-mix(in srgb, ${productAccent(product.accent, "var(--color-acid)")} 33%, transparent), var(--color-bone-2))` }}
       >
         <SmartImage
           src={images[active] ?? product.cutout ?? ""}

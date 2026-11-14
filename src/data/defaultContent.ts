@@ -126,7 +126,7 @@ export function createDefaultContent(): SiteContent {
           city: { en: "Alexandria", ar: "الإسكندرية" },
           rating: 5,
           initials: "OK",
-          accent: "#C9B5F7",
+          accent: "#C7A873",
         },
         {
           id: "salma",
@@ -211,7 +211,7 @@ export function createDefaultContent(): SiteContent {
       ink: "#141019",
       bone: "#f3efe7",
       accent: "#D4A035",
-      lilac: "#c9b5f7",
+      lilac: "#c7a873",
       headingScale: 100,
       bodyScale: 100,
       sectionSpacing: 100,
@@ -362,18 +362,29 @@ export function mergeContent(stored: DeepPartial<SiteContent> | null | undefined
       ...result.testimonials,
       items: result.testimonials.items.map((item) => ({
         ...item,
-        accent: item.accent && ["#ddf25c", "#b89a62"].includes(item.accent.toLowerCase()) ? base.theme.accent : item.accent,
+        accent: item.accent && ["#ddf25c", "#b89a62", "#c9b5f7"].includes(item.accent.toLowerCase()) ? base.theme.accent : item.accent,
         quote: replaceLegacyBrand(item.quote) as typeof item.quote,
       })),
     };
   }
 
+  // The colour picker and the derived palette require six-digit hex colours.
+  // Older/imported content can contain missing or invalid values.
+  const validColour = (value: unknown, fallback: string) =>
+    typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
   result.theme = {
     ...result.theme,
-    accent: result.theme.accent && ["#ddf25c", "#b89a62"].includes(result.theme.accent.toLowerCase()) ? base.theme.accent : result.theme.accent,
-    headingScale: clampScale("headingScale", Number(result.theme.headingScale)),
-    bodyScale: clampScale("bodyScale", Number(result.theme.bodyScale)),
-    sectionSpacing: clampScale("sectionSpacing", Number(result.theme.sectionSpacing)),
+    ink: validColour(result.theme?.ink, base.theme.ink),
+    bone: validColour(result.theme?.bone, base.theme.bone),
+    accent: validColour(result.theme?.accent, base.theme.accent),
+    // Replace the old built-in purple while retaining owner-selected colours.
+    lilac: typeof result.theme?.lilac === "string" && result.theme.lilac.toLowerCase() === "#c9b5f7"
+      ? base.theme.lilac : validColour(result.theme?.lilac, base.theme.lilac),
+    backgroundLight: validColour(result.theme?.backgroundLight, "") || undefined,
+    backgroundDark: validColour(result.theme?.backgroundDark, "") || undefined,
+    headingScale: clampScale("headingScale", Number(result.theme?.headingScale)),
+    bodyScale: clampScale("bodyScale", Number(result.theme?.bodyScale)),
+    sectionSpacing: clampScale("sectionSpacing", Number(result.theme?.sectionSpacing)),
   };
   const strip = (value: { enabled?: unknown; speed?: unknown; direction?: unknown }, fallback: { enabled: boolean; speed: number; direction: "left" | "right" }) => ({
     enabled: value?.enabled === false ? false : fallback.enabled,

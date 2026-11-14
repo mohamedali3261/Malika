@@ -47,6 +47,9 @@ export interface ThemeContent {
   bone: string;
   accent: string;
   lilac: string;
+  /** Optional exact background colours; older palettes derive them from bone/ink. */
+  backgroundLight?: string;
+  backgroundDark?: string;
   /** Headings, in percent of the designed size (see lib/scale.ts for limits). */
   headingScale: number;
   /** Lead paragraphs, in percent. */
