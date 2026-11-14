@@ -106,7 +106,7 @@ export function ContentEditor({ onManageProducts }: { onManageProducts?: () => v
       <div className="mt-3">
         <Section
           title={ar ? "ألوان الموقع" : "Site colours"}
-          description={ar ? "اختر ألوان الموقع؛ درجات الخلفيات وبطاقات المنتجات تتناسق معها تلقائياً. احفظ ثم انشر لتظهر للزوار." : "Choose the site palette; backgrounds and product card shades follow automatically. Save and publish to make changes visible to visitors."}
+          description={ar ? "اختر ألوان الموقع؛ بطاقات المنتجات تستخدم درجات من لون التمييز، وألوان الكروت لا تتغير عند تغيير الخلفية. احفظ ثم انشر لتظهر للزوار." : "Choose the site palette; product cards use accent shades and card colours stay independent of the page background. Save and publish to make changes visible to visitors."}
         >
           <div className="grid gap-3 sm:grid-cols-2">
             {([

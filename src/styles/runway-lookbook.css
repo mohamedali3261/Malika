@@ -4,6 +4,7 @@
  * ------------------------------------------------------------------ */
 
 .rl-section {
+  --color-bone: var(--color-card-light);
   --rl-u: min(calc(100vw / 1600), calc(100vh / 900));
   --rl-ink: var(--color-ink);
   --rl-mid: var(--color-mist);

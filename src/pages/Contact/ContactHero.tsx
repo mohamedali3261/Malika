@@ -29,7 +29,7 @@ export function ContactHero() {
         </Reveal>
 
         <Reveal delay={120}>
-          <div className="relative overflow-hidden rounded-[1.6rem] border border-ink/10 bg-surface/70 p-4 shadow-[0_20px_60px_rgba(16,16,16,0.08)] backdrop-blur sm:p-5">
+          <div className="section-card relative overflow-hidden rounded-[1.6rem] border border-ink/10 bg-surface p-4 shadow-[0_20px_60px_rgba(16,16,16,0.08)] backdrop-blur sm:p-5">
             <div className="absolute inset-0 bg-gradient-to-br from-lilac/10 via-transparent to-acid/10" />
             <div className="relative flex justify-center">
               <SmartImage src={IMG.glass} alt={x("VLOR — online boutique", "ڨلور — متجر أونلاين")} className="h-32 w-full max-w-[280px] rounded-2xl border border-ink/5 sm:h-36" />

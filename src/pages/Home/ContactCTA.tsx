@@ -18,7 +18,7 @@ export function ContactCTA() {
     <section className="cv-auto relative bg-bone sec-pb">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <Reveal>
-          <div className="grain relative overflow-hidden rounded-[2rem] bg-ink px-6 py-10 text-bone sm:rounded-[2.5rem] sm:px-10 lg:px-14 lg:py-14">
+          <div className="section-card grain relative overflow-hidden rounded-[2rem] bg-ink px-6 py-10 text-bone sm:rounded-[2.5rem] sm:px-10 lg:px-14 lg:py-14">
             <div className="pointer-events-none absolute -start-20 bottom-0 h-80 w-80 rounded-full bg-plum blur-[90px]" />
             <div className="pointer-events-none absolute end-0 top-0 h-72 w-72 rounded-full bg-lilac/20 blur-[100px]" />
 

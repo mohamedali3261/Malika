@@ -156,7 +156,7 @@ export function Showcase() {
             role="group"
             aria-roledescription="carousel"
             aria-label={lc(c.showcase.title)}
-            className="grid overflow-hidden rounded-[1.4rem] bg-ink text-bone shadow-[0_32px_68px_-42px_rgba(20,16,25,0.88)] sm:rounded-[2rem] lg:grid-cols-[1.08fr_0.92fr] lg:rounded-[2.4rem]"
+            className="section-card grid overflow-hidden rounded-[1.4rem] bg-ink text-bone shadow-[0_32px_68px_-42px_rgba(20,16,25,0.88)] sm:rounded-[2rem] lg:grid-cols-[1.08fr_0.92fr] lg:rounded-[2.4rem]"
             onPointerEnter={(event) => event.pointerType === "mouse" && setHeld(true)}
             onPointerLeave={(event) => event.pointerType === "mouse" && setHeld(false)}
             onFocus={(event) => event.target.matches(":focus-visible") && setHeld(true)}

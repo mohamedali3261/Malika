@@ -35,7 +35,7 @@ export function ContactForm() {
   return (
     <section className="bg-bone pb-14 lg:pb-20">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
-        <div className="grid overflow-hidden rounded-[2rem] border border-ink/10 bg-surface shadow-[0_24px_80px_rgba(16,16,16,0.07)] lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="section-card grid overflow-hidden rounded-[2rem] border border-ink/10 bg-surface shadow-[0_24px_80px_rgba(16,16,16,0.07)] lg:grid-cols-[1.15fr_0.85fr]">
           <Reveal className="p-6 sm:p-8 lg:p-10">
             <span className="inline-flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.24em] text-mist">
               <span className="h-1.5 w-1.5 rounded-full bg-plum" /> {t("contact.eyebrow")}

@@ -12,6 +12,7 @@
 
 @theme {
   --color-bone: #f3efe7;
+  --color-card-light: #e2ded7;
   --color-bone-2: #e9e2d5;
   --color-surface: #e9e2d5;
   --color-surface-2: #ddd4c6;
@@ -31,6 +32,11 @@
 
   --radius-4xl: 2rem;
   --radius-5xl: 2.75rem;
+}
+
+/* Card interiors keep their light tone even when the page background changes. */
+.section-card {
+  --color-bone: var(--color-card-light);
 }
 
 /* Studio/Admin dark mode — keep header dark and cards readable (was light in dark via ink/bone swap) */
