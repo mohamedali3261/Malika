@@ -28,3 +28,14 @@ export function siteBackground(theme: ThemeContent, mode: "light" | "dark"): str
     ? theme.backgroundDark ?? shade(theme.ink, 0.06)
     : theme.backgroundLight ?? shade(theme.bone, -0.07);
 }
+
+/** Section and card colours derive from the base palette, not the page background. */
+export function siteSurfaces(theme: ThemeContent) {
+  const cardLight = shade(theme.bone, -0.07);
+  return {
+    cardLight,
+    surface: shade(cardLight, -0.06),
+    surface2: shade(cardLight, -0.10),
+    line: shade(cardLight, -0.13),
+  };
+}

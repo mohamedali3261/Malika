@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { build } from 'esbuild';
+import { readFile } from 'node:fs/promises';
 
 // Bundle the TypeScript module using the same @ alias as Vite, without writing artifacts.
 const bundle = await build({
@@ -36,7 +37,7 @@ assert.equal(mergeContent({ theme: { backgroundLight: 'invalid' } }).theme.backg
 const themeBundle = await build({
   entryPoints: ['src/lib/theme.ts'], bundle: true, platform: 'node', format: 'esm', write: false,
 });
-const { siteBackground, productAccent } = await import(`data:text/javascript;base64,${Buffer.from(themeBundle.outputFiles[0].contents).toString('base64')}`);
+const { siteBackground, siteSurfaces, productAccent } = await import(`data:text/javascript;base64,${Buffer.from(themeBundle.outputFiles[0].contents).toString('base64')}`);
 assert.equal(defaults.theme.lilac, '#c7a873');
 assert.equal(mergeContent({ theme: { lilac: '#C9B5F7' } }).theme.lilac, '#c7a873');
 assert.equal(mergeContent({ theme: { lilac: '#123456' } }).theme.lilac, '#123456');
@@ -48,4 +49,12 @@ assert.equal(siteBackground(defaults.theme, 'light'), '#e2ded7');
 assert.equal(siteBackground(defaults.theme, 'dark'), '#221e27');
 assert.equal(siteBackground(backgrounds.theme, 'light'), '#aabbcc');
 assert.equal(siteBackground(backgrounds.theme, 'dark'), '#123456');
-console.log('Theme palette merging, background selection and persistence tests passed.');
+// A page-background edit must not recolour the section/card surface palette.
+assert.notEqual(siteBackground(defaults.theme, 'light'), siteBackground(backgrounds.theme, 'light'));
+assert.deepEqual(siteSurfaces(defaults.theme), siteSurfaces(backgrounds.theme));
+assert.notDeepEqual(siteSurfaces(defaults.theme), siteSurfaces({ ...defaults.theme, bone: '#ffffff' }));
+const cardCss = await readFile(new URL('../src/styles/product-card.css', import.meta.url), 'utf8');
+assert.match(cardCss, /background-color: color-mix\(in srgb, var\(--color-acid\) 48%, white\)/);
+assert.match(cardCss, /background: color-mix\(in srgb, var\(--color-acid\) 66%, white\)/);
+assert.match(cardCss, /--color-bone: var\(--color-card-light\)/);
+console.log('Theme palette, gold cards and independent background tests passed.');

@@ -1,7 +1,7 @@
 import { useStore } from "@/context/StoreContext";
 import { defaultContent } from "@/data/defaultContent";
 import { applyScale } from "@/lib/scale";
-import { shade, siteBackground } from "@/lib/theme";
+import { shade, siteBackground, siteSurfaces } from "@/lib/theme";
 import { useLayoutEffect } from "react";
 
 /** Apply the studio palette in day mode, regardless of old browser preferences. */
@@ -13,13 +13,14 @@ export function ThemeProvider() {
     const root = document.documentElement.style;
     const set = (token: string, value: string) => root.setProperty(token, value);
     const background = siteBackground(theme, "light");
-    const surface = shade(background, -0.06);
+    const surfaces = siteSurfaces(theme);
     set("--color-ink", theme.ink);
     set("--color-bone", background);
-    set("--color-bone-2", surface);
-    set("--color-surface", surface);
-    set("--color-surface-2", shade(background, -0.10));
-    set("--color-line", shade(background, -0.13));
+    set("--color-card-light", surfaces.cardLight);
+    set("--color-bone-2", surfaces.surface);
+    set("--color-surface", surfaces.surface);
+    set("--color-surface-2", surfaces.surface2);
+    set("--color-line", surfaces.line);
     set("--color-acid", theme.accent);
     set("--color-acid-deep", shade(theme.accent, -0.12));
     set("--color-lilac", theme.lilac);

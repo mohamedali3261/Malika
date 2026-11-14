@@ -11,7 +11,9 @@
   max-width: 340px;
   overflow: hidden;
   border-radius: 22px;
-  background-color: var(--color-bone);
+  /* Keep the card and its controls independent of the page background. */
+  --color-bone: var(--color-card-light);
+  background-color: color-mix(in srgb, var(--color-acid) 48%, white);
   box-shadow: 0 18px 50px -30px rgba(20, 16, 25, 0.9);
   transition: box-shadow 500ms ease;
 }
@@ -30,7 +32,7 @@
 .pc-disc {
   position: absolute;
   inset: 0;
-  background: var(--color-surface-2);
+  background: color-mix(in srgb, var(--color-acid) 66%, white);
   clip-path: circle(140px at 80% 18%);
   transition: clip-path 500ms ease-in-out;
 }

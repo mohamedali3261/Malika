@@ -70,7 +70,7 @@ export function ShopSlide({ product, index, total, active }: Props) {
         active ? "opacity-100" : "pointer-events-none opacity-0"
       )}
     >
-      <div className="relative flex h-full items-start overflow-hidden rounded-[22px] lg:items-center lg:rounded-[30px]">
+      <div className="section-card relative flex h-full items-start overflow-hidden rounded-[22px] lg:items-center lg:rounded-[30px]">
         {/* cover: ink → plum, lit from the corner by this scent's accent */}
         <div
           className="absolute inset-0"
